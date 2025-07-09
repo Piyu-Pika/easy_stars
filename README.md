@@ -131,7 +131,3 @@ MIT © 2025 [Piyu-Pika](https://github.com/Piyu-Pika)
 ---
 
 Let your stars shine with **Easy Stars**! 🌟
-
----
-
-Let me know if you want a badges section (e.g., pub points, version, license) or example GIFs added.
