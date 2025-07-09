@@ -45,7 +45,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Easy Stars Demo - Customizations', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const Text('Easy Stars Demo - Customizations',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
 
             const Text('1. Basic Rating:'),
@@ -107,6 +108,37 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text('Rating: $_rating3'),
             const SizedBox(height: 20),
+
+            // Discrete emoji selection
+            EasyStarsEmoji(
+              initialRating: 3.0,
+              emojiSize: 32.0,
+              spacing: 8.0,
+              showRatingText: true,
+              animationConfig: StarAnimationConfig.bounce,
+              onRatingChanged: (rating) {
+                print('Rating changed to: $rating');
+              },
+            ),
+
+// Smooth emoji slider
+            EasyStarsEmojiSlider(
+              initialRating: 2.5,
+              emojiSize: 48.0,
+              sliderWidth: 300.0,
+              showRatingText: true,
+              animationConfig: StarAnimationConfig.scale,
+              onRatingChanged: (rating) {
+                print('Rating changed to: $rating');
+              },
+            ),
+
+// Custom emojis
+            EasyStarsEmoji(
+              initialRating: 4.0,
+              customEmojis: ['😡', '😔', '😑', '😃', '🤩'],
+              showRatingText: true,
+            )
           ],
         ),
       ),

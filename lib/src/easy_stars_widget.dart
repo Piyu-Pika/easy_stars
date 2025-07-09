@@ -25,14 +25,14 @@ class EasyStars extends StatefulWidget {
   final VoidCallback? onRatingEnd;
 
   const EasyStars({
-    Key? key,
+    super.key,
     required this.config,
     this.animationConfig = StarAnimationConfig.none,
     this.onRatingChanged,
     this.onStarTapped,
     this.onRatingStart,
     this.onRatingEnd,
-  }) : super(key: key);
+  });
 
   @override
   State<EasyStars> createState() => _EasyStarsState();

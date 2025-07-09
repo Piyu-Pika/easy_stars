@@ -101,6 +101,65 @@ EasyStarsRating(
   filledColor: Colors.purple,
 )
 ```
+### 4. **Vertical Direction**
+
+```dart
+SizedBox(
+  height: 200,
+  child: EasyStarsRating(
+    initialRating: 3.5,
+    starSize: 25,
+    direction: StarDirection.vertical,
+    onRatingChanged: (value) {
+      setState(() {
+        _rating = value;
+      });
+    },
+  ),
+),
+```
+
+### 5. **Discrete Emoji Selection**
+
+```dart
+EasyStarsEmoji(
+  initialRating: 3.0,
+  emojiSize: 32.0,
+  spacing: 8.0,
+  showRatingText: true,
+  animationConfig: StarAnimationConfig.bounce,
+  onRatingChanged: (rating) {
+    print('Rating changed to: $rating');
+  },
+),
+```
+
+### 6. **Smooth Emoji Slider**
+
+```dart
+EasyStarsEmojiSlider(
+  initialRating: 2.5,
+  emojiSize: 48.0,
+  sliderWidth: 300.0,
+  showRatingText: true,
+  animationConfig: StarAnimationConfig.scale,
+  onRatingChanged: (rating) {
+    print('Rating changed to: $rating');
+  },
+),
+```
+
+### 7. **Custom Emojis**
+
+```dart
+EasyStarsEmoji(
+  initialRating: 4.0,
+  customEmojis: ['😡', '😔', '😑', '😃', '🤩'],
+  showRatingText: true,
+)
+```
+
+
 
 ---
 
