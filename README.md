@@ -21,6 +21,8 @@ Give your Flutter app some sparkle with Easy Stars, the ultimate package for cre
     *   Pulse
 *   **Layout Flexibility:** Arrange stars horizontally or vertically. ↕️
 *   **Complete Configuration:**  Utilize `StarConfig` and `StarAnimationConfig` classes for deep customization. ⚙️
+**Example**
+![image](https://github.com/user-attachments/assets/5fe1ad61-d91c-4f5c-8bf0-23db8153d069)
 
 🚀 **Getting Started** 🚀
 
