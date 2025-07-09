@@ -1,78 +1,78 @@
 
-✨ **Easy Stars: Your Flutter Rating Solution!** ✨
+# ✨ Easy Stars: Your Flutter Rating Solution! ✨
 
-Give your Flutter app some sparkle with Easy Stars, the ultimate package for creating beautiful and customizable star ratings! Whether you need interactive ratings or static displays, Easy Stars provides the flexibility and control you desire.
+Add a touch of sparkle to your Flutter app with **Easy Stars** — the all-in-one solution for elegant and customizable star rating widgets. Whether you're looking to collect user feedback or display existing ratings, Easy Stars gives you total control over the look, feel, and behavior of your stars.
 
-⭐ **Features** ⭐
+---
 
-*   **Interactive Star Ratings:** Use the `EasyStarsRating` widget to let users easily submit ratings.
-*   **Static Star Displays:** Showcase ratings with the `EasyStarsDisplay` widget. Perfect for reviews and product details!
-*   **Highly Customizable:**
-    *   Tweak star size, color, spacing, and direction. 🎨
-    *   Supports half-star ratings. 🌗
-    *   Control interaction modes. 👆
-    *   Add tooltips. ℹ️
-*   **Animations:** Bring your stars to life with a variety of animation types! 💫 Choose from:
-    *   Scale
-    *   Bounce
-    *   Fade
-    *   Rotate
-    *   Shake
-    *   Pulse
-*   **Layout Flexibility:** Arrange stars horizontally or vertically. ↕️
-*   **Complete Configuration:**  Utilize `StarConfig` and `StarAnimationConfig` classes for deep customization. ⚙️
+## ⭐ Features
 
-  
-## Example
-![image](https://github.com/user-attachments/assets/5fe1ad61-d91c-4f5c-8bf0-23db8153d069)
+* **🌟 Interactive Ratings**
+  Use `EasyStarsRating` to let users submit ratings effortlessly.
 
-🚀 **Getting Started** 🚀
+* **⭐ Static Displays**
+  Showcase ratings beautifully using `EasyStarsDisplay` — ideal for reviews, listings, and product cards.
 
-Add `easy_stars` to your `pubspec.yaml` file:
+* **🎨 Fully Customizable**
+
+  * Adjust star **size**, **color**, **spacing**, and **orientation**.
+  * Enable **half-star** support.
+  * Choose interaction modes (tap, drag, read-only).
+  * Add optional **tooltips**.
+
+* **💫 Smooth Animations**
+  Animate your stars with built-in effects:
+
+  * Scale
+  * Bounce
+  * Fade
+  * Rotate
+  * Shake
+  * Pulse
+
+* **↕️ Flexible Layout**
+  Render stars **horizontally** or **vertically**.
+
+* **⚙️ Advanced Configuration**
+  Use `StarConfig` and `StarAnimationConfig` for fine-tuned control over appearance and behavior.
+
+---
+
+## 🚀 Getting Started
+
+Add the dependency in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
   easy_stars: ^1.0.0
 ```
 
-Then, run `flutter pub get` in your terminal.
+Then, run:
 
-💡 **Usage Examples** 💡
-
-**1. Basic Rating:**
-
-```dart
-import 'package:easy_stars/easy_stars.dart';
-import 'package:flutter/material.dart';
-
-class MyWidget extends StatefulWidget {
-  @override
-  _MyWidgetState createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<MyWidget> {
-  double _rating = 3.5;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        EasyStarsRating(
-          initialRating: _rating,
-          onRatingChanged: (value) {
-            setState(() {
-              _rating = value;
-            });
-          },
-        ),
-        Text('Rating: $_rating'),
-      ],
-    );
-  }
-}
+```bash
+flutter pub get
 ```
 
-**2. Customized Rating with Half Stars and Colors:**
+---
+
+## 💡 Usage Examples
+
+### 1. **Basic Rating Widget**
+
+```dart
+EasyStarsRating(
+  initialRating: 3.5,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+---
+
+### 2. **Custom Appearance with Half Stars**
 
 ```dart
 EasyStarsRating(
@@ -86,10 +86,12 @@ EasyStarsRating(
       _rating = value;
     });
   },
-),
+)
 ```
 
-**3. Read-Only Display with Custom Size:**
+---
+
+### 3. **Read-Only Display with Larger Stars**
 
 ```dart
 EasyStarsRating(
@@ -97,18 +99,39 @@ EasyStarsRating(
   starSize: 30,
   readOnly: true,
   filledColor: Colors.purple,
-  onRatingChanged: (value) {
-    setState(() {
-      _rating = value;
-    });
-  },
-),
+)
 ```
 
-📚 **Additional Information** 📚
+---
 
-*   Find more examples in the `example/` folder.
-*   Contribute to the package on [GitHub](https://github.com/Piyu-Pika/easy_stars).
-*   Report issues and suggest features on the [GitHub issues page](https://github.com/Piyu-Pika/easy_stars/issues).
+## 📸 Preview
 
-We're committed to providing a high-quality package and welcome your feedback!  ✨
+![image](https://github.com/user-attachments/assets/5fe1ad61-d91c-4f5c-8bf0-23db8153d069)
+
+---
+
+## 📚 Additional Resources
+
+* 🔍 Explore more in the `example/` directory.
+* 🛠 Contribute or view source code on [GitHub](https://github.com/Piyu-Pika/easy_stars)
+* 🐞 Found a bug or have a feature idea? [Open an issue](https://github.com/Piyu-Pika/easy_stars/issues)
+
+---
+
+## 🙌 Contributing
+
+We welcome contributions! Feel free to submit PRs, report bugs, or suggest improvements.
+
+---
+
+## 🏁 License
+
+MIT © 2025 [Piyu-Pika](https://github.com/Piyu-Pika)
+
+---
+
+Let your stars shine with **Easy Stars**! 🌟
+
+---
+
+Let me know if you want a badges section (e.g., pub points, version, license) or example GIFs added.
