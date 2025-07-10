@@ -8,19 +8,19 @@ import 'enums/star_enums.dart';
 class EasyStars extends StatefulWidget {
   /// Configuration for star appearance and behavior
   final StarConfig config;
-  
+
   /// Configuration for star animations
   final StarAnimationConfig animationConfig;
-  
+
   /// Callback when rating changes
   final ValueChanged<double>? onRatingChanged;
-  
+
   /// Callback when star is tapped
   final ValueChanged<int>? onStarTapped;
-  
+
   /// Callback when rating update starts
   final VoidCallback? onRatingStart;
-  
+
   /// Callback when rating update ends
   final VoidCallback? onRatingEnd;
 
@@ -41,7 +41,9 @@ class EasyStars extends StatefulWidget {
 class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   late AnimationController _animationController;
   late List<AnimationController> _starControllers;
+  late List<AnimationController> _hoverControllers;
   late List<Animation<double>> _starAnimations;
+  late List<Animation<double>> _hoverAnimations;
   double _currentRating = 0.0;
   int _hoveredIndex = -1;
   bool _isDragging = false;
@@ -67,9 +69,24 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
       ),
     );
 
+    // Create separate hover controllers for smooth hover animations
+    _hoverControllers = List.generate(
+      widget.config.starCount,
+      (index) => AnimationController(
+        duration: const Duration(milliseconds: 150), // Fast hover animation
+        vsync: this,
+      ),
+    );
+
     _starAnimations = _starControllers.map((controller) {
       return Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(parent: controller, curve: widget.animationConfig.curve),
+      );
+    }).toList();
+
+    _hoverAnimations = _hoverControllers.map((controller) {
+      return Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: controller, curve: Curves.easeInOut),
       );
     }).toList();
   }
@@ -100,17 +117,17 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
 
   void _handleStarTap(int index) {
     if (widget.config.readOnly) return;
-    
+
     double newRating = (index + 1).toDouble();
-    
+
     // Handle clear rating
     if (widget.config.allowClear && _currentRating == newRating) {
       newRating = 0.0;
     }
-    
+
     _updateRating(newRating);
     widget.onStarTapped?.call(index);
-    
+
     if (widget.animationConfig.animateOnTap) {
       _animateStarTap(index);
     }
@@ -124,19 +141,48 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
     });
   }
 
+  void _handleStarHover(int index) {
+    if (widget.config.readOnly) return;
+
+    setState(() {
+      _hoveredIndex = index;
+    });
+
+    // Animate all stars up to the hovered star
+    for (int i = 0; i <= index; i++) {
+      _hoverControllers[i].forward();
+    }
+    
+    // Animate all stars after the hovered star back to normal
+    for (int i = index + 1; i < _hoverControllers.length; i++) {
+      _hoverControllers[i].reverse();
+    }
+  }
+
+  void _handleStarExit() {
+    setState(() {
+      _hoveredIndex = -1;
+    });
+
+    // Animate all stars back to normal
+    for (final controller in _hoverControllers) {
+      controller.reverse();
+    }
+  }
+
   void _handleDragUpdate(DragUpdateDetails details, BoxConstraints constraints) {
     if (widget.config.readOnly) return;
-    
+
     double localX = details.localPosition.dx;
     double localY = details.localPosition.dy;
-    
+
     double rating = _calculateRatingFromPosition(localX, localY, constraints);
     _updateRating(rating);
   }
 
   double _calculateRatingFromPosition(double x, double y, BoxConstraints constraints) {
     double effectiveStarSize = widget.config.getEffectiveStarSize(context);
-    
+
     if (widget.config.direction == StarDirection.horizontal) {
       double starWidth = effectiveStarSize + widget.config.spacing;
       double position = x / starWidth;
@@ -159,7 +205,7 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
 
   Widget _buildAnimatedStar(int index, bool isFilled, bool isHalf) {
     return AnimatedBuilder(
-      animation: _starAnimations[index],
+      animation: Listenable.merge([_starAnimations[index], _hoverAnimations[index]]),
       builder: (context, child) {
         return Transform(
           alignment: Alignment.center,
@@ -175,34 +221,51 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
 
   Matrix4 _getTransformMatrix(int index) {
     double animationValue = _starAnimations[index].value;
-    
+    double hoverValue = _hoverAnimations[index].value;
+
+    Matrix4 transform = Matrix4.identity();
+
+    // Apply hover scale first
+    if (widget.animationConfig.animateOnHover) {
+      double hoverScale = 1.0 + (0.2 * hoverValue); // Scale up by 20% on hover
+      transform.scale(hoverScale);
+    }
+
+    // Apply main animation
     switch (widget.animationConfig.animationType) {
       case StarAnimation.scale:
         double scale = 1.0 + (widget.animationConfig.scaleFactor - 1.0) * animationValue;
-        return Matrix4.identity()..scale(scale);
-      
+        transform.scale(scale);
+        break;
+
       case StarAnimation.rotate:
         double rotation = widget.animationConfig.rotationAngle * animationValue;
-        return Matrix4.identity()..rotateZ(rotation);
-      
+        transform.rotateZ(rotation);
+        break;
+
       case StarAnimation.bounce:
         double bounce = -widget.animationConfig.bounceHeight * 
                        math.sin(animationValue * math.pi);
-        return Matrix4.identity()..translate(0.0, bounce);
-      
+        transform.translate(0.0, bounce);
+        break;
+
       case StarAnimation.shake:
         double shake = widget.animationConfig.shakeIntensity * 
                       math.sin(animationValue * math.pi * 8);
-        return Matrix4.identity()..translate(shake, 0.0);
-      
+        transform.translate(shake, 0.0);
+        break;
+
       case StarAnimation.pulse:
         double pulse = 1.0 + (widget.animationConfig.pulseScale - 1.0) * 
                       (0.5 + 0.5 * math.sin(animationValue * math.pi * 2));
-        return Matrix4.identity()..scale(pulse);
-      
+        transform.scale(pulse);
+        break;
+
       default:
-        return Matrix4.identity();
+        break;
     }
+
+    return transform;
   }
 
   double _getOpacity(int index) {
@@ -216,17 +279,38 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
 
   Widget _buildStar(int index, bool isFilled, bool isHalf) {
     double effectiveStarSize = widget.config.getEffectiveStarSize(context);
-    
+    double hoverValue = _hoverAnimations[index].value;
+
     if (widget.config.customStarBuilder != null) {
       return widget.config.customStarBuilder!(index, isFilled, isHalf);
     }
 
-    Color starColor = isFilled ? widget.config.filledColor : widget.config.emptyColor;
-    IconData starIcon = isFilled 
-        ? widget.config.filledIcon 
-        : (isHalf && widget.config.halfIcon != null) 
-            ? widget.config.halfIcon! 
-            : widget.config.emptyIcon;
+    // Determine star color with hover effect
+    Color starColor;
+    bool isHovered = _hoveredIndex >= 0 && index <= _hoveredIndex;
+    
+    if (isHovered && widget.animationConfig.animateOnHover) {
+      // Interpolate between empty and filled color on hover
+      starColor = Color.lerp(
+        widget.config.emptyColor,
+        widget.config.filledColor,
+        hoverValue,
+      ) ?? widget.config.filledColor;
+    } else {
+      starColor = isFilled ? widget.config.filledColor : widget.config.emptyColor;
+    }
+
+    IconData starIcon;
+    if (isHovered && widget.animationConfig.animateOnHover) {
+      // Use filled icon when hovering
+      starIcon = widget.config.filledIcon;
+    } else {
+      starIcon = isFilled 
+          ? widget.config.filledIcon 
+          : (isHalf && widget.config.halfIcon != null) 
+              ? widget.config.halfIcon! 
+              : widget.config.emptyIcon;
+    }
 
     Widget star = Icon(
       starIcon,
@@ -269,33 +353,27 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
 
   Widget _buildStarList() {
     List<Widget> stars = [];
-    
+
     for (int i = 0; i < widget.config.starCount; i++) {
       bool isFilled = _isStarFilled(i);
       bool isHalf = _isStarHalf(i);
-      
+
       Widget star = _buildAnimatedStar(i, isFilled, isHalf);
-      
+
       if (widget.config.interactionMode != StarInteractionMode.none) {
         star = GestureDetector(
           onTap: () => _handleStarTap(i),
           child: MouseRegion(
-            onEnter: (_) {
-              if (widget.animationConfig.animateOnHover) {
-                setState(() => _hoveredIndex = i);
-              }
-            },
-            onExit: (_) {
-              setState(() => _hoveredIndex = -1);
-            },
+            onEnter: (_) => _handleStarHover(i),
+            onExit: (_) => _handleStarExit(),
             child: star,
           ),
         );
       }
-      
+
       stars.add(star);
     }
-    
+
     return widget.config.direction == StarDirection.horizontal
         ? Row(
             mainAxisAlignment: widget.config.getMainAxisAlignment(),
@@ -316,7 +394,7 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Widget starsWidget = _buildStarList();
-    
+
     if (widget.config.interactionMode == StarInteractionMode.drag ||
         widget.config.interactionMode == StarInteractionMode.tapAndDrag) {
       starsWidget = LayoutBuilder(
@@ -340,7 +418,7 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
         },
       );
     }
-    
+
     if (widget.config.showRatingText) {
       starsWidget = widget.config.direction == StarDirection.horizontal
           ? Row(
@@ -364,14 +442,14 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
               ],
             );
     }
-    
+
     if (widget.config.tooltip != null) {
       starsWidget = Tooltip(
         message: widget.config.tooltip!,
         child: starsWidget,
       );
     }
-    
+
     return starsWidget;
   }
 
@@ -379,6 +457,9 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   void dispose() {
     _animationController.dispose();
     for (final controller in _starControllers) {
+      controller.dispose();
+    }
+    for (final controller in _hoverControllers) {
       controller.dispose();
     }
     super.dispose();
