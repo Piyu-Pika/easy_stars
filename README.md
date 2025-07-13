@@ -1,39 +1,19 @@
 # ✨ Easy Stars: Your Flutter Rating Solution! ✨
 
-Add a touch of sparkle to your Flutter app with **Easy Stars** — the all-in-one solution for elegant and customizable star rating widgets. Whether you're looking to collect user feedback or display existing ratings, Easy Stars gives you total control over the look, feel, and behavior of your stars.
+Add a touch of sparkle to your Flutter app with **Easy Stars** — the all-in-one solution for elegant and customizable rating widgets. Whether you're collecting user feedback or displaying existing ratings, Easy Stars gives you total control over look, feel, and behavior.
 
 ---
 
 ## ⭐ Features
 
-* **🌟 Interactive Ratings**
-  Use `EasyStarsRating` to let users submit ratings effortlessly.
-
-* **⭐ Static Displays**
-  Showcase ratings beautifully using `EasyStarsDisplay` — ideal for reviews, listings, and product cards.
-
-* **🎨 Fully Customizable**
-
-  * Adjust star **size**, **color**, **spacing**, and **orientation**.
-  * Enable **half-star** support.
-  * Choose interaction modes (tap, drag, read-only).
-  * Add optional **tooltips**.
-
-* **💫 Smooth Animations**
-  Animate your stars with built-in effects:
-
-  * Scale
-  * Bounce
-  * Fade
-  * Rotate
-  * Shake
-  * Pulse
-
-* **↕️ Flexible Layout**
-  Render stars **horizontally** or **vertically**.
-
-* **⚙️ Advanced Configuration**
-  Use `StarConfig` and `StarAnimationConfig` for fine-tuned control over appearance and behavior.
+✅ **Interactive Ratings**
+✅ **Static Displays**
+✅ **Half-Star & Clearable Ratings**
+✅ **Custom Shapes, Colors & Icons**
+✅ **Smooth Animations (Scale, Bounce, Rotate, Pulse, etc.)**
+✅ **Flexible Arrangements (Grid, Arc, Spiral, Wave, Vertical)**
+✅ **Emoji & Slider Ratings**
+✅ **Advanced Themes and Shadows**
 
 ---
 
@@ -46,7 +26,7 @@ dependencies:
   easy_stars: ^1.0.0
 ```
 
-Then, run:
+Then run:
 
 ```bash
 flutter pub get
@@ -54,13 +34,17 @@ flutter pub get
 
 ---
 
-## 💡 Usage Examples
+## 💡 Example Usage
 
-### 1. **Basic Rating Widget**
+Below are rich examples showcasing the versatility of Easy Stars:
+
+---
+
+### 🌟 Basic 5-Star Rating
 
 ```dart
 EasyStarsRating(
-  initialRating: 3.5,
+  initialRating: 3.0,
   onRatingChanged: (value) {
     setState(() {
       _rating = value;
@@ -68,121 +52,214 @@ EasyStarsRating(
   },
 )
 ```
-![Basic Rating](https://github.com/user-attachments/assets/65446580/ss1.png)
+
+![Basic Rating](assets\ss1.png)
+
 ---
 
-### 2. **Custom Appearance with Half Stars**
+### ⭐ Half-Star Rating
+
+```dart
+EasyStarsRating(
+  initialRating: 2.5,
+  allowHalfRating: true,
+  filledColor: Colors.orange,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+![Half-Star](assets\ss2.png)
+
+---
+
+### ✅ Read-Only Display
+
+```dart
+EasyStarsDisplay(
+  initialRating: 4.2,
+  readOnly: true,
+  filledColor: Colors.green,
+)
+```
+
+![Read-Only](assets\ss3.png)
+
+---
+
+### ↕️ Vertical Layout
+
+```dart
+EasyStarsRating(
+  initialRating: 4.0,
+  direction: StarDirection.vertical,
+)
+```
+
+![Vertical](assets\ss4.png)
+
+---
+
+### 💫 Animated Stars
+
+#### Scale Animation
+
+```dart
+EasyStarsRating(
+  initialRating: 5.0,
+  animationConfig: StarAnimationConfig.scale,
+)
+```
+
+![Scale Animation](assets\ss2.png)
+
+---
+
+#### Bounce Animation
+
+```dart
+EasyStarsRating(
+  initialRating: 4.0,
+  animationConfig: StarAnimationConfig.bounce,
+)
+```
+
+![Bounce Animation](assets\ss2.png)
+
+---
+
+### 🎨 Custom Shapes & Icons
+
+#### Heart Shape
+
+```dart
+EasyStarsRating(
+  initialRating: 3.0,
+  starShape: StarShape.heart,
+  filledColor: Colors.red,
+)
+```
+
+![Heart](assets\ss4.png)
+
+---
+
+#### Custom Icons
 
 ```dart
 EasyStarsRating(
   initialRating: 2.0,
-  starCount: 7,
-  filledColor: Colors.green,
-  emptyColor: Colors.grey.shade300,
-  allowHalfRating: true,
-  onRatingChanged: (value) {
-    setState(() {
-      _rating = value;
-    });
-  },
+  customIcons: [
+    Icons.favorite,
+    Icons.star,
+    Icons.thumb_up,
+    Icons.mood,
+    Icons.emoji_events,
+  ],
+  customColors: [
+    Colors.red,
+    Colors.amber,
+    Colors.blue,
+    Colors.green,
+    Colors.purple,
+  ],
 )
 ```
-![Custom Appearance](https://github.com/user-attachments/assets/65446580/ss2.png)
+
+![Custom Icons](assets\ss5.png)
+
 ---
 
-### 3. **Read-Only Display with Larger Stars**
+### 🌀 Arrangements
+
+#### Arc Arrangement
 
 ```dart
 EasyStarsRating(
   initialRating: 4.0,
-  starSize: 30,
-  readOnly: true,
-  filledColor: Colors.purple,
+  arrangement: StarArrangement.arc,
+  arrangementRadius: 80,
 )
 ```
-![Read-Only Display](https://github.com/user-attachments/assets/65446580/ss3.png)
 
-### 4. **Vertical Direction**
+![Arc](assets\ss7.png)
+
+#### Grid Arrangement
 
 ```dart
-SizedBox(
-  height: 200,
-  child: EasyStarsRating(
-    initialRating: 3.5,
-    starSize: 25,
-    direction: StarDirection.vertical,
-    onRatingChanged: (value) {
-      setState(() {
-        _rating = value;
-      });
-    },
-  ),
-),
+EasyStarsRating(
+  initialRating: 3.0,
+  arrangement: StarArrangement.grid,
+  gridColumns: 3,
+)
 ```
-![Vertical Direction](https://github.com/user-attachments/assets/65446580/ss4.png)
 
-### 5. **Discrete Emoji Selection**
+![Grid](assets\ss6.png)
+
+---
+
+### 🥳 Emoji Ratings
+
+#### Discrete Emojis
 
 ```dart
 EasyStarsEmoji(
   initialRating: 3.0,
-  emojiSize: 32.0,
-  spacing: 8.0,
   showRatingText: true,
-  animationConfig: StarAnimationConfig.bounce,
-  onRatingChanged: (rating) {
-    print('Rating changed to: $rating');
-  },
-),
+)
 ```
-![Discrete Emoji](https://github.com/user-attachments/assets/65446580/ss5.png)
 
-### 6. **Smooth Emoji Slider**
+![Emoji](assets\ss5.png)
+
+---
+
+#### Emoji Slider
 
 ```dart
 EasyStarsEmojiSlider(
-  initialRating: 2.5,
-  emojiSize: 48.0,
-  sliderWidth: 300.0,
+  initialRating: 4.5,
   showRatingText: true,
-  animationConfig: StarAnimationConfig.scale,
-  onRatingChanged: (rating) {
-    print('Rating changed to: $rating');
-  },
-),
+)
 ```
-![Emoji Slider](https://github.com/user-attachments/assets/65446580/ss6.png)
 
-### 7. **Custom Emojis**
+![Emoji Slider](assets\ss6.png)
+
+---
+
+#### Custom Emojis
 
 ```dart
 EasyStarsEmoji(
   initialRating: 4.0,
-  customEmojis: ['😡', '😔', '😑', '😃', '🤩',
+  customEmojis: ['😡', '😔', '😑', '😃', '🤩'],
   showRatingText: true,
 )
 ```
-![Custom Emojis](https://github.com/user-attachments/assets/65446580/ss7.png)
+
+![Custom Emojis](assets\ss7.png)
 
 ---
 
-## 📸 Preview
+## 📸 Full Preview
 
-![image](https://github.com/user-attachments/assets/5fe1ad61-d91c-4f5c-8bf0-23db8153d069)
+![Preview](assets\image.png)
 
 ---
 
 ## 📚 Additional Resources
 
-* 🔍 Explore more in the `example/` directory.
-* 🛠 Contribute or view source code on [GitHub](https://github.com/Piyu-Pika/easy_stars)
-* 🐞 Found a bug or have a feature idea? [Open an issue](https://github.com/Piyu-Pika/easy_stars/issues)
+🔍 Explore more in the `example/` directory
+🛠 Contribute or view source on [GitHub](https://github.com/Piyu-Pika/easy_stars)
+🐞 Found a bug? [Open an issue](https://github.com/Piyu-Pika/easy_stars/issues)
 
 ---
 
 ## 🙌 Contributing
 
-We welcome contributions! Feel free to submit PRs, report bugs, or suggest improvements.
+Pull requests and issues are welcome!
 
 ---
 
@@ -192,4 +269,6 @@ MIT © 2025 [Piyu-Pika](https://github.com/Piyu-Pika)
 
 ---
 
-Let your stars shine with **Easy Stars**! 🌟
+**Let your stars shine with Easy Stars!** 🌟
+
+
