@@ -78,7 +78,7 @@ EasyStarsDisplay(
 
 ## 2️⃣ Animations
 
-![Animations](assets\animation.png)
+![Animations](assets/animation.png)
 
 ### 💫 Scale Animation
 
@@ -150,7 +150,7 @@ EasyStarsRating(
 
 ## 3️⃣ Arrangements
 
-![Arrangements](assets\arrangment.png)
+![Arrangements](assets/arrangment.png)
 
 ### 🌀 Arc Arrangement
 
