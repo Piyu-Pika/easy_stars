@@ -53,7 +53,7 @@ EasyStarsRating(
 )
 ```
 
-![Basic Rating](assets\ss1.png)
+![Basic Rating](assets/ss1.png)
 
 ---
 
@@ -72,7 +72,7 @@ EasyStarsRating(
 )
 ```
 
-![Half-Star](assets\ss2.png)
+![Half-Star](assets/ss2.png)
 
 ---
 
@@ -86,7 +86,7 @@ EasyStarsDisplay(
 )
 ```
 
-![Read-Only](assets\ss3.png)
+![Read-Only](assets/ss3.png)
 
 ---
 
@@ -99,7 +99,7 @@ EasyStarsRating(
 )
 ```
 
-![Vertical](assets\ss4.png)
+![Vertical](assets/ss4.png)
 
 ---
 
@@ -114,7 +114,7 @@ EasyStarsRating(
 )
 ```
 
-![Scale Animation](assets\ss2.png)
+![Scale Animation](assets/ss2.png)
 
 ---
 
@@ -127,7 +127,7 @@ EasyStarsRating(
 )
 ```
 
-![Bounce Animation](assets\ss2.png)
+![Bounce Animation](assets/ss2.png)
 
 ---
 
@@ -143,7 +143,7 @@ EasyStarsRating(
 )
 ```
 
-![Heart](assets\ss4.png)
+![Heart](assets/ss4.png)
 
 ---
 
@@ -169,7 +169,7 @@ EasyStarsRating(
 )
 ```
 
-![Custom Icons](assets\ss5.png)
+![Custom Icons](assets/ss5.png)
 
 ---
 
@@ -185,7 +185,7 @@ EasyStarsRating(
 )
 ```
 
-![Arc](assets\ss7.png)
+![Arc](assets/ss7.png)
 
 #### Grid Arrangement
 
@@ -197,7 +197,7 @@ EasyStarsRating(
 )
 ```
 
-![Grid](assets\ss6.png)
+![Grid](assets/ss6.png)
 
 ---
 
@@ -212,7 +212,7 @@ EasyStarsEmoji(
 )
 ```
 
-![Emoji](assets\ss5.png)
+![Emoji](assets/ss5.png)
 
 ---
 
@@ -225,7 +225,7 @@ EasyStarsEmojiSlider(
 )
 ```
 
-![Emoji Slider](assets\ss6.png)
+![Emoji Slider](assets/ss6.png)
 
 ---
 
@@ -239,13 +239,13 @@ EasyStarsEmoji(
 )
 ```
 
-![Custom Emojis](assets\ss7.png)
+![Custom Emojis](assets/ss7.png)
 
 ---
 
 ## 📸 Full Preview
 
-![Preview](assets\image.png)
+![Preview](assets/image.png)
 
 ---
 
