@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:easy_stars/easy_stars.dart';
 
@@ -6,7 +8,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -117,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
               showRatingText: true,
               animationConfig: StarAnimationConfig.bounce,
               onRatingChanged: (rating) {
-                print('Rating changed to: $rating');
+                log('Rating changed to: $rating');
               },
             ),
 
@@ -129,12 +131,12 @@ class _MyHomePageState extends State<MyHomePage> {
               showRatingText: true,
               animationConfig: StarAnimationConfig.scale,
               onRatingChanged: (rating) {
-                print('Rating changed to: $rating');
+                log('Rating changed to: $rating');
               },
             ),
 
 // Custom emojis
-            EasyStarsEmoji(
+            const EasyStarsEmoji(
               initialRating: 4.0,
               customEmojis: ['😡', '😔', '😑', '😃', '🤩'],
               showRatingText: true,

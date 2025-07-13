@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import 'models/star_config.dart';
+// import 'models/star_config.dart';
 import 'models/star_animation_config.dart';
 import 'enums/star_enums.dart';
 
@@ -190,7 +190,7 @@ class _EasyStarsEmojiState extends State<EasyStarsEmoji> with TickerProviderStat
     return Container(
       padding: const EdgeInsets.all(4.0),
       decoration: BoxDecoration(
-        color: isSelected ? Colors.blue.withOpacity(0.1) : Colors.transparent,
+        color: isSelected ? Colors.blue.withValues(alpha:0.1) : Colors.transparent,
         borderRadius: BorderRadius.circular(8.0),
         border: isHovered ? Border.all(color: Colors.blue, width: 2.0) : null,
       ),
@@ -447,7 +447,7 @@ class _EasyStarsEmojiSliderState extends State<EasyStarsEmojiSlider> with Ticker
             height: widget.emojiSize + 16,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withValues(alpha: 0.1),
               border: Border.all(
                 color: _getRatingColor(),
                 width: 2.0,
@@ -474,14 +474,14 @@ class _EasyStarsEmojiSliderState extends State<EasyStarsEmojiSlider> with Ticker
   }
 
   Widget _buildSlider() {
-    return Container(
+    return SizedBox(
       width: widget.sliderWidth,
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
           activeTrackColor: widget.sliderColor ?? _getRatingColor(),
-          inactiveTrackColor: Colors.grey.withOpacity(0.3),
+          inactiveTrackColor: Colors.grey.withValues(alpha:0.3),
           thumbColor: widget.sliderColor ?? _getRatingColor(),
-          overlayColor: (widget.sliderColor ?? _getRatingColor()).withOpacity(0.2),
+          overlayColor: (widget.sliderColor ?? _getRatingColor()).withValues(alpha:0.2),
           thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12.0),
           overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
         ),
@@ -519,7 +519,7 @@ class _EasyStarsEmojiSliderState extends State<EasyStarsEmojiSlider> with Ticker
       children: [
         _buildEmojiDisplay(),
         const SizedBox(height: 16.0),
-        Container(
+        SizedBox(
           width: widget.sliderWidth,
           child: Column(
             children: [

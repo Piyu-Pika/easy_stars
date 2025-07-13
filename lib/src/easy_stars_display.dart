@@ -62,7 +62,7 @@ class EasyStarsDisplay extends StatefulWidget {
   final bool animateOnRatingChange;
 
   const EasyStarsDisplay({
-    Key? key,
+    super.key,
     required this.initialRating,
     this.starCount = 5,
     this.starSize = 24.0,
@@ -82,7 +82,7 @@ class EasyStarsDisplay extends StatefulWidget {
     this.readOnly = false,
     this.customStarBuilder,
     this.animateOnRatingChange = true,
-  }) : super(key: key);
+  });
 
   @override
   State<EasyStarsDisplay> createState() => _EasyStarsDisplayState();

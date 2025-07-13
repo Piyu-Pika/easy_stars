@@ -13,3 +13,9 @@
 * Added emoji rating widget
 * Added support for animated emoji slider
 * Added support for custom emojis
+
+## 1.0.2
+
+* Bug fixes and improvements
+* Added support for custom star sizes
+* Added support for custom colors

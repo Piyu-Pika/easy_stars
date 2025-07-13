@@ -48,6 +48,52 @@ class StarAnimationConfig {
   /// Whether animation should repeat
   final bool repeat;
 
+  /// Whether to animate arrangement changes
+final bool animateArrangement;
+
+/// Duration for arrangement animation
+final Duration arrangementDuration;
+
+/// Curve for arrangement animation
+final Curve arrangementCurve;
+
+/// Whether to animate drag interactions
+final bool animateOnDrag;
+
+/// Drag animation duration
+final Duration dragDuration;
+
+/// Whether to use spring animation
+final bool useSpringAnimation;
+
+/// Spring animation stiffness
+final double springStiffness;
+
+/// Spring animation damping
+final double springDamping;
+
+/// Whether to animate size changes
+final bool animateSize;
+
+/// Whether to animate color changes
+final bool animateColor;
+
+/// Color transition duration
+final Duration colorDuration;
+
+/// Whether to use particle effects
+final bool useParticleEffects;
+
+/// Particle count for effects
+final int particleCount;
+
+/// Particle size
+final double particleSize;
+
+/// Particle color
+final Color particleColor;
+
+
   const StarAnimationConfig({
     this.animationType = StarAnimation.none,
     this.duration = const Duration(milliseconds: 300),
@@ -64,6 +110,22 @@ class StarAnimationConfig {
     this.pulseScale = 1.1,
     this.reverse = false,
     this.repeat = false,
+    this.animateArrangement = false,
+    this.arrangementDuration = const Duration(milliseconds: 300),
+    this.arrangementCurve = Curves.easeInOut,
+    this.animateOnDrag = true,
+    this.dragDuration = const Duration(milliseconds: 300),
+    this.useSpringAnimation = false,
+    this.springStiffness = 100.0,
+    this.springDamping = 5.0,
+    this.animateSize = true,
+    this.animateColor = true,
+    this.colorDuration = const Duration(milliseconds: 300),
+    this.useParticleEffects = false,
+    this.particleCount = 10,
+    this.particleSize = 10.0,
+    this.particleColor = const Color(0xFFFFD700), // Default gold color
+
   });
 
   /// Create a copy of this config with updated values
@@ -144,4 +206,29 @@ class StarAnimationConfig {
     pulseScale: 1.15,
     repeat: true,
   );
+  // Add these predefined configs:
+static const StarAnimationConfig morphing = StarAnimationConfig(
+  animationType: StarAnimation.scale,
+  duration: Duration(milliseconds: 300),
+  animateSize: true,
+  animateColor: true,
+  colorDuration: Duration(milliseconds: 200),
+);
+
+static const StarAnimationConfig elastic = StarAnimationConfig(
+  animationType: StarAnimation.bounce,
+  duration: Duration(milliseconds: 600),
+  curve: Curves.elasticOut,
+  useSpringAnimation: true,
+  springStiffness: 120.0,
+  springDamping: 8.0,
+);
+
+static const StarAnimationConfig particles = StarAnimationConfig(
+  animationType: StarAnimation.scale,
+  duration: Duration(milliseconds: 400),
+  useParticleEffects: true,
+  particleCount: 15,
+  particleSize: 3.0,
+);
 }

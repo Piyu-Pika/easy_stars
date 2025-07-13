@@ -47,3 +47,41 @@ enum StarInteractionMode {
   drag,
   tapAndDrag,
 }
+
+/// Enum for star arrangement shapes
+enum StarArrangement {
+  linear,
+  circular,
+  arc,
+  grid,
+  wave,
+  spiral,
+}
+
+/// Enum for star size variants (extended)
+enum StarSizeVariant {
+  tiny,
+  small,
+  medium,
+  large,
+  huge,
+  custom,
+}
+
+/// Enum for drag sensitivity
+enum DragSensitivity {
+  low,
+  medium,
+  high,
+  custom,
+}
+
+/// Enum for star shapes
+enum StarShape {
+  star,
+  heart,
+  diamond,
+  circle,
+  square,
+  custom,
+}
