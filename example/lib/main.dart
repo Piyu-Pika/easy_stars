@@ -111,7 +111,94 @@ class _MyHomePageState extends State<MyHomePage> {
             Text('Rating: $_rating3'),
             const SizedBox(height: 20),
 
-            // Discrete emoji selection
+            const Text('5. Circular Arrangement:'),
+            EasyStarsRating(
+              initialRating: 3.0,
+              starSize: 25,
+              arrangement: StarArrangement.circular,
+              arrangementRadius: 40,
+              onRatingChanged: (value) {
+                setState(() {});
+              },
+            ),
+            const SizedBox(height: 20),
+
+            const Text('6. Heart Shape:'),
+            EasyStarsRating(
+              initialRating: 3.0,
+              starSize: 25,
+              starShape: StarShape.heart,
+              filledColor: Colors.red,
+              onRatingChanged: (value) {
+                setState(() {});
+              },
+            ),
+            const SizedBox(height: 20),
+
+            const Text('7. Custom Icons:'),
+            EasyStarsRating(
+              initialRating: 3.0,
+              starSize: 25,
+              customIcons: const [
+                Icons.sentiment_very_dissatisfied,
+                Icons.sentiment_dissatisfied,
+                Icons.sentiment_neutral,
+                Icons.sentiment_satisfied,
+                Icons.sentiment_very_satisfied,
+              ],
+              onRatingChanged: (value) {
+                setState(() {});
+              },
+            ),
+            const SizedBox(height: 20),
+
+            const Text('8. Gradient Colors:'),
+            EasyStarsRating(
+              initialRating: 3.0,
+              starSize: 25,
+              gradientColors: const [
+                Colors.purple,
+                Colors.pink,
+                Colors.orange,
+              ],
+              onRatingChanged: (value) {
+                setState(() {});
+              },
+            ),
+            const SizedBox(height: 20),
+
+            const Text('9.  Arrangement.wave:'),
+            EasyStarsRating(
+              initialRating: 3.0,
+              starSize: 25,
+              arrangement: StarArrangement.wave,
+              onRatingChanged: (value) {
+                setState(() {});
+              },
+            ),
+            const SizedBox(height: 20),
+
+            const Text('10.  Arrangement.spiral:'),
+            EasyStarsRating(
+              initialRating: 3.0,
+              starSize: 25,
+              arrangement: StarArrangement.spiral,
+              onRatingChanged: (value) {
+                setState(() {});
+              },
+            ),
+            const SizedBox(height: 20),
+            const Text('11. Different sizes for each star:'),
+            EasyStarsRating(
+              initialRating: 3.0,
+              starSize: 25,
+              // Sizes: const [10, 15, 20, 25, 30],
+              onRatingChanged: (value) {
+                setState(() {});
+              },
+            ),
+            const SizedBox(height: 20),
+// Discrete emoji selection
             EasyStarsEmoji(
               initialRating: 3.0,
               emojiSize: 32.0,

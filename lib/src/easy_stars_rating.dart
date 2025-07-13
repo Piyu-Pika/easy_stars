@@ -146,6 +146,7 @@ class _EasyStarsRatingState extends State<EasyStarsRating> {
   void initState() {
     super.initState();
     _config = StarConfig(
+      
       starCount: widget.starCount,
       rating: widget.initialRating,
       starSize: widget.starSize,

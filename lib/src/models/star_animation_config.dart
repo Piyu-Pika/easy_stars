@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 import '../enums/star_enums.dart';
 
@@ -143,6 +144,21 @@ class StarAnimationConfig {
     double? pulseScale,
     bool? reverse,
     bool? repeat,
+    bool? animateArrangement,
+    Duration? arrangementDuration,
+    Curve? arrangementCurve,
+    bool? animateOnDrag,
+    Duration? dragDuration,
+    bool? useSpringAnimation,
+    double? springStiffness,
+    double? springDamping,
+    bool? animateSize,
+    bool? animateColor,
+    Duration? colorDuration,
+    bool? useParticleEffects,
+    int? particleCount,
+    double? particleSize,
+    Color? particleColor,
   }) {
     return StarAnimationConfig(
       animationType: animationType ?? this.animationType,
@@ -161,6 +177,21 @@ class StarAnimationConfig {
       pulseScale: pulseScale ?? this.pulseScale,
       reverse: reverse ?? this.reverse,
       repeat: repeat ?? this.repeat,
+      animateArrangement: animateArrangement ?? this.animateArrangement,
+      arrangementDuration: arrangementDuration ?? this.arrangementDuration,
+      arrangementCurve: arrangementCurve ?? this.arrangementCurve,
+      animateOnDrag: animateOnDrag ?? this.animateOnDrag,
+      dragDuration: dragDuration ?? this.dragDuration,
+      useSpringAnimation: useSpringAnimation ?? this.useSpringAnimation,
+      springStiffness: springStiffness ?? this.springStiffness,
+      springDamping: springDamping ?? this.springDamping,
+      animateSize: animateSize ?? this.animateSize,
+      animateColor: animateColor ?? this.animateColor,
+      colorDuration: colorDuration ?? this.colorDuration,
+      useParticleEffects: useParticleEffects ?? this.useParticleEffects,
+      particleCount: particleCount ?? this.particleCount,
+      particleSize: particleSize ?? this.particleSize,
+      particleColor: particleColor ?? this.particleColor,
     );
   }
 

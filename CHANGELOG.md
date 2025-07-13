@@ -19,3 +19,7 @@
 * Bug fixes and improvements
 * Added support for custom star sizes
 * Added support for custom colors
+
+## 1.0.3
+
+* Bug fixes and improvements
