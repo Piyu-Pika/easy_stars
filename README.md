@@ -1,32 +1,20 @@
+
 # ✨ Easy Stars: Your Flutter Rating Solution! ✨
 
-Add a touch of sparkle to your Flutter app with **Easy Stars** — the all-in-one solution for elegant and customizable rating widgets. Whether you're collecting user feedback or displaying existing ratings, Easy Stars gives you total control over look, feel, and behavior.
-
----
-
-## ⭐ Features
-
-✅ **Interactive Ratings**
-✅ **Static Displays**
-✅ **Half-Star & Clearable Ratings**
-✅ **Custom Shapes, Colors & Icons**
-✅ **Smooth Animations (Scale, Bounce, Rotate, Pulse, etc.)**
-✅ **Flexible Arrangements (Grid, Arc, Spiral, Wave, Vertical)**
-✅ **Emoji & Slider Ratings**
-✅ **Advanced Themes and Shadows**
+Add a touch of sparkle to your Flutter app with **Easy Stars** — the all-in-one solution for elegant and customizable rating widgets.
 
 ---
 
 ## 🚀 Getting Started
 
-Add the dependency in your `pubspec.yaml`:
+Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  easy_stars: ^1.0.0
-```
+  easy_stars: ^1.0.3
+````
 
-Then run:
+Then:
 
 ```bash
 flutter pub get
@@ -40,6 +28,10 @@ Below are rich examples showcasing the versatility of Easy Stars:
 
 ---
 
+## 1️⃣ Basic Ratings
+
+![Basic Ratings](assets/basic.png)
+
 ### 🌟 Basic 5-Star Rating
 
 ```dart
@@ -52,8 +44,6 @@ EasyStarsRating(
   },
 )
 ```
-
-![Basic Rating](assets/ss1.png)
 
 ---
 
@@ -72,8 +62,6 @@ EasyStarsRating(
 )
 ```
 
-![Half-Star](assets/ss2.png)
-
 ---
 
 ### ✅ Read-Only Display
@@ -86,72 +74,200 @@ EasyStarsDisplay(
 )
 ```
 
-![Read-Only](assets/ss3.png)
-
 ---
 
-### ↕️ Vertical Layout
+## 2️⃣ Animations
+
+![Animations](assets\animation.png)
+
+### 💫 Scale Animation
 
 ```dart
 EasyStarsRating(
   initialRating: 4.0,
-  direction: StarDirection.vertical,
-)
-```
-
-![Vertical](assets/ss4.png)
-
----
-
-### 💫 Animated Stars
-
-#### Scale Animation
-
-```dart
-EasyStarsRating(
-  initialRating: 5.0,
   animationConfig: StarAnimationConfig.scale,
+  filledColor: Colors.purple,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
 )
 ```
 
-![Scale Animation](assets/ss2.png)
-
 ---
 
-#### Bounce Animation
-
-```dart
-EasyStarsRating(
-  initialRating: 4.0,
-  animationConfig: StarAnimationConfig.bounce,
-)
-```
-
-![Bounce Animation](assets/ss2.png)
-
----
-
-### 🎨 Custom Shapes & Icons
-
-#### Heart Shape
+### 💫 Bounce Animation
 
 ```dart
 EasyStarsRating(
   initialRating: 3.0,
-  starShape: StarShape.heart,
-  filledColor: Colors.red,
+  animationConfig: StarAnimationConfig.bounce,
+  filledColor: Colors.blue,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
 )
 ```
 
-![Heart](assets/ss4.png)
-
 ---
 
-#### Custom Icons
+### 💫 Rotation Animation
 
 ```dart
 EasyStarsRating(
-  initialRating: 2.0,
+  initialRating: 4.0,
+  animationConfig: StarAnimationConfig.rotate,
+  filledColor: Colors.red,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+---
+
+### 💫 Pulse Animation
+
+```dart
+EasyStarsRating(
+  initialRating: 3.5,
+  animationConfig: StarAnimationConfig.pulse,
+  filledColor: Colors.pink,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+---
+
+## 3️⃣ Arrangements
+
+![Arrangements](assets\arrangment.png)
+
+### 🌀 Arc Arrangement
+
+```dart
+EasyStarsRating(
+  initialRating: 4.0,
+  starCount: 7,
+  arrangement: StarArrangement.arc,
+  arrangementRadius: 80,
+  filledColor: Colors.orange,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+---
+
+### 🟦 Grid Arrangement
+
+```dart
+EasyStarsRating(
+  initialRating: 3.0,
+  arrangement: StarArrangement.grid,
+  gridColumns: 3,
+  filledColor: Colors.indigo,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+---
+
+### 🌊 Wave Arrangement
+
+```dart
+EasyStarsRating(
+  initialRating: 3.5,
+  arrangement: StarArrangement.wave,
+  waveAmplitude: 15,
+  filledColor: Colors.cyan,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+---
+
+### 🌀 Spiral Arrangement
+
+```dart
+EasyStarsRating(
+  initialRating: 4.0,
+  arrangement: StarArrangement.spiral,
+  arrangementRadius: 50,
+  filledColor: Colors.deepOrange,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+---
+
+## 4️⃣ Custom Shapes & Colors
+
+![Custom](assets/custom.png)
+
+### ❤️ Heart Shape
+
+```dart
+EasyStarsRating(
+  initialRating: 3.5,
+  starShape: StarShape.heart,
+  filledColor: Colors.red,
+  emptyColor: Colors.pink.shade100,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+---
+
+### 🎨 Gradient Colors
+
+```dart
+EasyStarsRating(
+  initialRating: 3.3,
+  gradientColors: [Colors.yellow, Colors.orange, Colors.red],
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+---
+
+### ⭐ Custom Icons
+
+```dart
+EasyStarsRating(
+  initialRating: 3.6,
   customIcons: [
     Icons.favorite,
     Icons.star,
@@ -166,100 +282,196 @@ EasyStarsRating(
     Colors.green,
     Colors.purple,
   ],
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
 )
 ```
 
-![Custom Icons](assets/ss5.png)
+---
+
+## 5️⃣ Advanced Features
+
+![Advanced](assets/advances.png)
+
+### 🔹 Size Variants
+
+```dart
+Row(
+  children: [
+    EasyStarsRating(
+      initialRating: 3.0,
+      sizeVariant: StarSizeVariant.small,
+    ),
+    EasyStarsRating(
+      initialRating: 3.0,
+      sizeVariant: StarSizeVariant.medium,
+    ),
+    EasyStarsRating(
+      initialRating: 3.0,
+      sizeVariant: StarSizeVariant.large,
+    ),
+  ],
+)
+```
 
 ---
 
-### 🌀 Arrangements
-
-#### Arc Arrangement
+### 🔹 Shadow Effect
 
 ```dart
 EasyStarsRating(
   initialRating: 4.0,
-  arrangement: StarArrangement.arc,
-  arrangementRadius: 80,
+  starShadow: BoxShadow(
+    color: Colors.black26,
+    blurRadius: 2,
+    offset: Offset(1, 1),
+  ),
+  filledColor: Colors.amber,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
 )
 ```
 
-![Arc](assets/ss7.png)
+---
 
-#### Grid Arrangement
+### 🔹 Rotated Arrangement
+
+```dart
+EasyStarsRating(
+  initialRating: 3.5,
+  arrangementRotation: 0.2,
+  filledColor: Colors.purple,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+---
+
+## 6️⃣ Interactions
+
+![Interactions](assets/intractions.png)
+
+### 🟢 Drag Interaction
+
+```dart
+EasyStarsRating(
+  initialRating: 2.9,
+  dragSensitivity: DragSensitivity.high,
+  animationConfig: StarAnimationConfig.scale,
+  filledColor: Colors.deepPurple,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
+
+---
+
+### 🟤 Clearable Rating
 
 ```dart
 EasyStarsRating(
   initialRating: 3.0,
-  arrangement: StarArrangement.grid,
-  gridColumns: 3,
+  allowClear: true,
+  filledColor: Colors.brown,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
 )
 ```
 
-![Grid](assets/ss6.png)
+---
+
+### 🟢 Vertical Layout
+
+```dart
+EasyStarsRating(
+  initialRating: 4.0,
+  direction: StarDirection.vertical,
+  spacing: 8,
+  filledColor: Colors.lime,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
+)
+```
 
 ---
 
-### 🥳 Emoji Ratings
+## 7️⃣ Emojis
 
-#### Discrete Emojis
+![Emojis](assets/emoji.png)
+
+### 😊 Discrete Emoji Rating
 
 ```dart
 EasyStarsEmoji(
-  initialRating: 3.0,
+  initialRating: 4.5,
   showRatingText: true,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
 )
 ```
 
-![Emoji](assets/ss5.png)
-
 ---
 
-#### Emoji Slider
+### 😍 Emoji Slider
 
 ```dart
 EasyStarsEmojiSlider(
   initialRating: 4.5,
   showRatingText: true,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
 )
 ```
 
-![Emoji Slider](assets/ss6.png)
-
 ---
 
-#### Custom Emojis
+### 🤩 Custom Emojis
 
 ```dart
 EasyStarsEmoji(
   initialRating: 4.0,
   customEmojis: ['😡', '😔', '😑', '😃', '🤩'],
   showRatingText: true,
+  onRatingChanged: (value) {
+    setState(() {
+      _rating = value;
+    });
+  },
 )
 ```
-
-![Custom Emojis](assets/ss7.png)
-
----
-
-## 📸 Full Preview
-
-![Preview](assets/image.png)
 
 ---
 
 ## 📚 Additional Resources
 
-🔍 Explore more in the `example/` directory
-🛠 Contribute or view source on [GitHub](https://github.com/Piyu-Pika/easy_stars)
-🐞 Found a bug? [Open an issue](https://github.com/Piyu-Pika/easy_stars/issues)
-
----
-
-## 🙌 Contributing
-
-Pull requests and issues are welcome!
+* 📁 Explore the `example/` directory for full implementation
+* 💬 Contribute on [GitHub](https://github.com/Piyu-Pika/easy_stars)
+* 🐛 Found a bug? [Open an issue](https://github.com/Piyu-Pika/easy_stars/issues)
 
 ---
 
@@ -269,6 +481,5 @@ MIT © 2025 [Piyu-Pika](https://github.com/Piyu-Pika)
 
 ---
 
-**Let your stars shine with Easy Stars!** 🌟
-
+✨ Let your stars shine with **Easy Stars!** ✨
 
