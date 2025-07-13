@@ -5,122 +5,124 @@ import '../enums/star_enums.dart';
 class StarConfig {
   /// Number of stars to display
   final int starCount;
-  
+
   /// Current rating value
   final double rating;
-  
+
   /// Size of individual stars
   final double starSize;
-  
+
   /// Color of filled stars
   final Color filledColor;
-  
+
   /// Color of empty stars
   final Color emptyColor;
-  
+
   /// Color of star border
   final Color? borderColor;
-  
+
   /// Width of star border
   final double borderWidth;
-  
+
   /// Spacing between stars
   final double spacing;
-  
+
   /// Direction of star layout
   final StarDirection direction;
-  
+
   /// Star filling behavior
   final StarFilling filling;
-  
+
   /// Star alignment
   final StarAlignment alignment;
-  
+
   /// Whether stars are interactive
   final StarInteractionMode interactionMode;
-  
+
   /// Icon for filled star
   final IconData filledIcon;
-  
+
   /// Icon for empty star
   final IconData emptyIcon;
-  
+
   /// Icon for half-filled star
   final IconData? halfIcon;
-  
+
   /// Custom star widget builder
-  final Widget Function(int index, bool isFilled, bool isHalf)? customStarBuilder;
-  
+  final Widget Function(int index, bool isFilled, bool isHalf)?
+      customStarBuilder;
+
   /// Minimum rating value
   final double minRating;
-  
+
   /// Maximum rating value
   final double maxRating;
-  
+
   /// Whether to allow clearing rating
   final bool allowClear;
-  
+
   /// Whether to show rating text
   final bool showRatingText;
-  
+
   /// Text style for rating display
   final TextStyle? ratingTextStyle;
-  
+
   /// Whether rating is read-only
   final bool readOnly;
-  
+
   /// Tooltip text for stars
   final String? tooltip;
-  
+
   /// Whether to use adaptive sizing
   final bool adaptive;
+
   /// Star arrangement shape
-final StarArrangement arrangement;
+  final StarArrangement arrangement;
 
-/// Star shape type
-final StarShape starShape;
+  /// Star shape type
+  final StarShape starShape;
 
-/// Size variant for predefined sizes
-final StarSizeVariant sizeVariant;
+  /// Size variant for predefined sizes
+  final StarSizeVariant sizeVariant;
 
-/// Drag sensitivity
-final DragSensitivity dragSensitivity;
+  /// Drag sensitivity
+  final DragSensitivity dragSensitivity;
 
-/// Custom drag threshold
-final double customDragThreshold;
+  /// Custom drag threshold
+  final double customDragThreshold;
 
-/// Gradient colors for stars
-final List<Color>? gradientColors;
+  /// Gradient colors for stars
+  final List<Color>? gradientColors;
 
-/// Shadow configuration
-final BoxShadow? starShadow;
+  /// Shadow configuration
+  final BoxShadow? starShadow;
 
-/// Rotation angle for the entire star arrangement
-final double arrangementRotation;
+  /// Rotation angle for the entire star arrangement
+  final double arrangementRotation;
 
-/// Radius for circular/arc arrangements
-final double arrangementRadius;
+  /// Radius for circular/arc arrangements
+  final double arrangementRadius;
 
-/// Grid columns for grid arrangement
-final int gridColumns;
+  /// Grid columns for grid arrangement
+  final int gridColumns;
 
-/// Wave amplitude for wave arrangement
-final double waveAmplitude;
+  /// Wave amplitude for wave arrangement
+  final double waveAmplitude;
 
-/// Wave frequency for wave arrangement
-final double waveFrequency;
+  /// Wave frequency for wave arrangement
+  final double waveFrequency;
 
-/// Spiral turns for spiral arrangement
-final double spiralTurns;
+  /// Spiral turns for spiral arrangement
+  final double spiralTurns;
 
-/// Different icons for each star
-final List<IconData>? customIcons;
+  /// Different icons for each star
+  final List<IconData>? customIcons;
 
-/// Different colors for each star
-final List<Color>? customColors;
+  /// Different colors for each star
+  final List<Color>? customColors;
 
-/// Size multiplier for each star
-final List<double>? customSizes;
+  /// Size multiplier for each star
+  final List<double>? customSizes;
 
   const StarConfig({
     this.starCount = 5,
@@ -148,21 +150,21 @@ final List<double>? customSizes;
     this.tooltip,
     this.adaptive = false,
     this.arrangement = StarArrangement.linear,
-this.starShape = StarShape.star,
-this.sizeVariant = StarSizeVariant.medium,
-this.dragSensitivity = DragSensitivity.medium,
-this.customDragThreshold = 10.0,
-this.gradientColors,
-this.starShadow,
-this.arrangementRotation = 0.0,
-this.arrangementRadius = 50.0,
-this.gridColumns = 2,
-this.waveAmplitude = 10.0,
-this.waveFrequency = 1.0,
-this.spiralTurns = 1.0,
-this.customIcons,
-this.customColors,
-this.customSizes,
+    this.starShape = StarShape.star,
+    this.sizeVariant = StarSizeVariant.medium,
+    this.dragSensitivity = DragSensitivity.medium,
+    this.customDragThreshold = 10.0,
+    this.gradientColors,
+    this.starShadow,
+    this.arrangementRotation = 0.0,
+    this.arrangementRadius = 50.0,
+    this.gridColumns = 2,
+    this.waveAmplitude = 10.0,
+    this.waveFrequency = 1.0,
+    this.spiralTurns = 1.0,
+    this.customIcons,
+    this.customColors,
+    this.customSizes,
   });
 
   /// Create a copy of this config with updated values
@@ -223,10 +225,10 @@ this.customSizes,
   /// Get effective star size based on adaptive setting
   double getEffectiveStarSize(BuildContext context) {
     if (!adaptive) return starSize;
-    
+
     final mediaQuery = MediaQuery.of(context);
     final screenWidth = mediaQuery.size.width;
-    
+
     if (screenWidth < 600) {
       return starSize * 0.8;
     } else if (screenWidth < 900) {
@@ -237,69 +239,70 @@ this.customSizes,
   }
 
   double getPredefinedSize(BuildContext context) {
-  final baseSize = getEffectiveStarSize(context);
-  switch (sizeVariant) {
-    case StarSizeVariant.tiny:
-      return baseSize * 0.5;
-    case StarSizeVariant.small:
-      return baseSize * 0.75;
-    case StarSizeVariant.medium:
-      return baseSize;
-    case StarSizeVariant.large:
-      return baseSize * 1.5;
-    case StarSizeVariant.huge:
-      return baseSize * 2.0;
-    case StarSizeVariant.custom:
-      return starSize;
+    final baseSize = getEffectiveStarSize(context);
+    switch (sizeVariant) {
+      case StarSizeVariant.tiny:
+        return baseSize * 0.5;
+      case StarSizeVariant.small:
+        return baseSize * 0.75;
+      case StarSizeVariant.medium:
+        return baseSize;
+      case StarSizeVariant.large:
+        return baseSize * 1.5;
+      case StarSizeVariant.huge:
+        return baseSize * 2.0;
+      case StarSizeVariant.custom:
+        return starSize;
+    }
   }
-}
 
-double getDragThreshold() {
-  switch (dragSensitivity) {
-    case DragSensitivity.low:
-      return 20.0;
-    case DragSensitivity.medium:
-      return 10.0;
-    case DragSensitivity.high:
-      return 5.0;
-    case DragSensitivity.custom:
-      return customDragThreshold;
+  double getDragThreshold() {
+    switch (dragSensitivity) {
+      case DragSensitivity.low:
+        return 20.0;
+      case DragSensitivity.medium:
+        return 10.0;
+      case DragSensitivity.high:
+        return 5.0;
+      case DragSensitivity.custom:
+        return customDragThreshold;
+    }
   }
-}
 
-IconData getStarIcon(int index, bool isFilled, bool isHalf) {
-  if (customIcons != null && index < customIcons!.length) {
-    return customIcons![index];
-  }
-  
-  if (isFilled) return filledIcon;
-  if (isHalf && halfIcon != null) return halfIcon!;
-  return emptyIcon;
-}
+  IconData getStarIcon(int index, bool isFilled, bool isHalf) {
+    if (customIcons != null && index < customIcons!.length) {
+      return customIcons![index];
+    }
 
-Color getStarColor(int index, bool isFilled) {
-  if (customColors != null && index < customColors!.length) {
-    return customColors![index];
+    if (isFilled) return filledIcon;
+    if (isHalf && halfIcon != null) return halfIcon!;
+    return emptyIcon;
   }
-  
-  if (gradientColors != null && gradientColors!.length > 1) {
-    double ratio = index / (starCount - 1);
-    return Color.lerp(gradientColors!.first, gradientColors!.last, ratio) ?? filledColor;
-  }
-  
-  return isFilled ? filledColor : emptyColor;
-}
 
-/// Get size for specific star index
-double getStarSize(int index, BuildContext context) {
-  double baseSize = getPredefinedSize(context);
-  
-  if (customSizes != null && index < customSizes!.length) {
-    return baseSize * customSizes![index];
+  Color getStarColor(int index, bool isFilled) {
+    if (customColors != null && index < customColors!.length) {
+      return customColors![index];
+    }
+
+    if (gradientColors != null && gradientColors!.length > 1) {
+      double ratio = index / (starCount - 1);
+      return Color.lerp(gradientColors!.first, gradientColors!.last, ratio) ??
+          filledColor;
+    }
+
+    return isFilled ? filledColor : emptyColor;
   }
-  
-  return baseSize;
-}
+
+  /// Get size for specific star index
+  double getStarSize(int index, BuildContext context) {
+    double baseSize = getPredefinedSize(context);
+
+    if (customSizes != null && index < customSizes!.length) {
+      return baseSize * customSizes![index];
+    }
+
+    return baseSize;
+  }
 
   /// Get MainAxisAlignment from StarAlignment
   MainAxisAlignment getMainAxisAlignment() {

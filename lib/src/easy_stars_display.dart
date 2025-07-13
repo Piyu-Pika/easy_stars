@@ -8,56 +8,59 @@ import 'enums/star_enums.dart';
 class EasyStarsDisplay extends StatefulWidget {
   /// Initial rating value
   final double initialRating;
-  
+
   /// Number of stars
   final int starCount;
-  
+
   /// Size of stars
   final double starSize;
-  
+
   /// Color of filled stars
   final Color filledColor;
-  
+
   /// Color of empty stars
   final Color emptyColor;
-  
+
   /// Spacing between stars
   final double spacing;
-  
+
   /// Layout direction
   final StarDirection direction;
-  
+
   /// Animation configuration
   final StarAnimationConfig animationConfig;
-  
+
   /// Callback when rating changes
   final ValueChanged<double>? onRatingChanged;
-  
+
   /// Whether to allow half ratings
   final bool allowHalfRating;
-  
+
   /// Whether to allow clearing rating
   final bool allowClear;
-  
+
   /// Whether to show rating text
   final bool showRatingText;
-  
+
   /// Custom text style for rating display
   final TextStyle? ratingTextStyle;
-  
+
   /// Minimum rating
   final double minRating;
-  
+
   /// Maximum rating
   final double maxRating;
-  
+
   /// Tooltip text
   final String? tooltip;
-  
+
   /// Whether stars are read-only
   final bool readOnly;
+
   /// Custom star widget builder
-  final Widget Function(int index, bool isFilled, bool isHalf)? customStarBuilder;
+  final Widget Function(int index, bool isFilled, bool isHalf)?
+      customStarBuilder;
+
   /// Whether to animate on rating change
   final bool animateOnRatingChange;
 
@@ -126,4 +129,4 @@ class _EasyStarsDisplayState extends State<EasyStarsDisplay> {
       onRatingChanged: widget.onRatingChanged,
     );
   }
-} 
+}

@@ -80,7 +80,8 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
 
     _starAnimations = _starControllers.map((controller) {
       return Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(parent: controller, curve: widget.animationConfig.curve),
+        CurvedAnimation(
+            parent: controller, curve: widget.animationConfig.curve),
       );
     }).toList();
 
@@ -92,51 +93,51 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   }
 
   Offset _calculateStarPosition(int index, Size containerSize) {
-  double effectiveSize = widget.config.getPredefinedSize(context);
-  // double totalSpacing = widget.config.spacing * (widget.config.starCount - 1);
-  
-  switch (widget.config.arrangement) {
-    case StarArrangement.linear:
-      return widget.config.direction == StarDirection.horizontal
-          ? Offset(index * (effectiveSize + widget.config.spacing), 0)
-          : Offset(0, index * (effectiveSize + widget.config.spacing));
-          
-    case StarArrangement.circular:
-      double angle = (2 * math.pi * index) / widget.config.starCount;
-      double x = widget.config.arrangementRadius * math.cos(angle);
-      double y = widget.config.arrangementRadius * math.sin(angle);
-      return Offset(x, y);
-      
-    case StarArrangement.arc:
-      double angle = (math.pi * index) / (widget.config.starCount - 1);
-      double x = widget.config.arrangementRadius * math.cos(angle);
-      double y = widget.config.arrangementRadius * math.sin(angle);
-      return Offset(x, y);
-      
-    case StarArrangement.grid:
-      int row = index ~/ widget.config.gridColumns;
-      int col = index % widget.config.gridColumns;
-      return Offset(
-        col * (effectiveSize + widget.config.spacing),
-        row * (effectiveSize + widget.config.spacing),
-      );
-      
-    case StarArrangement.wave:
-      double x = index * (effectiveSize + widget.config.spacing);
-      double y = widget.config.waveAmplitude * 
-                math.sin(widget.config.waveFrequency * index);
-      return Offset(x, y);
-      
-    case StarArrangement.spiral:
-      double angle = (2 * math.pi * widget.config.spiralTurns * index) / 
-                     widget.config.starCount;
-      double radius = widget.config.arrangementRadius * index / 
-                     widget.config.starCount;
-      double x = radius * math.cos(angle);
-      double y = radius * math.sin(angle);
-      return Offset(x, y);
+    double effectiveSize = widget.config.getPredefinedSize(context);
+    // double totalSpacing = widget.config.spacing * (widget.config.starCount - 1);
+
+    switch (widget.config.arrangement) {
+      case StarArrangement.linear:
+        return widget.config.direction == StarDirection.horizontal
+            ? Offset(index * (effectiveSize + widget.config.spacing), 0)
+            : Offset(0, index * (effectiveSize + widget.config.spacing));
+
+      case StarArrangement.circular:
+        double angle = (2 * math.pi * index) / widget.config.starCount;
+        double x = widget.config.arrangementRadius * math.cos(angle);
+        double y = widget.config.arrangementRadius * math.sin(angle);
+        return Offset(x, y);
+
+      case StarArrangement.arc:
+        double angle = (math.pi * index) / (widget.config.starCount - 1);
+        double x = widget.config.arrangementRadius * math.cos(angle);
+        double y = widget.config.arrangementRadius * math.sin(angle);
+        return Offset(x, y);
+
+      case StarArrangement.grid:
+        int row = index ~/ widget.config.gridColumns;
+        int col = index % widget.config.gridColumns;
+        return Offset(
+          col * (effectiveSize + widget.config.spacing),
+          row * (effectiveSize + widget.config.spacing),
+        );
+
+      case StarArrangement.wave:
+        double x = index * (effectiveSize + widget.config.spacing);
+        double y = widget.config.waveAmplitude *
+            math.sin(widget.config.waveFrequency * index);
+        return Offset(x, y);
+
+      case StarArrangement.spiral:
+        double angle = (2 * math.pi * widget.config.spiralTurns * index) /
+            widget.config.starCount;
+        double radius =
+            widget.config.arrangementRadius * index / widget.config.starCount;
+        double x = radius * math.cos(angle);
+        double y = radius * math.sin(angle);
+        return Offset(x, y);
+    }
   }
-}
 
   @override
   void didUpdateWidget(EasyStars oldWidget) {
@@ -152,7 +153,9 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   void _animateRatingChange() {
     for (int i = 0; i < _starControllers.length; i++) {
       Future.delayed(
-        Duration(milliseconds: i * widget.animationConfig.staggerDelay.inMilliseconds),
+        Duration(
+            milliseconds:
+                i * widget.animationConfig.staggerDelay.inMilliseconds),
         () {
           if (mounted) {
             _starControllers[i].forward();
@@ -199,7 +202,7 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
     for (int i = 0; i <= index; i++) {
       _hoverControllers[i].forward();
     }
-    
+
     // Animate all stars after the hovered star back to normal
     for (int i = index + 1; i < _hoverControllers.length; i++) {
       _hoverControllers[i].reverse();
@@ -217,25 +220,27 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
     }
   }
 
-  void _handleDragUpdate(DragUpdateDetails details, BoxConstraints constraints) {
-  if (widget.config.readOnly) return;
-  
-  double threshold = widget.config.getDragThreshold();
-  if (details.delta.distance < threshold) return;
-  
-  double rating = _calculateRatingFromDrag(details, constraints);
-  
-  if (widget.animationConfig.animateOnDrag) {
-    _animateDragFeedback(rating);
+  void _handleDragUpdate(
+      DragUpdateDetails details, BoxConstraints constraints) {
+    if (widget.config.readOnly) return;
+
+    double threshold = widget.config.getDragThreshold();
+    if (details.delta.distance < threshold) return;
+
+    double rating = _calculateRatingFromDrag(details, constraints);
+
+    if (widget.animationConfig.animateOnDrag) {
+      _animateDragFeedback(rating);
+    }
+
+    _updateRating(rating);
   }
-  
-  _updateRating(rating);
-}
 
   void _updateRating(double newRating) {
     if (newRating != _currentRating) {
       setState(() {
-        _currentRating = newRating.clamp(widget.config.minRating, widget.config.maxRating);
+        _currentRating =
+            newRating.clamp(widget.config.minRating, widget.config.maxRating);
       });
       widget.onRatingChanged?.call(_currentRating);
     }
@@ -243,7 +248,8 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
 
   Widget _buildAnimatedStar(int index, bool isFilled, bool isHalf) {
     return AnimatedBuilder(
-      animation: Listenable.merge([_starAnimations[index], _hoverAnimations[index]]),
+      animation:
+          Listenable.merge([_starAnimations[index], _hoverAnimations[index]]),
       builder: (context, child) {
         return Transform(
           alignment: Alignment.center,
@@ -272,7 +278,8 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
     // Apply main animation
     switch (widget.animationConfig.animationType) {
       case StarAnimation.scale:
-        double scale = 1.0 + (widget.animationConfig.scaleFactor - 1.0) * animationValue;
+        double scale =
+            1.0 + (widget.animationConfig.scaleFactor - 1.0) * animationValue;
         transform.scale(scale);
         break;
 
@@ -282,20 +289,21 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
         break;
 
       case StarAnimation.bounce:
-        double bounce = -widget.animationConfig.bounceHeight * 
-                       math.sin(animationValue * math.pi);
+        double bounce = -widget.animationConfig.bounceHeight *
+            math.sin(animationValue * math.pi);
         transform.translate(0.0, bounce);
         break;
 
       case StarAnimation.shake:
-        double shake = widget.animationConfig.shakeIntensity * 
-                      math.sin(animationValue * math.pi * 8);
+        double shake = widget.animationConfig.shakeIntensity *
+            math.sin(animationValue * math.pi * 8);
         transform.translate(shake, 0.0);
         break;
 
       case StarAnimation.pulse:
-        double pulse = 1.0 + (widget.animationConfig.pulseScale - 1.0) * 
-                      (0.5 + 0.5 * math.sin(animationValue * math.pi * 2));
+        double pulse = 1.0 +
+            (widget.animationConfig.pulseScale - 1.0) *
+                (0.5 + 0.5 * math.sin(animationValue * math.pi * 2));
         transform.scale(pulse);
         break;
 
@@ -309,89 +317,90 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   double _getOpacity(int index) {
     if (widget.animationConfig.animationType == StarAnimation.fade) {
       double animationValue = _starAnimations[index].value;
-      return widget.animationConfig.fadeOpacity + 
-             (1.0 - widget.animationConfig.fadeOpacity) * animationValue;
+      return widget.animationConfig.fadeOpacity +
+          (1.0 - widget.animationConfig.fadeOpacity) * animationValue;
     }
     return 1.0;
   }
 
   Widget _buildStar(int index, bool isFilled, bool isHalf) {
-  double starSize = widget.config.getStarSize(index, context);
-  Color starColor = widget.config.getStarColor(index, isFilled);
-  IconData starIcon = widget.config.getStarIcon(index, isFilled, isHalf);
-  double hoverValue = _hoverAnimations[index].value;
+    double starSize = widget.config.getStarSize(index, context);
+    Color starColor = widget.config.getStarColor(index, isFilled);
+    IconData starIcon = widget.config.getStarIcon(index, isFilled, isHalf);
+    double hoverValue = _hoverAnimations[index].value;
 
-  if (widget.config.customStarBuilder != null) {
-    return widget.config.customStarBuilder!(index, isFilled, isHalf);
-  }
+    if (widget.config.customStarBuilder != null) {
+      return widget.config.customStarBuilder!(index, isFilled, isHalf);
+    }
 
-  // Determine star color with hover effect
-  bool isHovered = _hoveredIndex >= 0 && index <= _hoveredIndex;
-  
-  if (isHovered && widget.animationConfig.animateOnHover) {
-    // Interpolate between empty and filled color on hover
-    starColor = Color.lerp(
-      widget.config.emptyColor,
-      starColor,
-      hoverValue,
-    ) ?? starColor;
-  }
+    // Determine star color with hover effect
+    bool isHovered = _hoveredIndex >= 0 && index <= _hoveredIndex;
 
-  // Use enhanced star icon selection
-  if (isHovered && widget.animationConfig.animateOnHover) {
-    starIcon = widget.config.filledIcon;
-  }
+    if (isHovered && widget.animationConfig.animateOnHover) {
+      // Interpolate between empty and filled color on hover
+      starColor = Color.lerp(
+            widget.config.emptyColor,
+            starColor,
+            hoverValue,
+          ) ??
+          starColor;
+    }
 
-  Widget star = Icon(
-    starIcon,
-    size: starSize,
-    color: starColor,
-  );
+    // Use enhanced star icon selection
+    if (isHovered && widget.animationConfig.animateOnHover) {
+      starIcon = widget.config.filledIcon;
+    }
 
-  // Add gradient if specified
-  if (widget.config.gradientColors != null && widget.config.gradientColors!.length > 1) {
-    star = ShaderMask(
-      shaderCallback: (bounds) => LinearGradient(
-        colors: widget.config.gradientColors!,
-      ).createShader(bounds),
-      child: star,
+    Widget star = Icon(
+      starIcon,
+      size: starSize,
+      color: starColor,
     );
-  }
 
-  // Add shadow if specified
-  if (widget.config.starShadow != null) {
-    star = Container(
-      decoration: BoxDecoration(
-        boxShadow: [widget.config.starShadow!],
-      ),
-      child: star,
-    );
-  }
+    // Add gradient if specified
+    if (widget.config.gradientColors != null &&
+        widget.config.gradientColors!.length > 1) {
+      star = ShaderMask(
+        shaderCallback: (bounds) => LinearGradient(
+          colors: widget.config.gradientColors!,
+        ).createShader(bounds),
+        child: star,
+      );
+    }
 
-  if (widget.config.borderWidth > 0) {
-    star = Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: widget.config.borderColor ?? starColor,
-          width: widget.config.borderWidth,
+    // Add shadow if specified
+    if (widget.config.starShadow != null) {
+      star = Container(
+        decoration: BoxDecoration(
+          boxShadow: [widget.config.starShadow!],
         ),
-        shape: BoxShape.circle,
-      ),
-      child: star,
-    );
+        child: star,
+      );
+    }
+
+    if (widget.config.borderWidth > 0) {
+      star = Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: widget.config.borderColor ?? starColor,
+            width: widget.config.borderWidth,
+          ),
+          shape: BoxShape.circle,
+        ),
+        child: star,
+      );
+    }
+
+    return star;
   }
-
-  return star;
-}
-
 
   bool _isStarFilled(int index) {
     switch (widget.config.filling) {
       case StarFilling.full:
         return index < _currentRating.floor();
       case StarFilling.half:
-        return index < _currentRating.floor() || 
-               (index == _currentRating.floor() && _currentRating % 1 >= 0.5);
+        return index < _currentRating.floor() ||
+            (index == _currentRating.floor() && _currentRating % 1 >= 0.5);
       case StarFilling.precise:
         return index < _currentRating;
     }
@@ -403,8 +412,8 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   }
 
   Widget _buildStarList() {
-  return _buildStarArrangement();
-}
+    return _buildStarArrangement();
+  }
 
   // Widget _buildStarList() {
   //   List<Widget> stars = [];
@@ -446,116 +455,68 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   //         );
   // }
 
-    double _calculateRatingFromPosition(double x, double y, BoxConstraints constraints) {
+  double _calculateRatingFromPosition(
+      double x, double y, BoxConstraints constraints) {
     double effectiveStarSize = widget.config.getEffectiveStarSize(context);
 
     if (widget.config.direction == StarDirection.horizontal) {
       double starWidth = effectiveStarSize + widget.config.spacing;
       double position = x / starWidth;
-      return math.max(0.0, math.min(widget.config.starCount.toDouble(), position));
+      return math.max(
+          0.0, math.min(widget.config.starCount.toDouble(), position));
     } else {
       double starHeight = effectiveStarSize + widget.config.spacing;
       double position = y / starHeight;
-      return math.max(0.0, math.min(widget.config.starCount.toDouble(), position));
+      return math.max(
+          0.0, math.min(widget.config.starCount.toDouble(), position));
     }
   }
 
-double _calculateRatingFromDrag(DragUpdateDetails details, BoxConstraints constraints) {
-  switch (widget.config.arrangement) {
-    case StarArrangement.linear:
-      return _calculateRatingFromPosition(
-        details.localPosition.dx, 
-        details.localPosition.dy, 
-        constraints
-      );
-      
-    case StarArrangement.circular:
-    case StarArrangement.arc:
-      double centerX = constraints.maxWidth / 2;
-      double centerY = constraints.maxHeight / 2;
-      double angle = math.atan2(
-        details.localPosition.dy - centerY,
-        details.localPosition.dx - centerX
-      );
-      return (angle / (2 * math.pi)) * widget.config.starCount;
-      
-    default:
-      return _calculateRatingFromPosition(
-        details.localPosition.dx, 
-        details.localPosition.dy, 
-        constraints
-      );
-  }
-}
-void _animateDragFeedback(double rating) {
-  int starIndex = rating.floor();
-  if (starIndex < _starControllers.length) {
-    _starControllers[starIndex].forward().then((_) {
-      if (widget.animationConfig.reverse) {
-        _starControllers[starIndex].reverse();
-      }
-    });
-  }
-}
+  double _calculateRatingFromDrag(
+      DragUpdateDetails details, BoxConstraints constraints) {
+    switch (widget.config.arrangement) {
+      case StarArrangement.linear:
+        return _calculateRatingFromPosition(
+            details.localPosition.dx, details.localPosition.dy, constraints);
 
+      case StarArrangement.circular:
+      case StarArrangement.arc:
+        double centerX = constraints.maxWidth / 2;
+        double centerY = constraints.maxHeight / 2;
+        double angle = math.atan2(details.localPosition.dy - centerY,
+            details.localPosition.dx - centerX);
+        return (angle / (2 * math.pi)) * widget.config.starCount;
 
-/// Build enhanced star with all features
-
-
-/// Build star arrangement
-Widget _buildStarArrangement() {
-  if (widget.config.arrangement == StarArrangement.linear) {
-    List<Widget> stars = [];
-
-    for (int i = 0; i < widget.config.starCount; i++) {
-      bool isFilled = _isStarFilled(i);
-      bool isHalf = _isStarHalf(i);
-
-      Widget star = _buildAnimatedStar(i, isFilled, isHalf);
-
-      if (widget.config.interactionMode != StarInteractionMode.none) {
-        star = GestureDetector(
-          onTap: () => _handleStarTap(i),
-          child: MouseRegion(
-            onEnter: (_) => _handleStarHover(i),
-            onExit: (_) => _handleStarExit(),
-            child: star,
-          ),
-        );
-      }
-
-      stars.add(star);
+      default:
+        return _calculateRatingFromPosition(
+            details.localPosition.dx, details.localPosition.dy, constraints);
     }
-
-    return widget.config.direction == StarDirection.horizontal
-        ? Row(
-            mainAxisAlignment: widget.config.getMainAxisAlignment(),
-            children: stars.expand((star) => [
-              star,
-              if (star != stars.last) SizedBox(width: widget.config.spacing),
-            ]).toList(),
-          )
-        : Column(
-            mainAxisAlignment: widget.config.getMainAxisAlignment(),
-            children: stars.expand((star) => [
-              star,
-              if (star != stars.last) SizedBox(height: widget.config.spacing),
-            ]).toList(),
-          );
   }
-  
-  return LayoutBuilder(
-    builder: (context, constraints) {
-      List<Widget> positionedStars = [];
-      
+
+  void _animateDragFeedback(double rating) {
+    int starIndex = rating.floor();
+    if (starIndex < _starControllers.length) {
+      _starControllers[starIndex].forward().then((_) {
+        if (widget.animationConfig.reverse) {
+          _starControllers[starIndex].reverse();
+        }
+      });
+    }
+  }
+
+  /// Build enhanced star with all features
+
+  /// Build star arrangement
+  Widget _buildStarArrangement() {
+    if (widget.config.arrangement == StarArrangement.linear) {
+      List<Widget> stars = [];
+
       for (int i = 0; i < widget.config.starCount; i++) {
         bool isFilled = _isStarFilled(i);
         bool isHalf = _isStarHalf(i);
-        
-        Offset position = _calculateStarPosition(i, constraints.biggest);
-        
+
         Widget star = _buildAnimatedStar(i, isFilled, isHalf);
-        
+
         if (widget.config.interactionMode != StarInteractionMode.none) {
           star = GestureDetector(
             onTap: () => _handleStarTap(i),
@@ -566,31 +527,79 @@ Widget _buildStarArrangement() {
             ),
           );
         }
-        
-        positionedStars.add(
-          Positioned(
-            left: position.dx + constraints.maxWidth / 2,
-            top: position.dy + constraints.maxHeight / 2,
-            child: star,
+
+        stars.add(star);
+      }
+
+      return widget.config.direction == StarDirection.horizontal
+          ? Row(
+              mainAxisAlignment: widget.config.getMainAxisAlignment(),
+              children: stars
+                  .expand((star) => [
+                        star,
+                        if (star != stars.last)
+                          SizedBox(width: widget.config.spacing),
+                      ])
+                  .toList(),
+            )
+          : Column(
+              mainAxisAlignment: widget.config.getMainAxisAlignment(),
+              children: stars
+                  .expand((star) => [
+                        star,
+                        if (star != stars.last)
+                          SizedBox(height: widget.config.spacing),
+                      ])
+                  .toList(),
+            );
+    }
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        List<Widget> positionedStars = [];
+
+        for (int i = 0; i < widget.config.starCount; i++) {
+          bool isFilled = _isStarFilled(i);
+          bool isHalf = _isStarHalf(i);
+
+          Offset position = _calculateStarPosition(i, constraints.biggest);
+
+          Widget star = _buildAnimatedStar(i, isFilled, isHalf);
+
+          if (widget.config.interactionMode != StarInteractionMode.none) {
+            star = GestureDetector(
+              onTap: () => _handleStarTap(i),
+              child: MouseRegion(
+                onEnter: (_) => _handleStarHover(i),
+                onExit: (_) => _handleStarExit(),
+                child: star,
+              ),
+            );
+          }
+
+          positionedStars.add(
+            Positioned(
+              left: position.dx + constraints.maxWidth / 2,
+              top: position.dy + constraints.maxHeight / 2,
+              child: star,
+            ),
+          );
+        }
+
+        return Transform.rotate(
+          angle: widget.config.arrangementRotation,
+          child: Stack(
+            children: positionedStars,
           ),
         );
-      }
-      
-      return Transform.rotate(
-        angle: widget.config.arrangementRotation,
-        child: Stack(
-          children: positionedStars,
-        ),
-      );
-    },
-  );
-}
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget starsWidget = _buildStarList();
     // Widget starsWidget = _buildStarArrangement();
-    
 
     if (widget.config.interactionMode == StarInteractionMode.drag ||
         widget.config.interactionMode == StarInteractionMode.tapAndDrag) {
@@ -624,7 +633,8 @@ Widget _buildStarArrangement() {
                 SizedBox(width: widget.config.spacing),
                 Text(
                   _currentRating.toStringAsFixed(1),
-                  style: widget.config.ratingTextStyle ?? Theme.of(context).textTheme.bodyMedium,
+                  style: widget.config.ratingTextStyle ??
+                      Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             )
@@ -634,7 +644,8 @@ Widget _buildStarArrangement() {
                 SizedBox(height: widget.config.spacing),
                 Text(
                   _currentRating.toStringAsFixed(1),
-                  style: widget.config.ratingTextStyle ?? Theme.of(context).textTheme.bodyMedium,
+                  style: widget.config.ratingTextStyle ??
+                      Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             );

@@ -5,94 +5,93 @@ import '../enums/star_enums.dart';
 class StarAnimationConfig {
   /// Type of animation to apply
   final StarAnimation animationType;
-  
+
   /// Duration of the animation
   final Duration duration;
-  
+
   /// Animation curve
   final Curve curve;
-  
+
   /// Whether to animate on rating change
   final bool animateOnRatingChange;
-  
+
   /// Whether to animate on hover (web/desktop)
   final bool animateOnHover;
-  
+
   /// Whether to animate on tap
   final bool animateOnTap;
-  
+
   /// Delay between star animations
   final Duration staggerDelay;
-  
+
   /// Scale factor for scale animation
   final double scaleFactor;
-  
+
   /// Rotation angle for rotate animation (in radians)
   final double rotationAngle;
-  
+
   /// Opacity range for fade animation
   final double fadeOpacity;
-  
+
   /// Bounce height for bounce animation
   final double bounceHeight;
-  
+
   /// Shake intensity for shake animation
   final double shakeIntensity;
-  
+
   /// Pulse scale factor for pulse animation
   final double pulseScale;
-  
+
   /// Whether to reverse animation
   final bool reverse;
-  
+
   /// Whether animation should repeat
   final bool repeat;
 
   /// Whether to animate arrangement changes
-final bool animateArrangement;
+  final bool animateArrangement;
 
-/// Duration for arrangement animation
-final Duration arrangementDuration;
+  /// Duration for arrangement animation
+  final Duration arrangementDuration;
 
-/// Curve for arrangement animation
-final Curve arrangementCurve;
+  /// Curve for arrangement animation
+  final Curve arrangementCurve;
 
-/// Whether to animate drag interactions
-final bool animateOnDrag;
+  /// Whether to animate drag interactions
+  final bool animateOnDrag;
 
-/// Drag animation duration
-final Duration dragDuration;
+  /// Drag animation duration
+  final Duration dragDuration;
 
-/// Whether to use spring animation
-final bool useSpringAnimation;
+  /// Whether to use spring animation
+  final bool useSpringAnimation;
 
-/// Spring animation stiffness
-final double springStiffness;
+  /// Spring animation stiffness
+  final double springStiffness;
 
-/// Spring animation damping
-final double springDamping;
+  /// Spring animation damping
+  final double springDamping;
 
-/// Whether to animate size changes
-final bool animateSize;
+  /// Whether to animate size changes
+  final bool animateSize;
 
-/// Whether to animate color changes
-final bool animateColor;
+  /// Whether to animate color changes
+  final bool animateColor;
 
-/// Color transition duration
-final Duration colorDuration;
+  /// Color transition duration
+  final Duration colorDuration;
 
-/// Whether to use particle effects
-final bool useParticleEffects;
+  /// Whether to use particle effects
+  final bool useParticleEffects;
 
-/// Particle count for effects
-final int particleCount;
+  /// Particle count for effects
+  final int particleCount;
 
-/// Particle size
-final double particleSize;
+  /// Particle size
+  final double particleSize;
 
-/// Particle color
-final Color particleColor;
-
+  /// Particle color
+  final Color particleColor;
 
   const StarAnimationConfig({
     this.animationType = StarAnimation.none,
@@ -125,7 +124,6 @@ final Color particleColor;
     this.particleCount = 10,
     this.particleSize = 10.0,
     this.particleColor = const Color(0xFFFFD700), // Default gold color
-
   });
 
   /// Create a copy of this config with updated values
@@ -150,7 +148,8 @@ final Color particleColor;
       animationType: animationType ?? this.animationType,
       duration: duration ?? this.duration,
       curve: curve ?? this.curve,
-      animateOnRatingChange: animateOnRatingChange ?? this.animateOnRatingChange,
+      animateOnRatingChange:
+          animateOnRatingChange ?? this.animateOnRatingChange,
       animateOnHover: animateOnHover ?? this.animateOnHover,
       animateOnTap: animateOnTap ?? this.animateOnTap,
       staggerDelay: staggerDelay ?? this.staggerDelay,
@@ -207,28 +206,28 @@ final Color particleColor;
     repeat: true,
   );
   // Add these predefined configs:
-static const StarAnimationConfig morphing = StarAnimationConfig(
-  animationType: StarAnimation.scale,
-  duration: Duration(milliseconds: 300),
-  animateSize: true,
-  animateColor: true,
-  colorDuration: Duration(milliseconds: 200),
-);
+  static const StarAnimationConfig morphing = StarAnimationConfig(
+    animationType: StarAnimation.scale,
+    duration: Duration(milliseconds: 300),
+    animateSize: true,
+    animateColor: true,
+    colorDuration: Duration(milliseconds: 200),
+  );
 
-static const StarAnimationConfig elastic = StarAnimationConfig(
-  animationType: StarAnimation.bounce,
-  duration: Duration(milliseconds: 600),
-  curve: Curves.elasticOut,
-  useSpringAnimation: true,
-  springStiffness: 120.0,
-  springDamping: 8.0,
-);
+  static const StarAnimationConfig elastic = StarAnimationConfig(
+    animationType: StarAnimation.bounce,
+    duration: Duration(milliseconds: 600),
+    curve: Curves.elasticOut,
+    useSpringAnimation: true,
+    springStiffness: 120.0,
+    springDamping: 8.0,
+  );
 
-static const StarAnimationConfig particles = StarAnimationConfig(
-  animationType: StarAnimation.scale,
-  duration: Duration(milliseconds: 400),
-  useParticleEffects: true,
-  particleCount: 15,
-  particleSize: 3.0,
-);
+  static const StarAnimationConfig particles = StarAnimationConfig(
+    animationType: StarAnimation.scale,
+    duration: Duration(milliseconds: 400),
+    useParticleEffects: true,
+    particleCount: 15,
+    particleSize: 3.0,
+  );
 }

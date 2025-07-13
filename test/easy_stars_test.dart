@@ -67,5 +67,4 @@ void main() {
       expect(rating, greaterThan(0.0));
     });
   });
-
 }

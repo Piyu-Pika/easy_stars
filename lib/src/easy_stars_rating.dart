@@ -8,94 +8,97 @@ import 'enums/star_enums.dart';
 class EasyStarsRating extends StatefulWidget {
   /// Initial rating value
   final double initialRating;
-  
+
   /// Number of stars
   final int starCount;
-  
+
   /// Size of stars
   final double starSize;
-  
+
   /// Color of filled stars
   final Color filledColor;
-  
+
   /// Color of empty stars
   final Color emptyColor;
-  
+
   /// Spacing between stars
   final double spacing;
-  
+
   /// Layout direction
   final StarDirection direction;
-  
+
   /// Animation configuration
   final StarAnimationConfig animationConfig;
-  
+
   /// Callback when rating changes
   final ValueChanged<double>? onRatingChanged;
-  
+
   /// Whether to allow half ratings
   final bool allowHalfRating;
-  
+
   /// Whether to allow clearing rating
   final bool allowClear;
-  
+
   /// Whether to show rating text
   final bool showRatingText;
-  
+
   /// Custom text style for rating display
   final TextStyle? ratingTextStyle;
-  
+
   /// Minimum rating
   final double minRating;
-  
+
   /// Maximum rating
   final double maxRating;
-  
+
   /// Tooltip text
   final String? tooltip;
-  
+
   /// Whether stars are read-only
   final bool readOnly;
+
   /// Custom star widget builder
-  final Widget Function(int index, bool isFilled, bool isHalf)? customStarBuilder;
+  final Widget Function(int index, bool isFilled, bool isHalf)?
+      customStarBuilder;
+
   /// Whether to animate on rating change
   final bool animateOnRatingChange;
 
   // Star arrangement shape
-final StarArrangement arrangement;
+  final StarArrangement arrangement;
 
-/// Star shape type  
-final StarShape starShape;
+  /// Star shape type
+  final StarShape starShape;
 
-/// Size variant
-final StarSizeVariant sizeVariant;
+  /// Size variant
+  final StarSizeVariant sizeVariant;
 
-/// Drag sensitivity
-final DragSensitivity dragSensitivity;
+  /// Drag sensitivity
+  final DragSensitivity dragSensitivity;
 
-/// Gradient colors
-final List<Color>? gradientColors;
+  /// Gradient colors
+  final List<Color>? gradientColors;
 
-/// Star shadow
-final BoxShadow? starShadow;
+  /// Star shadow
+  final BoxShadow? starShadow;
 
-/// Arrangement rotation
-final double arrangementRotation;
+  /// Arrangement rotation
+  final double arrangementRotation;
 
-/// Arrangement radius
-final double arrangementRadius;
+  /// Arrangement radius
+  final double arrangementRadius;
 
-/// Grid columns
-final int gridColumns;
+  /// Grid columns
+  final int gridColumns;
 
-/// Wave amplitude
-final double waveAmplitude;
+  /// Wave amplitude
+  final double waveAmplitude;
 
-/// Custom icons for each star
-final List<IconData>? customIcons;
+  /// Custom icons for each star
+  final List<IconData>? customIcons;
 
-/// Custom colors for each star
-final List<Color>? customColors;
+  /// Custom colors for each star
+  final List<Color>? customColors;
 
   const EasyStarsRating({
     super.key,
@@ -119,17 +122,17 @@ final List<Color>? customColors;
     this.customStarBuilder,
     this.animateOnRatingChange = true,
     this.arrangement = StarArrangement.linear,
-this.starShape = StarShape.star,
-this.sizeVariant = StarSizeVariant.medium,
-this.dragSensitivity = DragSensitivity.medium,
-this.gradientColors,
-this.starShadow,
-this.arrangementRotation = 0.0,
-this.arrangementRadius = 50.0,
-this.gridColumns = 2,
-this.waveAmplitude = 10.0,
-this.customIcons,
-this.customColors,
+    this.starShape = StarShape.star,
+    this.sizeVariant = StarSizeVariant.medium,
+    this.dragSensitivity = DragSensitivity.medium,
+    this.gradientColors,
+    this.starShadow,
+    this.arrangementRotation = 0.0,
+    this.arrangementRadius = 50.0,
+    this.gridColumns = 2,
+    this.waveAmplitude = 10.0,
+    this.customIcons,
+    this.customColors,
   });
 
   @override
@@ -164,17 +167,17 @@ class _EasyStarsRatingState extends State<EasyStarsRating> {
       readOnly: widget.readOnly,
       tooltip: widget.tooltip,
       arrangement: widget.arrangement,
-  starShape: widget.starShape,
-  sizeVariant: widget.sizeVariant,
-  dragSensitivity: widget.dragSensitivity,
-  gradientColors: widget.gradientColors,
-  starShadow: widget.starShadow,
-  arrangementRotation: widget.arrangementRotation,
-  arrangementRadius: widget.arrangementRadius,
-  gridColumns: widget.gridColumns,
-  waveAmplitude: widget.waveAmplitude,
-  customIcons: widget.customIcons,
-  customColors: widget.customColors,
+      starShape: widget.starShape,
+      sizeVariant: widget.sizeVariant,
+      dragSensitivity: widget.dragSensitivity,
+      gradientColors: widget.gradientColors,
+      starShadow: widget.starShadow,
+      arrangementRotation: widget.arrangementRotation,
+      arrangementRadius: widget.arrangementRadius,
+      gridColumns: widget.gridColumns,
+      waveAmplitude: widget.waveAmplitude,
+      customIcons: widget.customIcons,
+      customColors: widget.customColors,
     );
   }
 
