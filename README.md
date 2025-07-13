@@ -1,4 +1,3 @@
-
 # ✨ Easy Stars: Your Flutter Rating Solution! ✨
 
 Add a touch of sparkle to your Flutter app with **Easy Stars** — the all-in-one solution for elegant and customizable star rating widgets. Whether you're looking to collect user feedback or display existing ratings, Easy Stars gives you total control over the look, feel, and behavior of your stars.
@@ -69,7 +68,7 @@ EasyStarsRating(
   },
 )
 ```
-
+![Basic Rating](https://github.com/user-attachments/assets/65446580/ss1.png)
 ---
 
 ### 2. **Custom Appearance with Half Stars**
@@ -88,7 +87,7 @@ EasyStarsRating(
   },
 )
 ```
-
+![Custom Appearance](https://github.com/user-attachments/assets/65446580/ss2.png)
 ---
 
 ### 3. **Read-Only Display with Larger Stars**
@@ -101,6 +100,8 @@ EasyStarsRating(
   filledColor: Colors.purple,
 )
 ```
+![Read-Only Display](https://github.com/user-attachments/assets/65446580/ss3.png)
+
 ### 4. **Vertical Direction**
 
 ```dart
@@ -118,6 +119,7 @@ SizedBox(
   ),
 ),
 ```
+![Vertical Direction](https://github.com/user-attachments/assets/65446580/ss4.png)
 
 ### 5. **Discrete Emoji Selection**
 
@@ -133,6 +135,7 @@ EasyStarsEmoji(
   },
 ),
 ```
+![Discrete Emoji](https://github.com/user-attachments/assets/65446580/ss5.png)
 
 ### 6. **Smooth Emoji Slider**
 
@@ -148,18 +151,18 @@ EasyStarsEmojiSlider(
   },
 ),
 ```
+![Emoji Slider](https://github.com/user-attachments/assets/65446580/ss6.png)
 
 ### 7. **Custom Emojis**
 
 ```dart
 EasyStarsEmoji(
   initialRating: 4.0,
-  customEmojis: ['😡', '😔', '😑', '😃', '🤩'],
+  customEmojis: ['😡', '😔', '😑', '😃', '🤩',
   showRatingText: true,
 )
 ```
-
-
+![Custom Emojis](https://github.com/user-attachments/assets/65446580/ss7.png)
 
 ---
 

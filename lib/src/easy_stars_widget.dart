@@ -333,23 +333,30 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
       return widget.config.customStarBuilder!(index, isFilled, isHalf);
     }
 
-    // Determine star color with hover effect
-    bool isHovered = _hoveredIndex >= 0 && index <= _hoveredIndex;
+// Determine star color with hover effect
+bool isHovered = _hoveredIndex >= 0 && index <= _hoveredIndex;
 
-    if (isHovered && widget.animationConfig.animateOnHover) {
-      // Interpolate between empty and filled color on hover
-      starColor = Color.lerp(
-            widget.config.emptyColor,
-            starColor,
-            hoverValue,
-          ) ??
-          starColor;
-    }
+if (isHovered && widget.animationConfig.animateOnHover) {
+  // Interpolate between empty and filled color on hover
+  starColor = Color.lerp(
+        widget.config.emptyColor,
+        starColor,
+        hoverValue,
+      ) ??
+      starColor;
+  
+  // Use enhanced star icon selection - respect custom icons
+  if (widget.config.customIcons != null && index < widget.config.customIcons!.length) {
+    starIcon = widget.config.customIcons![index];
+  } else {
+    starIcon = widget.config.getIconForShape(widget.config.starShape, true);
+  }
+}
 
     // Use enhanced star icon selection
-    if (isHovered && widget.animationConfig.animateOnHover) {
-      starIcon = widget.config.filledIcon;
-    }
+if (isHovered && widget.animationConfig.animateOnHover) {
+  starIcon = widget.config.getIconForShape(widget.config.starShape, true);
+}
 
     Widget star = Icon(
       starIcon,

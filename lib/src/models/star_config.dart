@@ -269,15 +269,35 @@ class StarConfig {
     }
   }
 
-  IconData getStarIcon(int index, bool isFilled, bool isHalf) {
-    if (customIcons != null && index < customIcons!.length) {
-      return customIcons![index];
-    }
-
-    if (isFilled) return filledIcon;
-    if (isHalf && halfIcon != null) return halfIcon!;
-    return emptyIcon;
+  IconData getIconForShape(StarShape shape, bool isFilled) {
+  switch (shape) {
+    case StarShape.star:
+      return isFilled ? Icons.star : Icons.star_border;
+    case StarShape.heart:
+      return isFilled ? Icons.favorite : Icons.favorite_border;
+    case StarShape.diamond:
+      return isFilled ? Icons.diamond : Icons.diamond_outlined;
+    case StarShape.circle:
+      return isFilled ? Icons.circle : Icons.circle_outlined;
+    case StarShape.square:
+      return isFilled ? Icons.square : Icons.square_outlined;
+    case StarShape.custom:
+      return isFilled ? filledIcon : emptyIcon;
   }
+}
+
+  IconData getStarIcon(int index, bool isFilled, bool isHalf) {
+  if (customIcons != null && index < customIcons!.length) {
+    return customIcons![index];
+  }
+
+  // Use shape-specific icons
+  if (isHalf && halfIcon != null) {
+    return halfIcon!;
+  }
+  
+  return getIconForShape(starShape, isFilled);
+}
 
   Color getStarColor(int index, bool isFilled) {
     if (customColors != null && index < customColors!.length) {

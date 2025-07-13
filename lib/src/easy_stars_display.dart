@@ -63,6 +63,7 @@ class EasyStarsDisplay extends StatefulWidget {
 
   /// Whether to animate on rating change
   final bool animateOnRatingChange;
+  final StarShape starShape;
 
   const EasyStarsDisplay({
     super.key,
@@ -85,6 +86,7 @@ class EasyStarsDisplay extends StatefulWidget {
     this.readOnly = false,
     this.customStarBuilder,
     this.animateOnRatingChange = true,
+    this.starShape = StarShape.star, // Add this line
   });
 
   @override
@@ -118,6 +120,7 @@ class _EasyStarsDisplayState extends State<EasyStarsDisplay> {
       ratingTextStyle: widget.ratingTextStyle,
       readOnly: widget.readOnly,
       tooltip: widget.tooltip,
+      starShape: widget.starShape, // Add this line
     );
   }
 
