@@ -333,36 +333,62 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
       return widget.config.customStarBuilder!(index, isFilled, isHalf);
     }
 
-// Determine star color with hover effect
-bool isHovered = _hoveredIndex >= 0 && index <= _hoveredIndex;
+    // Determine star color with hover effect
+    bool isHovered = _hoveredIndex >= 0 && index <= _hoveredIndex;
 
-if (isHovered && widget.animationConfig.animateOnHover) {
-  // Interpolate between empty and filled color on hover
-  starColor = Color.lerp(
-        widget.config.emptyColor,
-        starColor,
-        hoverValue,
-      ) ??
-      starColor;
-  
-  // Use enhanced star icon selection - respect custom icons
-  if (widget.config.customIcons != null && index < widget.config.customIcons!.length) {
-    starIcon = widget.config.customIcons![index];
-  } else {
-    starIcon = widget.config.getIconForShape(widget.config.starShape, true);
-  }
-}
+    if (isHovered && widget.animationConfig.animateOnHover) {
+      starColor = Color.lerp(
+            widget.config.emptyColor,
+            starColor,
+            hoverValue,
+          ) ??
+          starColor;
+      
+      if (widget.config.customIcons != null && index < widget.config.customIcons!.length) {
+        starIcon = widget.config.customIcons![index];
+      } else {
+        starIcon = widget.config.getIconForShape(widget.config.starShape, true);
+      }
+    }
 
-    // Use enhanced star icon selection
-if (isHovered && widget.animationConfig.animateOnHover) {
-  starIcon = widget.config.getIconForShape(widget.config.starShape, true);
-}
-
-    Widget star = Icon(
-      starIcon,
-      size: starSize,
-      color: starColor,
-    );
+    // Handle half star rendering
+    Widget star;
+    if (isHalf) {
+      // Create a half-filled star using ClipRect and Stack
+      star = SizedBox(
+        width: starSize,
+        height: starSize,
+        child: Stack(
+          children: [
+            // Empty star background
+            Icon(
+              widget.config.getIconForShape(widget.config.starShape, false),
+              size: starSize,
+              color: widget.config.emptyColor,
+            ),
+            // Half-filled star
+            ClipRect(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                widthFactor: 0.5, // Show only half
+                child: Icon(
+                  widget.config.getIconForShape(widget.config.starShape, true),
+                  size: starSize,
+                  color: starColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Regular full or empty star
+      star = Icon(
+        starIcon,
+        size: starSize,
+        color: starColor,
+      );
+    }
 
     // Add gradient if specified
     if (widget.config.gradientColors != null &&
@@ -415,7 +441,9 @@ if (isHovered && widget.animationConfig.animateOnHover) {
 
   bool _isStarHalf(int index) {
     if (widget.config.filling != StarFilling.half) return false;
-    return index == _currentRating.floor() && _currentRating % 1 >= 0.5;
+    return index == _currentRating.floor() && 
+           _currentRating % 1 > 0.0 && 
+           _currentRating % 1 < 0.5;
   }
 
 
