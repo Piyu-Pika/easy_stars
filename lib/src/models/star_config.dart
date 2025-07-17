@@ -124,7 +124,7 @@ class StarConfig {
   /// Size multiplier for each star
   final List<double>? customSizes;
 
-  const StarConfig({
+ StarConfig({
     this.starCount = 5,
     this.rating = 0.0,
     this.starSize = 24.0,

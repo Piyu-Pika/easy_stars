@@ -65,7 +65,7 @@ class EasyStarsDisplay extends StatefulWidget {
   final bool animateOnRatingChange;
   final StarShape starShape;
 
-  const EasyStarsDisplay({
+ EasyStarsDisplay({
     super.key,
     required this.initialRating,
     this.starCount = 5,
