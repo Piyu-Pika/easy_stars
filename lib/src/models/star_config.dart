@@ -142,7 +142,7 @@ class StarConfig {
     this.halfIcon,
     this.customStarBuilder,
     this.minRating = 0.0,
-    this.maxRating = 5.0,
+    double? maxRating ,
     this.allowClear = false,
     this.showRatingText = false,
     this.ratingTextStyle,
@@ -165,7 +165,7 @@ class StarConfig {
     this.customIcons,
     this.customColors,
     this.customSizes,
-  });
+  }): maxRating = maxRating ?? starCount.toDouble();
 
   /// Create a copy of this config with updated values
   StarConfig copyWith({
