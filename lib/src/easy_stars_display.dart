@@ -81,13 +81,13 @@ class EasyStarsDisplay extends StatefulWidget {
     this.showRatingText = false,
     this.ratingTextStyle,
     this.minRating = 0.0,
-    this.maxRating = 5.0,
+    double? maxRating,
     this.tooltip,
     this.readOnly = false,
     this.customStarBuilder,
     this.animateOnRatingChange = true,
     this.starShape = StarShape.star, // Add this line
-  });
+  }): maxRating = maxRating ?? starCount.toDouble();
 
   @override
   State<EasyStarsDisplay> createState() => _EasyStarsDisplayState();
