@@ -116,7 +116,7 @@ class EasyStarsRating extends StatefulWidget {
     this.showRatingText = false,
     this.ratingTextStyle,
     this.minRating = 0.0,
-    this.maxRating = 5.0,
+    double? maxRating,
     this.tooltip,
     this.readOnly = false,
     this.customStarBuilder,
@@ -133,7 +133,7 @@ class EasyStarsRating extends StatefulWidget {
     this.waveAmplitude = 10.0,
     this.customIcons,
     this.customColors,
-  });
+  }): maxRating = maxRating ?? starCount.toDouble();
 
   @override
   State<EasyStarsRating> createState() => _EasyStarsRatingState();
