@@ -23,3 +23,9 @@
 ## 1.0.3
 
 * Bug fixes and improvements
+
+## 1.0.4
+
+* Bup fixes 
+* Half star filling
+ 
