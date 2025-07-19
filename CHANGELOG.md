@@ -28,4 +28,10 @@
 
 * Bup fixes 
 * Half star filling
+
+## 1.0.5
+
+* Bug fixes and improvements
+* Hover for custom star icons
+* half star filling fix
  

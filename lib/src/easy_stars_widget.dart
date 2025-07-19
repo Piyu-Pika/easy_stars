@@ -391,7 +391,7 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
                 child: Icon(
                   widget.config.getIconForShape(widget.config.starShape, true),
                   size: starSize,
-                  color: widget.config.filledColor ?? starColor,
+                  color: widget.config.filledColor,
                 ),
               ),
             ),
