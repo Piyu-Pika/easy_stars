@@ -165,10 +165,21 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
     }
   }
 
-  void _handleStarTap(int index) {
+  void _handleStarTap(int index, TapUpDetails? details) {
     if (widget.config.readOnly) return;
 
-    double newRating = (index + 1).toDouble();
+    double newRating;
+
+    if (widget.config.filling == StarFilling.half && details != null) {
+      final starSize = widget.config.getStarSize(index, context);
+      if (details.localPosition.dx < starSize / 2) {
+        newRating = index + 0.5;
+      } else {
+        newRating = index + 1.0;
+      }
+    } else {
+      newRating = (index + 1).toDouble();
+    }
 
     // Handle clear rating
     if (widget.config.allowClear && _currentRating == newRating) {
@@ -228,6 +239,12 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
     if (details.delta.distance < threshold) return;
 
     double rating = _calculateRatingFromDrag(details, constraints);
+
+    if (widget.config.filling == StarFilling.half) {
+      rating = (rating * 2).round() / 2;
+    } else {
+      rating = rating.round().toDouble();
+    }
 
     if (widget.animationConfig.animateOnDrag) {
       _animateDragFeedback(rating);
@@ -374,7 +391,7 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
                 child: Icon(
                   widget.config.getIconForShape(widget.config.starShape, true),
                   size: starSize,
-                  color: starColor,
+                  color: widget.config.filledColor ?? starColor,
                 ),
               ),
             ),
@@ -430,10 +447,9 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   bool _isStarFilled(int index) {
     switch (widget.config.filling) {
       case StarFilling.full:
-        return index < _currentRating.floor();
+        return index < _currentRating.round();
       case StarFilling.half:
-        return index < _currentRating.floor() ||
-            (index == _currentRating.floor() && _currentRating % 1 >= 0.5);
+        return index < _currentRating.floor();
       case StarFilling.precise:
         return index < _currentRating;
     }
@@ -441,9 +457,8 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
 
   bool _isStarHalf(int index) {
     if (widget.config.filling != StarFilling.half) return false;
-    return index == _currentRating.floor() && 
-           _currentRating % 1 > 0.0 && 
-           _currentRating % 1 < 0.5;
+    return index == _currentRating.floor() &&
+        (_currentRating - _currentRating.floor()) >= 0.5;
   }
 
 
@@ -551,7 +566,7 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
 
       if (widget.config.interactionMode != StarInteractionMode.none) {
         star = GestureDetector(
-          onTap: () => _handleStarTap(i),
+          onTapUp: (details) => _handleStarTap(i, details),
           child: MouseRegion(
             onEnter: (_) => _handleStarHover(i),
             onExit: (_) => _handleStarExit(),
@@ -604,7 +619,7 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
 
         if (widget.config.interactionMode != StarInteractionMode.none) {
           star = GestureDetector(
-            onTap: () => _handleStarTap(i),
+            onTapUp: (details) => _handleStarTap(i, details),
             child: MouseRegion(
               onEnter: (_) => _handleStarHover(i),
               onExit: (_) => _handleStarExit(),
