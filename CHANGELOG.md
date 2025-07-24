@@ -34,4 +34,8 @@
 * Bug fixes and improvements
 * Hover for custom star icons
 * half star filling fix
+
+## 1.0.6
+
+* Bug fixes and improvements
  

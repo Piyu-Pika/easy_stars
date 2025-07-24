@@ -194,7 +194,7 @@ class _EasyStarsEmojiState extends State<EasyStarsEmoji>
       padding: const EdgeInsets.all(4.0),
       decoration: BoxDecoration(
         color: isSelected
-            ? Colors.blue.withOpacity(0.1)
+            ? Colors.blue.withAlpha(30)
             : Colors.transparent,
         borderRadius: BorderRadius.circular(8.0),
         border: isHovered ? Border.all(color: Colors.blue, width: 2.0) : null,
@@ -460,7 +460,7 @@ class _EasyStarsEmojiSliderState extends State<EasyStarsEmojiSlider>
             height: widget.emojiSize + 16,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withAlpha(20),
               border: Border.all(
                 color: _getRatingColor(),
                 width: 2.0,
@@ -492,10 +492,10 @@ class _EasyStarsEmojiSliderState extends State<EasyStarsEmojiSlider>
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
           activeTrackColor: widget.sliderColor ?? _getRatingColor(),
-          inactiveTrackColor: Colors.grey.withOpacity(0.3),
+          inactiveTrackColor: Colors.grey.withAlpha(30),
           thumbColor: widget.sliderColor ?? _getRatingColor(),
           overlayColor:
-              (widget.sliderColor ?? _getRatingColor()).withOpacity(0.2),
+              (widget.sliderColor ?? _getRatingColor()).withAlpha(20),
           thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12.0),
           overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
         ),

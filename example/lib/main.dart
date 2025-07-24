@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:easy_stars/easy_stars.dart';
 
 void main() {
-  runApp(EasyStarsExampleApp());
+  runApp(const EasyStarsExampleApp());
 }
 
 class EasyStarsExampleApp extends StatelessWidget {
+  const EasyStarsExampleApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,22 +16,23 @@ class EasyStarsExampleApp extends StatelessWidget {
         primarySwatch: Colors.amber,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: EasyStarsDemo(),
+      home: const EasyStarsDemo(),
     );
   }
 }
 
 class EasyStarsDemo extends StatefulWidget {
+  const EasyStarsDemo({super.key});
+
   @override
-  _EasyStarsDemoState createState() => _EasyStarsDemoState();
+  EasyStarsDemoState createState() => EasyStarsDemoState();
 }
 
-class _EasyStarsDemoState extends State<EasyStarsDemo> {
+class EasyStarsDemoState extends State<EasyStarsDemo> {
   double _basicRating = 3.0;
   double _halfRating = 2.5;
   double _animatedRating = 4.0;
-  double _customRating = 3.5;
-  double _readOnlyRating = 4.2;
+  final double _readOnlyRating = 4.2;
   double _circularRating = 3.0;
   double _gridRating = 2.8;
   double _waveRating = 3.7;
@@ -42,7 +45,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Easy Stars - Complete Examples'),
+        title: const Text('Easy Stars - Complete Examples'),
         backgroundColor: Colors.amber,
         elevation: 0,
       ),
@@ -55,7 +58,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
         ),
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -75,11 +78,11 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
 
   Widget _buildSection(String title, Widget content) {
     return Card(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 20),
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -91,7 +94,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
                 color: Colors.amber.shade800,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             content,
           ],
         ),
@@ -116,7 +119,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Rating: ${_basicRating.toStringAsFixed(1)}',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Half-Star Rating',
           EasyStarsRating(
@@ -134,7 +137,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Rating: ${_halfRating.toStringAsFixed(1)}',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Read-Only Display',
           EasyStarsDisplay(
@@ -171,7 +174,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Rating: ${_animatedRating.toStringAsFixed(1)}',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Bounce Animation',
           EasyStarsRating(
@@ -184,7 +187,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Tap to see bounce effect',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Rotation Animation',
           EasyStarsRating(
@@ -197,7 +200,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Stars rotate on interaction',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Pulse Animation',
           EasyStarsRating(
@@ -218,7 +221,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Arrangement Examples',
           style: TextStyle(
             fontSize: 22,
@@ -226,7 +229,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
             color: Colors.black87,
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         _buildExample(
           'Circular Arrangement',
           EasyStarsRating(
@@ -244,7 +247,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Rating: ${_circularRating.toStringAsFixed(1)}',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Grid Arrangement',
           EasyStarsRating(
@@ -263,7 +266,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Rating: ${_gridRating.toStringAsFixed(1)}',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Wave Arrangement',
           EasyStarsRating(
@@ -281,7 +284,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Rating: ${_waveRating.toStringAsFixed(1)}',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Spiral Arrangement',
           EasyStarsRating(
@@ -315,7 +318,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Use emojis as stars',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Emoji Rating with custom icons',
           EasyStarsEmojiSlider(
@@ -344,14 +347,14 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Heart-shaped rating',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Gradient Colors',
           EasyStarsRating(
             initialRating: _gradientRating,
             starCount: 5,
             starSize: 30,
-            gradientColors: [Colors.yellow, Colors.orange, Colors.red],
+            gradientColors: const [Colors.yellow, Colors.orange, Colors.red],
             onRatingChanged: (rating) {
               setState(() {
                 _gradientRating = rating;
@@ -360,21 +363,21 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Rating: ${_gradientRating.toStringAsFixed(1)}',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Custom Icons',
           EasyStarsRating(
             initialRating: _multiShapeRating,
             starCount: 5,
             starSize: 28,
-            customIcons: [
+            customIcons: const [
               Icons.favorite,
               Icons.star,
               Icons.thumb_up,
               Icons.mood,
               Icons.emoji_events,
             ],
-            customColors: [
+            customColors: const [
               Colors.red,
               Colors.amber,
               Colors.blue,
@@ -413,7 +416,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Rating: ${_dragRating.toStringAsFixed(1)} - Drag to rate',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Clearable Rating',
           EasyStarsRating(
@@ -430,7 +433,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Tap same star to clear',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Vertical Layout',
           EasyStarsRating(
@@ -465,8 +468,8 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
                     filledColor: Colors.blue,
                     onRatingChanged: (rating) {},
                   ),
-                  SizedBox(height: 4),
-                  Text('Small', style: TextStyle(fontSize: 12)),
+                  const SizedBox(height: 4),
+                  const Text('Small', style: TextStyle(fontSize: 12)),
                 ],
               ),
               Column(
@@ -478,8 +481,8 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
                     filledColor: Colors.green,
                     onRatingChanged: (rating) {},
                   ),
-                  SizedBox(height: 4),
-                  Text('Medium', style: TextStyle(fontSize: 12)),
+                  const SizedBox(height: 4),
+                  const Text('Medium', style: TextStyle(fontSize: 12)),
                 ],
               ),
               Column(
@@ -491,22 +494,22 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
                     filledColor: Colors.red,
                     onRatingChanged: (rating) {},
                   ),
-                  SizedBox(height: 4),
-                  Text('Large', style: TextStyle(fontSize: 12)),
+                  const SizedBox(height: 4),
+                  const Text('Large', style: TextStyle(fontSize: 12)),
                 ],
               ),
             ],
           ),
           'Different size variants',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'With Shadow',
           EasyStarsRating(
             initialRating: 4.0,
             starCount: 5,
             starSize: 32,
-            starShadow: BoxShadow(
+            starShadow: const BoxShadow(
               color: Colors.black26,
               blurRadius: 2,
               offset: Offset(1, 1),
@@ -516,7 +519,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Stars with shadow effect',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Rotated Arrangement',
           EasyStarsRating(
@@ -529,7 +532,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
           ),
           'Rotated star arrangement',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         _buildExample(
           'Arc Arrangement',
           EasyStarsRating(
@@ -550,7 +553,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
   Widget _buildExample(String title, Widget widget, String description) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -567,9 +570,9 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
               color: Colors.grey.shade800,
             ),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Center(child: widget),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             description,
             style: TextStyle(
@@ -667,9 +670,9 @@ class StarThemes {
       spacing: 6,
       gradientColors: [Colors.yellow, Colors.orange],
       starShadow: BoxShadow(
-        color: Colors.amber.withOpacity(0.3),
+        color: Colors.amber.withAlpha(77),
         blurRadius: 4,
-        offset: Offset(0, 2),
+        offset: const Offset(0, 2),
       ),
     );
   }
