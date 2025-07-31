@@ -39,3 +39,7 @@
 
 * Bug fixes and improvements
  
+ ## 1.0.7
+
+ * Bug fixes and improvements
+ * Bottom sheet support

@@ -124,7 +124,7 @@ class StarConfig {
   /// Size multiplier for each star
   final List<double>? customSizes;
 
- StarConfig({
+  StarConfig({
     this.starCount = 5,
     this.rating = 0.0,
     this.starSize = 24.0,
@@ -142,7 +142,7 @@ class StarConfig {
     this.halfIcon,
     this.customStarBuilder,
     this.minRating = 0.0,
-    double? maxRating ,
+    double? maxRating,
     this.allowClear = false,
     this.showRatingText = false,
     this.ratingTextStyle,
@@ -165,7 +165,7 @@ class StarConfig {
     this.customIcons,
     this.customColors,
     this.customSizes,
-  }): maxRating = maxRating ?? starCount.toDouble();
+  }) : maxRating = maxRating ?? starCount.toDouble();
 
   /// Create a copy of this config with updated values
   StarConfig copyWith({
@@ -270,34 +270,34 @@ class StarConfig {
   }
 
   IconData getIconForShape(StarShape shape, bool isFilled) {
-  switch (shape) {
-    case StarShape.star:
-      return isFilled ? Icons.star : Icons.star_border;
-    case StarShape.heart:
-      return isFilled ? Icons.favorite : Icons.favorite_border;
-    case StarShape.diamond:
-      return isFilled ? Icons.diamond : Icons.diamond_outlined;
-    case StarShape.circle:
-      return isFilled ? Icons.circle : Icons.circle_outlined;
-    case StarShape.square:
-      return isFilled ? Icons.square : Icons.square_outlined;
-    case StarShape.custom:
-      return isFilled ? filledIcon : emptyIcon;
+    switch (shape) {
+      case StarShape.star:
+        return isFilled ? Icons.star : Icons.star_border;
+      case StarShape.heart:
+        return isFilled ? Icons.favorite : Icons.favorite_border;
+      case StarShape.diamond:
+        return isFilled ? Icons.diamond : Icons.diamond_outlined;
+      case StarShape.circle:
+        return isFilled ? Icons.circle : Icons.circle_outlined;
+      case StarShape.square:
+        return isFilled ? Icons.square : Icons.square_outlined;
+      case StarShape.custom:
+        return isFilled ? filledIcon : emptyIcon;
+    }
   }
-}
 
   IconData getStarIcon(int index, bool isFilled, bool isHalf) {
-  if (customIcons != null && index < customIcons!.length) {
-    return customIcons![index];
-  }
+    if (customIcons != null && index < customIcons!.length) {
+      return customIcons![index];
+    }
 
-  // Use shape-specific icons
-  if (isHalf && halfIcon != null) {
-    return halfIcon!;
+    // Use shape-specific icons
+    if (isHalf && halfIcon != null) {
+      return halfIcon!;
+    }
+
+    return getIconForShape(starShape, isFilled);
   }
-  
-  return getIconForShape(starShape, isFilled);
-}
 
   Color getStarColor(int index, bool isFilled) {
     if (customColors != null && index < customColors!.length) {

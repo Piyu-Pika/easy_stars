@@ -467,6 +467,63 @@ EasyStarsEmoji(
 
 ---
 
+## 8️⃣ Bottom Sheet
+
+![BottomSheet](assets\bottomsheet.png)
+
+```dart
+EasyStarsReviewBottomSheet.show(
+                  context: context,
+                  title: 'Advanced Review',
+                  subtitle: 'Tell us about your detailed experience',
+                  initialRating: 0.0,
+                  reviewType: ReviewType.stars,
+                  allowModeSwitch: true,
+                  allowHalfRating: true,
+                  isCommentRequired: true,
+                  minCharacters: 10,
+                  maxCharacters: 300,
+                  showRatingLabels: true,
+                  animationConfig: StarAnimationConfig.bounce,
+                  filledColor: Colors.orange,
+                  emptyColor: Colors.grey.shade300,
+                  starCount: 5,
+                  ratingSize: 36.0,
+                  customRatingLabels: ['Terrible', 'Poor', 'Okay', 'Good', 'Amazing'],
+                  hintText: 'Please share your detailed feedback...',
+                  headerWidgets: [
+                    Card(
+                      color: Colors.orange.shade50,
+                      child: const Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.shopping_bag, color: Colors.orange),
+                            SizedBox(width: 8),
+                            Text(
+                              'Product: Easy Stars Package',
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                  footerWidgets: [
+                    CheckboxListTile(
+                      title: const Text('Recommend to others'),
+                      subtitle: const Text('Would you recommend this to friends?'),
+                      value: true,
+                      onChanged: (value) {},
+                      dense: true,
+                    ),
+                  ],
+                );
+                
+```
+
+---
+
 ## 📚 Additional Resources
 
 * 📁 Explore the `example/` directory for full implementation

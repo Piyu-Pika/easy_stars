@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:easy_stars/easy_stars.dart';
 
@@ -11,10 +13,12 @@ class EasyStarsExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: ThemeMode.dark,
       title: 'Easy Stars Complete Example',
       theme: ThemeData(
         primarySwatch: Colors.amber,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        
       ),
       home: const EasyStarsDemo(),
     );
@@ -25,10 +29,11 @@ class EasyStarsDemo extends StatefulWidget {
   const EasyStarsDemo({super.key});
 
   @override
-  EasyStarsDemoState createState() => EasyStarsDemoState();
+  // ignore: library_private_types_in_public_api
+  _EasyStarsDemoState createState() => _EasyStarsDemoState();
 }
 
-class EasyStarsDemoState extends State<EasyStarsDemo> {
+class _EasyStarsDemoState extends State<EasyStarsDemo> {
   double _basicRating = 3.0;
   double _halfRating = 2.5;
   double _animatedRating = 4.0;
@@ -40,6 +45,10 @@ class EasyStarsDemoState extends State<EasyStarsDemo> {
   double _gradientRating = 3.3;
   double _dragRating = 2.9;
   double _multiShapeRating = 3.6;
+  final _formKey = GlobalKey<FormState>();
+  double _formRating = 3.0;
+  StarConfig _currentTheme = StarThemes.heartTheme();
+  double _themedRating = 4.0;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +77,10 @@ class EasyStarsDemoState extends State<EasyStarsDemo> {
               _buildSection('Custom Shapes & Colors', _buildCustomExamples()),
               _buildSection('Interactive Features', _buildInteractiveExamples()),
               _buildSection('Advanced Features', _buildAdvancedExamples()),
-              _buildSection('Emoji Rating', _buildEmojiExamples()),
+              _buildSection('Emoji', _buildEmojiExamples()),
+              _buildSection('Form Integration', _buildFormExample()),
+              _buildSection('Dynamic Theming', _buildThemingExample()),
+              _buildSection('Review Bottom Sheet Tests', _buildReviewBottomSheetExamples()),
             ],
           ),
         ),
@@ -108,6 +120,8 @@ class EasyStarsDemoState extends State<EasyStarsDemo> {
         _buildExample(
           'Basic 5-Star Rating',
           EasyStarsRating(
+            // allowPreciseRating: true,
+            // rtl: true,
             initialRating: _basicRating,
             starCount: 5,
             starSize: 30,
@@ -217,6 +231,227 @@ class EasyStarsDemoState extends State<EasyStarsDemo> {
     );
   }
 
+  Widget _buildReviewBottomSheetExamples() {
+  return Column(
+    children: [
+      _buildExample(
+        'Review Bottom Sheet Tests',
+        Column(
+          children: [
+            // Basic Review Bottom Sheet Button
+            ElevatedButton.icon(
+              onPressed: () async {
+                final reviewData = await context.showReviewBottomSheet(
+                  title: 'Basic Review',
+                  subtitle: 'Rate this product',
+                  initialRating: 3.0,
+                  reviewType: ReviewType.stars,
+                  allowModeSwitch: false,
+                );
+                
+                if (reviewData != null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Basic Review - Rating: ${reviewData.rating}, Comment: ${reviewData.comment}',
+                      ),
+                      duration: const Duration(seconds: 3),
+                    ),
+                  );
+                }
+              },
+              icon: const Icon(Icons.star),
+              label: const Text('Basic Review'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                minimumSize: const Size(double.infinity, 48),
+              ),
+            ),
+            
+            const SizedBox(height: 12),
+            
+            // Advanced Review Bottom Sheet Button
+            ElevatedButton.icon(
+              onPressed: () async {
+                final reviewData = await EasyStarsReviewBottomSheet.show(
+                  context: context,
+                  title: 'Advanced Review',
+                  subtitle: 'Tell us about your detailed experience',
+                  initialRating: 0.0,
+                  reviewType: ReviewType.stars,
+                  allowModeSwitch: true,
+                  allowHalfRating: true,
+                  isCommentRequired: true,
+                  minCharacters: 10,
+                  maxCharacters: 300,
+                  showRatingLabels: true,
+                  animationConfig: StarAnimationConfig.bounce,
+                  filledColor: Colors.orange,
+                  emptyColor: Colors.grey.shade300,
+                  starCount: 5,
+                  ratingSize: 36.0,
+                  customRatingLabels: ['Terrible', 'Poor', 'Okay', 'Good', 'Amazing'],
+                  hintText: 'Please share your detailed feedback...',
+                  headerWidgets: [
+                    Card(
+                      color: Colors.orange.shade50,
+                      child: const Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.shopping_bag, color: Colors.orange),
+                            SizedBox(width: 8),
+                            Text(
+                              'Product: Easy Stars Package',
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                  footerWidgets: [
+                    CheckboxListTile(
+                      title: const Text('Recommend to others'),
+                      subtitle: const Text('Would you recommend this to friends?'),
+                      value: true,
+                      onChanged: (value) {},
+                      dense: true,
+                    ),
+                  ],
+                );
+                
+                if (reviewData != null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Advanced Review Submitted:'),
+                          Text('Rating: ${reviewData.rating}/5'),
+                          Text('Type: ${reviewData.reviewType.name}'),
+                          if (reviewData.comment.isNotEmpty)
+                            Text('Comment: ${reviewData.comment}'),
+                        ],
+                      ),
+                      duration: const Duration(seconds: 4),
+                    ),
+                  );
+                }
+              },
+              icon: const Icon(Icons.settings),
+              label: const Text('Advanced Review'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                foregroundColor: Colors.white,
+                minimumSize: const Size(double.infinity, 48),
+              ),
+            ),
+            
+            const SizedBox(height: 12),
+            
+            // Emoji Review Bottom Sheet Button
+            ElevatedButton.icon(
+              onPressed: () async {
+                final reviewData = await EasyStarsReviewBottomSheet.show(
+                  context: context,
+                  title: 'Emoji Review',
+                  subtitle: 'How do you feel about this?',
+                  initialRating: 4.0,
+                  reviewType: ReviewType.emoji,
+                  allowModeSwitch: true,
+                  allowHalfRating: false,
+                  isCommentRequired: false,
+                  maxCharacters: 200,
+                  showRatingLabels: true,
+                  animationConfig: StarAnimationConfig.scale,
+                  ratingSize: 40.0,
+                  customEmojis: ['😭', '😢', '😐', '😊', '🤩'],
+                  customRatingLabels: ['Awful', 'Sad', 'Neutral', 'Happy', 'Ecstatic'],
+                  hintText: 'Share your feelings about this experience...',
+                  submitButtonText: 'Share Feeling',
+                  headerWidgets: [
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.pink.shade100, Colors.purple.shade100],
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.emoji_emotions, color: Colors.purple),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Express yourself with emojis!',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.purple.shade700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+                
+                if (reviewData != null) {
+                  String emojiMap = '';
+                  switch (reviewData.rating.toInt()) {
+                    case 1: emojiMap = '😭'; break;
+                    case 2: emojiMap = '😢'; break;
+                    case 3: emojiMap = '😐'; break;
+                    case 4: emojiMap = '😊'; break;
+                    case 5: emojiMap = '🤩'; break;
+                    default: emojiMap = '😐';
+                  }
+                  
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Row(
+                        children: [
+                          Text(emojiMap, style: const TextStyle(fontSize: 24)),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Emoji Review: ${reviewData.rating}/5'),
+                                if (reviewData.comment.isNotEmpty)
+                                  Text('Feeling: ${reviewData.comment}'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      duration: const Duration(seconds: 3),
+                      backgroundColor: Colors.purple.shade400,
+                    ),
+                  );
+                }
+              },
+              icon: const Icon(Icons.emoji_emotions),
+              label: const Text('Emoji Review'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple,
+                foregroundColor: Colors.white,
+                minimumSize: const Size(double.infinity, 48),
+              ),
+            ),
+          ],
+        ),
+        'Test different review bottom sheet configurations',
+      ),
+    ],
+  );
+}
+
+
   Widget _buildArrangementExamples() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,7 +469,7 @@ class EasyStarsDemoState extends State<EasyStarsDemo> {
           'Circular Arrangement',
           EasyStarsRating(
             initialRating: _circularRating,
-            starCount: 6,
+            starCount: 12,
             starSize: 24,
             arrangement: StarArrangement.arc,
             arrangementRadius: 60,
@@ -271,7 +506,7 @@ class EasyStarsDemoState extends State<EasyStarsDemo> {
           'Wave Arrangement',
           EasyStarsRating(
             initialRating: _waveRating,
-            starCount: 7,
+            starCount: 10,
             starSize: 26,
             arrangement: StarArrangement.wave,
             waveAmplitude: 15,
@@ -313,7 +548,6 @@ class EasyStarsDemoState extends State<EasyStarsDemo> {
           'Emoji Rating',
           EasyStarsEmoji(
             initialRating: 4.5,
-            
             onRatingChanged: (rating) {},
           ),
           'Use emojis as stars',
@@ -550,6 +784,141 @@ class EasyStarsDemoState extends State<EasyStarsDemo> {
     );
   }
 
+  Widget _buildFormExample() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          FormField<double>(
+            initialValue: _formRating,
+            validator: (value) {
+              if (value == 0) {
+                return 'Please provide a rating';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              _formRating = value ?? 0;
+            },
+            builder: (FormFieldState<double> state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  EasyStarsRating(
+                    initialRating: state.value ?? 0,
+                    onRatingChanged: (rating) {
+                      state.didChange(rating);
+                    },
+                    starCount: 5,
+                    starSize: 30,
+                    filledColor: Colors.blue,
+                  ),
+                  if (state.hasError)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        state.errorText!,
+                        style: const TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content:
+                          Text('Form submitted with rating: $_formRating')),
+                );
+              }
+            },
+            child: const Text('Submit Review'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildThemingExample() {
+    return Column(
+      children: [
+        _buildExample(
+          'Switch Themes',
+          EasyStarsRating(
+            animationConfig: StarAnimationConfig.pulse ,
+
+            initialRating: _themedRating,
+            onRatingChanged: (rating) {
+              setState(() {
+                _themedRating = rating;
+              });
+            },
+            allowHalfRating: true,
+            starCount: 5,
+            filledColor: _currentTheme.filledColor ?? Colors.amber,
+            emptyColor: _currentTheme.emptyColor ?? Colors.grey,
+            starSize: _currentTheme.starSize ?? 30.0,
+            spacing: _currentTheme.spacing ?? 2.0,
+            gradientColors: _currentTheme.gradientColors,
+            starShadow: _currentTheme.starShadow,
+            starShape: _currentTheme.starShape ?? StarShape.star,
+            
+            
+          ),
+          'Current theme: ${_getThemeName()}',
+        ),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _currentTheme = StarThemes.goldTheme();
+                });
+              },
+              child: const Text('Gold'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _currentTheme = StarThemes.darkTheme();
+                });
+              },
+              child: const Text('Dark'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _currentTheme = StarThemes.heartTheme();
+                });
+              },
+              child: const Text('Heart'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  String _getThemeName() {
+    if (_currentTheme.filledColor == StarThemes.goldTheme().filledColor) {
+      return 'Gold';
+    }
+    if (_currentTheme.filledColor == StarThemes.darkTheme().filledColor) {
+      return 'Dark';
+    }
+    if (_currentTheme.filledColor == StarThemes.heartTheme().filledColor) {
+      return 'Heart';
+    }
+    return 'Unknown';
+  }
+
   Widget _buildExample(String title, Widget widget, String description) {
     return Container(
       width: double.infinity,
@@ -660,6 +1029,34 @@ class CustomAnimations {
   );
 }
 
+class StarConfig {
+  final Color? filledColor;
+  final Color? emptyColor;
+  final double? starSize;
+  final double? spacing;
+  final List<Color>? gradientColors;
+  final BoxShadow? starShadow;
+  final Color? borderColor;
+  final double? borderWidth;
+  final StarShape? starShape;
+  final StarArrangement? arrangement;
+  final double? arrangementRadius;
+
+  StarConfig({
+    this.filledColor,
+    this.emptyColor,
+    this.starSize,
+    this.spacing,
+    this.gradientColors,
+    this.starShadow,
+    this.borderColor,
+    this.borderWidth,
+    this.starShape,
+    this.arrangement,
+    this.arrangementRadius,
+  });
+}
+
 // Helper class for creating themed star configurations
 class StarThemes {
   static StarConfig goldTheme() {
@@ -670,7 +1067,7 @@ class StarThemes {
       spacing: 6,
       gradientColors: [Colors.yellow, Colors.orange],
       starShadow: BoxShadow(
-        color: Colors.amber.withAlpha(77),
+        color: Colors.amber.withAlpha(75),
         blurRadius: 4,
         offset: const Offset(0, 2),
       ),

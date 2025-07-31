@@ -7,3 +7,4 @@ export 'src/models/star_config.dart';
 export 'src/models/star_animation_config.dart';
 export 'src/enums/star_enums.dart';
 export 'src/emoji_rating_widgets.dart';
+export 'src/easy_stars_review_bottom_sheet.dart';

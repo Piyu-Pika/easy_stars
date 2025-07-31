@@ -65,7 +65,7 @@ class EasyStarsDisplay extends StatefulWidget {
   final bool animateOnRatingChange;
   final StarShape starShape;
 
- EasyStarsDisplay({
+  EasyStarsDisplay({
     super.key,
     required this.initialRating,
     this.starCount = 5,
@@ -87,7 +87,7 @@ class EasyStarsDisplay extends StatefulWidget {
     this.customStarBuilder,
     this.animateOnRatingChange = true,
     this.starShape = StarShape.star, // Add this line
-  }): maxRating = maxRating ?? starCount.toDouble();
+  }) : maxRating = maxRating ?? starCount.toDouble();
 
   @override
   State<EasyStarsDisplay> createState() => _EasyStarsDisplayState();

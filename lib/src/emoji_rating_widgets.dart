@@ -193,9 +193,7 @@ class _EasyStarsEmojiState extends State<EasyStarsEmoji>
     return Container(
       padding: const EdgeInsets.all(4.0),
       decoration: BoxDecoration(
-        color: isSelected
-            ? Colors.blue.withAlpha(30)
-            : Colors.transparent,
+        color: isSelected ? Colors.blue.withAlpha(30) : Colors.transparent,
         borderRadius: BorderRadius.circular(8.0),
         border: isHovered ? Border.all(color: Colors.blue, width: 2.0) : null,
       ),
@@ -494,8 +492,7 @@ class _EasyStarsEmojiSliderState extends State<EasyStarsEmojiSlider>
           activeTrackColor: widget.sliderColor ?? _getRatingColor(),
           inactiveTrackColor: Colors.grey.withAlpha(30),
           thumbColor: widget.sliderColor ?? _getRatingColor(),
-          overlayColor:
-              (widget.sliderColor ?? _getRatingColor()).withAlpha(20),
+          overlayColor: (widget.sliderColor ?? _getRatingColor()).withAlpha(20),
           thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12.0),
           overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
         ),

@@ -100,7 +100,7 @@ class EasyStarsRating extends StatefulWidget {
   /// Custom colors for each star
   final List<Color>? customColors;
 
-   EasyStarsRating({
+  EasyStarsRating({
     super.key,
     required this.initialRating,
     this.starCount = 5,
@@ -133,7 +133,7 @@ class EasyStarsRating extends StatefulWidget {
     this.waveAmplitude = 10.0,
     this.customIcons,
     this.customColors,
-  }): maxRating = maxRating ?? starCount.toDouble();
+  }) : maxRating = maxRating ?? starCount.toDouble();
 
   @override
   State<EasyStarsRating> createState() => _EasyStarsRatingState();
@@ -146,7 +146,6 @@ class _EasyStarsRatingState extends State<EasyStarsRating> {
   void initState() {
     super.initState();
     _config = StarConfig(
-      
       starCount: widget.starCount,
       rating: widget.initialRating,
       starSize: widget.starSize,
