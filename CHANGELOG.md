@@ -41,5 +41,8 @@
  
  ## 1.0.7
 
- * Bug fixes and improvements
- * Bottom sheet support
+ * code optimization for future update
+
+ ## 1.0.8
+ * Added support for bottom sheet
+ * Added support for review bottom sheet
