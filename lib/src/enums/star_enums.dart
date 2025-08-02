@@ -85,3 +85,20 @@ enum StarShape {
   square,
   custom,
 }
+
+enum ButtonLayoutConfig {
+  /// Buttons in a horizontal row
+  row,
+
+  /// Buttons in a vertical column
+  column,
+
+  /// Submit button only (full width)
+  submitOnly,
+
+  /// Cancel button only (full width)
+  cancelOnly,
+
+  /// Custom layout
+  custom,
+}

@@ -46,3 +46,11 @@
  ## 1.0.8
  * Added support for bottom sheet
  * Added support for review bottom sheet
+
+## 1.0.9
+
+* Bug fixes and improvements
+* Added support for custom submit and cancel buttons
+* Added support for custom button row
+* Added support for custom button layout
+

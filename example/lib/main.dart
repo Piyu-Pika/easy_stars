@@ -18,7 +18,6 @@ class EasyStarsExampleApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        
       ),
       home: const EasyStarsDemo(),
     );
@@ -75,12 +74,14 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
               _buildSection('Animation Examples', _buildAnimationExamples()),
               _buildSection('Arrangements', _buildArrangementExamples()),
               _buildSection('Custom Shapes & Colors', _buildCustomExamples()),
-              _buildSection('Interactive Features', _buildInteractiveExamples()),
+              _buildSection(
+                  'Interactive Features', _buildInteractiveExamples()),
               _buildSection('Advanced Features', _buildAdvancedExamples()),
               _buildSection('Emoji', _buildEmojiExamples()),
               _buildSection('Form Integration', _buildFormExample()),
               _buildSection('Dynamic Theming', _buildThemingExample()),
-              _buildSection('Review Bottom Sheet Tests', _buildReviewBottomSheetExamples()),
+              _buildSection('Review Bottom Sheet Tests',
+                  _buildReviewBottomSheetExamples()),
             ],
           ),
         ),
@@ -232,225 +233,253 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
   }
 
   Widget _buildReviewBottomSheetExamples() {
-  return Column(
-    children: [
-      _buildExample(
-        'Review Bottom Sheet Tests',
-        Column(
-          children: [
-            // Basic Review Bottom Sheet Button
-            ElevatedButton.icon(
-              onPressed: () async {
-                final reviewData = await context.showReviewBottomSheet(
-                  title: 'Basic Review',
-                  subtitle: 'Rate this product',
-                  initialRating: 3.0,
-                  reviewType: ReviewType.stars,
-                  allowModeSwitch: false,
-                );
-                
-                if (reviewData != null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Basic Review - Rating: ${reviewData.rating}, Comment: ${reviewData.comment}',
-                      ),
-                      duration: const Duration(seconds: 3),
-                    ),
+    return Column(
+      children: [
+        _buildExample(
+          'Review Bottom Sheet Tests',
+          Column(
+            children: [
+              // Basic Review Bottom Sheet Button
+              ElevatedButton.icon(
+                onPressed: () async {
+                  final reviewData = await context.showReviewBottomSheet(
+                    title: 'Basic Review',
+                    subtitle: 'Rate this product',
+                    initialRating: 3.0,
+                    reviewType: ReviewType.stars,
+                    allowModeSwitch: false,
                   );
-                }
-              },
-              icon: const Icon(Icons.star),
-              label: const Text('Basic Review'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(double.infinity, 48),
+
+                  if (reviewData != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Basic Review - Rating: ${reviewData.rating}, Comment: ${reviewData.comment}',
+                        ),
+                        duration: const Duration(seconds: 3),
+                      ),
+                    );
+                  }
+                },
+                icon: const Icon(Icons.star),
+                label: const Text('Basic Review'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(double.infinity, 48),
+                ),
               ),
-            ),
-            
-            const SizedBox(height: 12),
-            
-            // Advanced Review Bottom Sheet Button
-            ElevatedButton.icon(
-              onPressed: () async {
-                final reviewData = await EasyStarsReviewBottomSheet.show(
-                  context: context,
-                  title: 'Advanced Review',
-                  subtitle: 'Tell us about your detailed experience',
-                  initialRating: 0.0,
-                  reviewType: ReviewType.stars,
-                  allowModeSwitch: true,
-                  allowHalfRating: true,
-                  isCommentRequired: true,
-                  minCharacters: 10,
-                  maxCharacters: 300,
-                  showRatingLabels: true,
-                  animationConfig: StarAnimationConfig.bounce,
-                  filledColor: Colors.orange,
-                  emptyColor: Colors.grey.shade300,
-                  starCount: 5,
-                  ratingSize: 36.0,
-                  customRatingLabels: ['Terrible', 'Poor', 'Okay', 'Good', 'Amazing'],
-                  hintText: 'Please share your detailed feedback...',
-                  headerWidgets: [
-                    Card(
-                      color: Colors.orange.shade50,
-                      child: const Padding(
-                        padding: EdgeInsets.all(12.0),
-                        child: Row(
+
+              const SizedBox(height: 12),
+
+              // Advanced Review Bottom Sheet Button
+              ElevatedButton.icon(
+                onPressed: () async {
+                  final reviewData = await EasyStarsReviewBottomSheet.show(
+                    context: context,
+                    title: 'Advanced Review',
+                    subtitle: 'Tell us about your detailed experience',
+                    initialRating: 0.0,
+                    reviewType: ReviewType.stars,
+                    allowModeSwitch: true,
+                    allowHalfRating: true,
+                    isCommentRequired: true,
+                    minCharacters: 10,
+                    maxCharacters: 300,
+                    showRatingLabels: true,
+                    animationConfig: StarAnimationConfig.bounce,
+                    filledColor: Colors.orange,
+                    emptyColor: Colors.grey.shade300,
+                    starCount: 5,
+                    ratingSize: 36.0,
+                    customRatingLabels: [
+                      'Terrible',
+                      'Poor',
+                      'Okay',
+                      'Good',
+                      'Amazing'
+                    ],
+                    hintText: 'Please share your detailed feedback...',
+                    headerWidgets: [
+                      Card(
+                        color: Colors.orange.shade50,
+                        child: const Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.shopping_bag, color: Colors.orange),
+                              SizedBox(width: 8),
+                              Text(
+                                'Product: Easy Stars Package',
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                    footerWidgets: [
+                      CheckboxListTile(
+                        title: const Text('Recommend to others'),
+                        subtitle:
+                            const Text('Would you recommend this to friends?'),
+                        value: true,
+                        onChanged: (value) {},
+                        dense: true,
+                      ),
+                    ],
+                  );
+
+                  if (reviewData != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.shopping_bag, color: Colors.orange),
-                            SizedBox(width: 8),
+                            const Text('Advanced Review Submitted:'),
+                            Text('Rating: ${reviewData.rating}/5'),
+                            Text('Type: ${reviewData.reviewType.name}'),
+                            if (reviewData.comment.isNotEmpty)
+                              Text('Comment: ${reviewData.comment}'),
+                          ],
+                        ),
+                        duration: const Duration(seconds: 4),
+                      ),
+                    );
+                  }
+                },
+                icon: const Icon(Icons.settings),
+                label: const Text('Advanced Review'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(double.infinity, 48),
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // Emoji Review Bottom Sheet Button
+              ElevatedButton.icon(
+                onPressed: () async {
+                  final reviewData = await EasyStarsReviewBottomSheet.show(
+                    context: context,
+                    title: 'Emoji Review',
+                    subtitle: 'How do you feel about this?',
+                    initialRating: 4.0,
+                    reviewType: ReviewType.emoji,
+                    allowModeSwitch: true,
+                    allowHalfRating: false,
+                    isCommentRequired: false,
+                    maxCharacters: 200,
+                    showRatingLabels: true,
+                    animationConfig: StarAnimationConfig.scale,
+                    ratingSize: 40.0,
+                    customEmojis: ['😭', '😢', '😐', '😊', '🤩'],
+                    customRatingLabels: [
+                      'Awful',
+                      'Sad',
+                      'Neutral',
+                      'Happy',
+                      'Ecstatic'
+                    ],
+                    hintText: 'Share your feelings about this experience...',
+                    submitButtonText: 'Share Feeling',
+                    headerWidgets: [
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.pink.shade100,
+                              Colors.purple.shade100
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.emoji_emotions,
+                                color: Colors.purple),
+                            const SizedBox(width: 8),
                             Text(
-                              'Product: Easy Stars Package',
-                              style: TextStyle(fontWeight: FontWeight.w500),
+                              'Express yourself with emojis!',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.purple.shade700,
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                  footerWidgets: [
-                    CheckboxListTile(
-                      title: const Text('Recommend to others'),
-                      subtitle: const Text('Would you recommend this to friends?'),
-                      value: true,
-                      onChanged: (value) {},
-                      dense: true,
-                    ),
-                  ],
-                );
-                
-                if (reviewData != null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Advanced Review Submitted:'),
-                          Text('Rating: ${reviewData.rating}/5'),
-                          Text('Type: ${reviewData.reviewType.name}'),
-                          if (reviewData.comment.isNotEmpty)
-                            Text('Comment: ${reviewData.comment}'),
-                        ],
-                      ),
-                      duration: const Duration(seconds: 4),
-                    ),
+                    ],
                   );
-                }
-              },
-              icon: const Icon(Icons.settings),
-              label: const Text('Advanced Review'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(double.infinity, 48),
-              ),
-            ),
-            
-            const SizedBox(height: 12),
-            
-            // Emoji Review Bottom Sheet Button
-            ElevatedButton.icon(
-              onPressed: () async {
-                final reviewData = await EasyStarsReviewBottomSheet.show(
-                  context: context,
-                  title: 'Emoji Review',
-                  subtitle: 'How do you feel about this?',
-                  initialRating: 4.0,
-                  reviewType: ReviewType.emoji,
-                  allowModeSwitch: true,
-                  allowHalfRating: false,
-                  isCommentRequired: false,
-                  maxCharacters: 200,
-                  showRatingLabels: true,
-                  animationConfig: StarAnimationConfig.scale,
-                  ratingSize: 40.0,
-                  customEmojis: ['😭', '😢', '😐', '😊', '🤩'],
-                  customRatingLabels: ['Awful', 'Sad', 'Neutral', 'Happy', 'Ecstatic'],
-                  hintText: 'Share your feelings about this experience...',
-                  submitButtonText: 'Share Feeling',
-                  headerWidgets: [
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Colors.pink.shade100, Colors.purple.shade100],
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.emoji_emotions, color: Colors.purple),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Express yourself with emojis!',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.purple.shade700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-                
-                if (reviewData != null) {
-                  String emojiMap = '';
-                  switch (reviewData.rating.toInt()) {
-                    case 1: emojiMap = '😭'; break;
-                    case 2: emojiMap = '😢'; break;
-                    case 3: emojiMap = '😐'; break;
-                    case 4: emojiMap = '😊'; break;
-                    case 5: emojiMap = '🤩'; break;
-                    default: emojiMap = '😐';
-                  }
-                  
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Row(
-                        children: [
-                          Text(emojiMap, style: const TextStyle(fontSize: 24)),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Emoji Review: ${reviewData.rating}/5'),
-                                if (reviewData.comment.isNotEmpty)
-                                  Text('Feeling: ${reviewData.comment}'),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      duration: const Duration(seconds: 3),
-                      backgroundColor: Colors.purple.shade400,
-                    ),
-                  );
-                }
-              },
-              icon: const Icon(Icons.emoji_emotions),
-              label: const Text('Emoji Review'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(double.infinity, 48),
-              ),
-            ),
-          ],
-        ),
-        'Test different review bottom sheet configurations',
-      ),
-    ],
-  );
-}
 
+                  if (reviewData != null) {
+                    String emojiMap = '';
+                    switch (reviewData.rating.toInt()) {
+                      case 1:
+                        emojiMap = '😭';
+                        break;
+                      case 2:
+                        emojiMap = '😢';
+                        break;
+                      case 3:
+                        emojiMap = '😐';
+                        break;
+                      case 4:
+                        emojiMap = '😊';
+                        break;
+                      case 5:
+                        emojiMap = '🤩';
+                        break;
+                      default:
+                        emojiMap = '😐';
+                    }
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Row(
+                          children: [
+                            Text(emojiMap,
+                                style: const TextStyle(fontSize: 24)),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Emoji Review: ${reviewData.rating}/5'),
+                                  if (reviewData.comment.isNotEmpty)
+                                    Text('Feeling: ${reviewData.comment}'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        duration: const Duration(seconds: 3),
+                        backgroundColor: Colors.purple.shade400,
+                      ),
+                    );
+                  }
+                },
+                icon: const Icon(Icons.emoji_emotions),
+                label: const Text('Emoji Review'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.purple,
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(double.infinity, 48),
+                ),
+              ),
+            ],
+          ),
+          'Test different review bottom sheet configurations',
+        ),
+      ],
+    );
+  }
 
   Widget _buildArrangementExamples() {
     return Column(
@@ -850,8 +879,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
         _buildExample(
           'Switch Themes',
           EasyStarsRating(
-            animationConfig: StarAnimationConfig.pulse ,
-
+            animationConfig: StarAnimationConfig.pulse,
             initialRating: _themedRating,
             onRatingChanged: (rating) {
               setState(() {
@@ -867,8 +895,6 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
             gradientColors: _currentTheme.gradientColors,
             starShadow: _currentTheme.starShadow,
             starShape: _currentTheme.starShape ?? StarShape.star,
-            
-            
           ),
           'Current theme: ${_getThemeName()}',
         ),

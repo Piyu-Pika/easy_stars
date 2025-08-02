@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'easy_stars_rating.dart';
 import 'emoji_rating_widgets.dart';
+import 'enums/star_enums.dart';
 import 'models/star_animation_config.dart';
 
 /// Review data model
@@ -105,6 +106,44 @@ class EasyStarsReviewBottomSheet extends StatefulWidget {
   /// Additional widgets to show below the text field
   final List<Widget>? footerWidgets;
 
+  final Widget? customSubmitButton;
+
+  /// Custom cancel button widget (overrides cancelButtonText and cancelButtonStyle)
+  final Widget? customCancelButton;
+
+  /// Submit button style customization
+  final ButtonStyle? submitButtonStyle;
+
+  /// Cancel button style customization
+  final ButtonStyle? cancelButtonStyle;
+
+  /// Additional custom buttons to show in the action row
+  final List<Widget>? additionalButtons;
+
+  /// Button layout configuration
+  final ButtonLayoutConfig buttonLayoutConfig;
+
+  /// Whether to show the default cancel button
+  final bool showCancelButton;
+
+  /// Whether to show the default submit button
+  final bool showSubmitButton;
+
+  /// Custom button row widget (completely replaces default buttons)
+  final Widget? customButtonRow;
+
+  /// Submit button icon
+  final Icon? submitButtonIcon;
+
+  /// Cancel button icon
+  final Icon? cancelButtonIcon;
+
+  /// Button spacing
+  final double buttonSpacing;
+
+  /// Button height
+  final double? buttonHeight;
+
   const EasyStarsReviewBottomSheet({
     super.key,
     this.initialRating = 0.0,
@@ -135,6 +174,19 @@ class EasyStarsReviewBottomSheet extends StatefulWidget {
     this.borderRadius = 16.0,
     this.headerWidgets,
     this.footerWidgets,
+    this.customSubmitButton,
+    this.customCancelButton,
+    this.submitButtonStyle,
+    this.cancelButtonStyle,
+    this.additionalButtons,
+    this.buttonLayoutConfig = ButtonLayoutConfig.row,
+    this.showCancelButton = true,
+    this.showSubmitButton = true,
+    this.customButtonRow,
+    this.submitButtonIcon,
+    this.cancelButtonIcon,
+    this.buttonSpacing = 16.0,
+    this.buttonHeight,
   });
 
   /// Show the review bottom sheet
@@ -165,6 +217,19 @@ class EasyStarsReviewBottomSheet extends StatefulWidget {
     double borderRadius = 16.0,
     List<Widget>? headerWidgets,
     List<Widget>? footerWidgets,
+    Widget? customSubmitButton,
+    Widget? customCancelButton,
+    ButtonStyle? submitButtonStyle,
+    ButtonStyle? cancelButtonStyle,
+    List<Widget>? additionalButtons,
+    ButtonLayoutConfig buttonLayoutConfig = ButtonLayoutConfig.row,
+    bool showCancelButton = true,
+    bool showSubmitButton = true,
+    Widget? customButtonRow,
+    Icon? submitButtonIcon,
+    Icon? cancelButtonIcon,
+    double buttonSpacing = 16.0,
+    double? buttonHeight,
   }) {
     return showModalBottomSheet<ReviewData>(
       context: context,
@@ -196,15 +261,30 @@ class EasyStarsReviewBottomSheet extends StatefulWidget {
         borderRadius: borderRadius,
         headerWidgets: headerWidgets,
         footerWidgets: footerWidgets,
+        customSubmitButton: customSubmitButton,
+        customCancelButton: customCancelButton,
+        submitButtonStyle: submitButtonStyle,
+        cancelButtonStyle: cancelButtonStyle,
+        additionalButtons: additionalButtons,
+        buttonLayoutConfig: buttonLayoutConfig,
+        showCancelButton: showCancelButton,
+        showSubmitButton: showSubmitButton,
+        customButtonRow: customButtonRow,
+        submitButtonIcon: submitButtonIcon,
+        cancelButtonIcon: cancelButtonIcon,
+        buttonSpacing: buttonSpacing,
+        buttonHeight: buttonHeight,
       ),
     );
   }
 
   @override
-  State<EasyStarsReviewBottomSheet> createState() => _EasyStarsReviewBottomSheetState();
+  State<EasyStarsReviewBottomSheet> createState() =>
+      _EasyStarsReviewBottomSheetState();
 }
 
-class _EasyStarsReviewBottomSheetState extends State<EasyStarsReviewBottomSheet> {
+class _EasyStarsReviewBottomSheetState
+    extends State<EasyStarsReviewBottomSheet> {
   late double _currentRating;
   late ReviewType _currentReviewType;
   late TextEditingController _textController;
@@ -214,7 +294,7 @@ class _EasyStarsReviewBottomSheetState extends State<EasyStarsReviewBottomSheet>
   // Default rating labels
   static const List<String> _defaultRatingLabels = [
     'Terrible',
-    'Poor', 
+    'Poor',
     'Average',
     'Good',
     'Excellent'
@@ -234,7 +314,8 @@ class _EasyStarsReviewBottomSheetState extends State<EasyStarsReviewBottomSheet>
     super.dispose();
   }
 
-  List<String> get _ratingLabels => widget.customRatingLabels ?? _defaultRatingLabels;
+  List<String> get _ratingLabels =>
+      widget.customRatingLabels ?? _defaultRatingLabels;
 
   String _getRatingLabel() {
     if (!widget.showRatingLabels || _currentRating <= 0) return '';
@@ -247,7 +328,6 @@ class _EasyStarsReviewBottomSheetState extends State<EasyStarsReviewBottomSheet>
       _currentRating = rating;
     });
   }
-
 
   String? _validateText(String? value) {
     if (widget.textValidator != null) {
@@ -293,7 +373,7 @@ class _EasyStarsReviewBottomSheetState extends State<EasyStarsReviewBottomSheet>
       if (widget.onReviewSubmitted != null) {
         widget.onReviewSubmitted!(reviewData);
       }
-      
+
       Navigator.of(context).pop(reviewData);
     } catch (e) {
       _showSnackBar('Failed to submit review. Please try again.');
@@ -335,41 +415,181 @@ class _EasyStarsReviewBottomSheetState extends State<EasyStarsReviewBottomSheet>
   }
 
   Widget _buildModeSwitch() {
-  if (!widget.allowModeSwitch) return const SizedBox.shrink();
+    if (!widget.allowModeSwitch) return const SizedBox.shrink();
 
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      SegmentedButton<ReviewType>(
-        segments: const [
-          ButtonSegment(
-            value: ReviewType.stars,
-            label: Text('Stars'),
-            icon: Icon(Icons.star, size: 16),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SegmentedButton<ReviewType>(
+          segments: const [
+            ButtonSegment(
+              value: ReviewType.stars,
+              label: Text('Stars'),
+              icon: Icon(Icons.star, size: 16),
+            ),
+            ButtonSegment(
+              value: ReviewType.emoji,
+              label: Text('Emoji'),
+              icon: Icon(Icons.emoji_emotions, size: 16),
+            ),
+          ],
+          selected: {_currentReviewType},
+          onSelectionChanged: (Set<ReviewType> selection) {
+            setState(() {
+              _currentReviewType = selection.first;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  /// Build the submit button
+  Widget _buildSubmitButton() {
+    if (widget.customSubmitButton != null) {
+      return widget.customSubmitButton!;
+    }
+
+    final button = ElevatedButton(
+      onPressed: _isSubmitting ? null : _submitReview,
+      style: widget.submitButtonStyle ??
+          ElevatedButton.styleFrom(
+            minimumSize: widget.buttonHeight != null
+                ? Size.fromHeight(widget.buttonHeight!)
+                : null,
           ),
-          ButtonSegment(
-            value: ReviewType.emoji,
-            label: Text('Emoji'),
-            icon: Icon(Icons.emoji_emotions, size: 16),
+      child: _isSubmitting
+          ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (widget.submitButtonIcon != null) ...[
+                  widget.submitButtonIcon!,
+                  const SizedBox(width: 8),
+                ],
+                Text(widget.submitButtonText),
+              ],
+            ),
+    );
+
+    return button;
+  }
+
+  /// Build the cancel button
+  Widget _buildCancelButton() {
+    if (widget.customCancelButton != null) {
+      return widget.customCancelButton!;
+    }
+
+    return OutlinedButton(
+      onPressed: _isSubmitting
+          ? null
+          : () {
+              widget.onDismissed?.call();
+              Navigator.of(context).pop();
+            },
+      style: widget.cancelButtonStyle ??
+          OutlinedButton.styleFrom(
+            minimumSize: widget.buttonHeight != null
+                ? Size.fromHeight(widget.buttonHeight!)
+                : null,
           ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.cancelButtonIcon != null) ...[
+            widget.cancelButtonIcon!,
+            const SizedBox(width: 8),
+          ],
+          Text(widget.cancelButtonText),
         ],
-        selected: {_currentReviewType},
-        onSelectionChanged: (Set<ReviewType> selection) {
-          setState(() {
-            _currentReviewType = selection.first;
-          });
-        },
       ),
-    ],
-  );
-}
+    );
+  }
 
+  /// Build the action buttons section
+  Widget _buildActionButtons() {
+    // If custom button row is provided, use it
+    if (widget.customButtonRow != null) {
+      return widget.customButtonRow!;
+    }
+
+    List<Widget> buttons = [];
+
+    // Add additional buttons first
+    if (widget.additionalButtons != null) {
+      buttons.addAll(widget.additionalButtons!);
+    }
+
+    // Add default buttons based on configuration
+    if (widget.showCancelButton) {
+      buttons.add(_buildCancelButton());
+    }
+
+    if (widget.showSubmitButton) {
+      buttons.add(_buildSubmitButton());
+    }
+
+    if (buttons.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    switch (widget.buttonLayoutConfig) {
+      case ButtonLayoutConfig.row:
+        return Row(
+          children: buttons
+              .map((button) => Expanded(child: button))
+              .expand((b) => [
+                    b,
+                    if (b != buttons.last && buttons.length > 1)
+                      SizedBox(width: widget.buttonSpacing),
+                  ])
+              .where((widget) => widget is! SizedBox || buttons.length > 1)
+              .toList(),
+        );
+
+      case ButtonLayoutConfig.column:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: buttons
+              .expand((button) => [
+                    button,
+                    if (button != buttons.last && buttons.length > 1)
+                      SizedBox(height: widget.buttonSpacing),
+                  ])
+              .where((widget) => widget is! SizedBox || buttons.length > 1)
+              .toList(),
+        );
+
+      case ButtonLayoutConfig.submitOnly:
+        return widget.showSubmitButton
+            ? SizedBox(width: double.infinity, child: _buildSubmitButton())
+            : const SizedBox.shrink();
+
+      case ButtonLayoutConfig.cancelOnly:
+        return widget.showCancelButton
+            ? SizedBox(width: double.infinity, child: _buildCancelButton())
+            : const SizedBox.shrink();
+
+      case ButtonLayoutConfig.custom:
+        return Wrap(
+          spacing: widget.buttonSpacing,
+          runSpacing: widget.buttonSpacing,
+          children: buttons,
+        );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: widget.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+        color:
+            widget.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(widget.borderRadius),
         ),
@@ -409,8 +629,8 @@ class _EasyStarsReviewBottomSheetState extends State<EasyStarsReviewBottomSheet>
                   Text(
                     widget.title,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                          fontWeight: FontWeight.bold,
+                        ),
                     textAlign: TextAlign.center,
                   ),
                   if (widget.subtitle != null) ...[
@@ -418,16 +638,15 @@ class _EasyStarsReviewBottomSheetState extends State<EasyStarsReviewBottomSheet>
                     Text(
                       widget.subtitle!,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.grey[600],
-                      ),
+                            color: Colors.grey[600],
+                          ),
                       textAlign: TextAlign.center,
                     ),
                   ],
                   const SizedBox(height: 24),
 
                   // Header widgets
-                  if (widget.headerWidgets != null)
-                    ...widget.headerWidgets!,
+                  if (widget.headerWidgets != null) ...widget.headerWidgets!,
 
                   // Mode switch
                   _buildModeSwitch(),
@@ -435,16 +654,17 @@ class _EasyStarsReviewBottomSheetState extends State<EasyStarsReviewBottomSheet>
 
                   // Rating widget
                   Center(child: _buildRatingWidget()),
-                  
+
                   // Rating label
-                  if (widget.showRatingLabels && _getRatingLabel().isNotEmpty) ...[
+                  if (widget.showRatingLabels &&
+                      _getRatingLabel().isNotEmpty) ...[
                     const SizedBox(height: 8),
                     Text(
                       _getRatingLabel(),
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: widget.filledColor,
-                      ),
+                            fontWeight: FontWeight.w500,
+                            color: widget.filledColor,
+                          ),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -462,19 +682,20 @@ class _EasyStarsReviewBottomSheetState extends State<EasyStarsReviewBottomSheet>
                             maxLines: 5,
                             maxLength: widget.maxCharacters,
                             decoration: InputDecoration(
-                              hintText: widget.hintText ?? 'Share your experience...',
+                              hintText:
+                                  widget.hintText ?? 'Share your experience...',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              counterText: widget.showCharacterCounter 
-                                  ? null 
-                                  : '',
-                              suffixIcon: widget.isCommentRequired 
-                                  ? const Icon(Icons.star, color: Colors.red, size: 16)
+                              counterText:
+                                  widget.showCharacterCounter ? null : '',
+                              suffixIcon: widget.isCommentRequired
+                                  ? const Icon(Icons.star,
+                                      color: Colors.red, size: 16)
                                   : null,
                             ),
                           ),
-                          
+
                           // Footer widgets
                           if (widget.footerWidgets != null) ...[
                             const SizedBox(height: 16),
@@ -488,32 +709,7 @@ class _EasyStarsReviewBottomSheetState extends State<EasyStarsReviewBottomSheet>
                   const SizedBox(height: 16),
 
                   // Action buttons
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: _isSubmitting ? null : () {
-                            widget.onDismissed?.call();
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(widget.cancelButtonText),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: _isSubmitting ? null : _submitReview,
-                          child: _isSubmitting
-                              ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
-                                )
-                              : Text(widget.submitButtonText),
-                        ),
-                      ),
-                    ],
-                  ),
+                  _buildActionButtons(),
                 ],
               ),
             ),
