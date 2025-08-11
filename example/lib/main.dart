@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:easy_stars/easy_stars.dart';
@@ -80,8 +79,10 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
               _buildSection('Emoji', _buildEmojiExamples()),
               _buildSection('Form Integration', _buildFormExample()),
               _buildSection('Dynamic Theming', _buildThemingExample()),
+              _buildSection('Review Summary', _buildReviewSummaryExamples()),
               _buildSection('Review Bottom Sheet Tests',
-                  _buildReviewBottomSheetExamples()),
+              _buildReviewBottomSheetExamples()),
+              
             ],
           ),
         ),
@@ -231,6 +232,66 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
       ],
     );
   }
+
+    Widget _buildReviewSummaryExamples() {
+    return Column(
+      children: [
+        _buildExample(
+          'Drag Interaction',
+          EasyReviewSummary(
+  overallRating: 4.2,
+  totalRatings: 156,
+  ratingBreakdown: {
+    5: 89,
+    4: 35,
+    3: 18,
+    2: 8,
+    1: 6,
+  },
+  progressBarColor: Colors.orange,
+  progressBarBackground: Colors.grey[300]!,
+  progressBarHeight: 12.0,
+  showRatingCounts: true,
+  showPercentages: true,
+  containerDecoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.1),
+        blurRadius: 8,
+        offset: const Offset(0, 2),
+      ),
+    ],
+  ),
+  padding: const EdgeInsets.all(16),
+  starConfig: StarConfig(
+    starSize: 24.0,
+    filledColor: Colors.orange,
+    starShape: StarShape.heart,
+  ),
+)
+,
+          'Tap same star to clear',
+        ),
+        const SizedBox(height: 20),
+        _buildExample(
+          'Vertical Layout',
+          EasyStarsRating(
+            initialRating: 4.0,
+            starCount: 5,
+            starSize: 28,
+            direction: StarDirection.vertical,
+            spacing: 8,
+            filledColor: Colors.lime,
+            onRatingChanged: (rating) {},
+          ),
+          'Vertical arrangement',
+        ),
+      ],
+    );
+  }
+
 
   Widget _buildReviewBottomSheetExamples() {
     return Column(

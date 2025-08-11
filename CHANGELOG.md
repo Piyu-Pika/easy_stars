@@ -54,3 +54,6 @@
 * Added support for custom button row
 * Added support for custom button layout
 
+## 1.0.10
+* Added Review Summary widget
+ 
