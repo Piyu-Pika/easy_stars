@@ -60,7 +60,6 @@ class EasyStarsEmoji extends StatefulWidget {
 
 class _EasyStarsEmojiState extends State<EasyStarsEmoji>
     with TickerProviderStateMixin {
-  late AnimationController _animationController;
   late List<AnimationController> _emojiControllers;
   late List<Animation<double>> _emojiAnimations;
   double _currentRating = 0.0;
@@ -88,13 +87,8 @@ class _EasyStarsEmojiState extends State<EasyStarsEmoji>
   List<String> get _emojis => widget.customEmojis ?? _defaultEmojis;
 
   void _setupAnimations() {
-    _animationController = AnimationController(
-      duration: widget.animationConfig.duration,
-      vsync: this,
-    );
-
     _emojiControllers = List.generate(
-      5,
+      _emojis.length,
       (index) => AnimationController(
         duration: widget.animationConfig.duration,
         vsync: this,
@@ -131,7 +125,7 @@ class _EasyStarsEmojiState extends State<EasyStarsEmoji>
   void _updateRating(double newRating) {
     if (newRating != _currentRating) {
       setState(() {
-        _currentRating = newRating.clamp(0.0, 5.0);
+        _currentRating = newRating.clamp(0.0, _emojis.length.toDouble());
       });
       widget.onRatingChanged?.call(_currentRating);
     }
@@ -160,17 +154,18 @@ class _EasyStarsEmojiState extends State<EasyStarsEmoji>
       case StarAnimation.scale:
         double scale =
             1.0 + (widget.animationConfig.scaleFactor - 1.0) * animationValue;
-        return Matrix4.identity()..scale(scale);
+        return Matrix4.identity()
+          ..multiply(Matrix4.diagonal3Values(scale, scale, 1.0));
 
       case StarAnimation.bounce:
         double bounce = -widget.animationConfig.bounceHeight *
             math.sin(animationValue * math.pi);
-        return Matrix4.identity()..translate(0.0, bounce);
+        return Matrix4.translationValues(0.0, bounce, 0.0);
 
       case StarAnimation.shake:
         double shake = widget.animationConfig.shakeIntensity *
             math.sin(animationValue * math.pi * 8);
-        return Matrix4.identity()..translate(shake, 0.0);
+        return Matrix4.translationValues(shake, 0.0, 0.0);
 
       default:
         return Matrix4.identity();
@@ -210,7 +205,7 @@ class _EasyStarsEmojiState extends State<EasyStarsEmoji>
   Widget _buildEmojiList() {
     List<Widget> emojis = [];
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < _emojis.length; i++) {
       Widget emoji = _buildAnimatedEmoji(i);
 
       if (!widget.readOnly) {
@@ -299,7 +294,6 @@ class _EasyStarsEmojiState extends State<EasyStarsEmoji>
 
   @override
   void dispose() {
-    _animationController.dispose();
     for (final controller in _emojiControllers) {
       controller.dispose();
     }
@@ -406,7 +400,7 @@ class _EasyStarsEmojiSliderState extends State<EasyStarsEmojiSlider>
   void _updateRating(double newRating) {
     if (newRating != _currentRating) {
       setState(() {
-        _currentRating = newRating.clamp(0.0, 5.0);
+        _currentRating = newRating.clamp(0.0, _emojis.length.toDouble());
       });
       widget.onRatingChanged?.call(_currentRating);
 
@@ -421,29 +415,33 @@ class _EasyStarsEmojiSliderState extends State<EasyStarsEmojiSlider>
   }
 
   String _getCurrentEmoji() {
+    final maxIndex = _emojis.length - 1;
     if (_currentRating <= 0) return _emojis[0];
-    if (_currentRating >= 5) return _emojis[4];
+    if (_currentRating >= _emojis.length) return _emojis[maxIndex];
 
-    // Fix: Ensure we don't go below 0 or above 4 for array indexing
-    // Map rating from 0-5 to 0-4 index range
-    double normalizedRating = (_currentRating / 5.0) * 4.0;
-    int baseIndex = normalizedRating.floor().clamp(0, 4);
+    // Map rating from 0-emojiCount to 0-(emojiCount-1) index range
+    double normalizedRating = (_currentRating / _emojis.length) * maxIndex;
+    int baseIndex = normalizedRating.floor().clamp(0, maxIndex);
     double fraction = normalizedRating - baseIndex;
 
     // For smooth transitions, we can show the emoji that's more prominent
     if (fraction < 0.5) {
       return _emojis[baseIndex];
     } else {
-      return _emojis[math.min(baseIndex + 1, 4)];
+      return _emojis[math.min(baseIndex + 1, maxIndex)];
     }
   }
 
   String _getCurrentDescription() {
     if (_currentRating <= 0) return 'No rating';
-    if (_currentRating >= 5) return _ratingDescriptions[4];
+    if (_currentRating >= _emojis.length) {
+      return _ratingDescriptions[_ratingDescriptions.length - 1];
+    }
 
     // Fix: Ensure index is within bounds
-    int index = ((_currentRating - 1) / 4 * 4).floor().clamp(0, 4);
+    int index = ((_currentRating - 1) / 4 * 4)
+        .floor()
+        .clamp(0, _ratingDescriptions.length - 1);
     return _ratingDescriptions[index];
   }
 
@@ -497,10 +495,10 @@ class _EasyStarsEmojiSliderState extends State<EasyStarsEmojiSlider>
           overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
         ),
         child: Slider(
-          value: _currentRating,
+          value: _currentRating.clamp(0.0, _emojis.length.toDouble()),
           min: 0.0,
-          max: 5.0,
-          divisions: 50, // Allow fine-grained control
+          max: _emojis.length.toDouble(),
+          divisions: _emojis.length * 10, // Allow fine-grained control
           onChanged: widget.readOnly ? null : _updateRating,
         ),
       ),
@@ -510,7 +508,7 @@ class _EasyStarsEmojiSliderState extends State<EasyStarsEmojiSlider>
   Widget _buildEmojiIndicators() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(5, (index) {
+      children: List.generate(_emojis.length, (index) {
         bool isActive = _currentRating > index;
         return Opacity(
           opacity: isActive ? 1.0 : 0.3,

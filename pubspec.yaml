@@ -1,7 +1,30 @@
 name: easy_stars
 description: A comprehensive Flutter package for rating and review stars with advanced customization, animations, and flexible layouts.
-version: 1.0.10
+version: 1.1.0
 homepage: https://github.com/Piyu-Pika/easy_stars
+repository: https://github.com/Piyu-Pika/easy_stars
+issue_tracker: https://github.com/Piyu-Pika/easy_stars/issues
+
+topics:
+  - rating
+  - stars
+  - review
+  - emoji
+  - ui
+
+screenshots:
+  - description: 'Basic star ratings'
+    path: assets/basic.png
+  - description: 'Star animations'
+    path: assets/animation.png
+  - description: 'Star arrangements'
+    path: assets/arrangment.png
+  - description: 'Custom shapes and colors'
+    path: assets/custom.png
+  - description: 'Emoji rating'
+    path: assets/emoji.png
+  - description: 'Review bottom sheet'
+    path: assets/bottomsheet.png
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -14,6 +37,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
 
 flutter:

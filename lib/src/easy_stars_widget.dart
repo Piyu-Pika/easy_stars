@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:math' as math;
+import 'easy_stars_controller.dart';
 import 'models/star_config.dart';
 import 'models/star_animation_config.dart';
 import 'enums/star_enums.dart';
@@ -11,6 +13,10 @@ class EasyStars extends StatefulWidget {
 
   /// Configuration for star animations
   final StarAnimationConfig animationConfig;
+
+  /// Optional controller for programmatic rating updates. When provided, the
+  /// controller's rating takes precedence over [StarConfig.rating].
+  final EasyStarsController? controller;
 
   /// Callback when rating changes
   final ValueChanged<double>? onRatingChanged;
@@ -28,6 +34,7 @@ class EasyStars extends StatefulWidget {
     super.key,
     required this.config,
     this.animationConfig = StarAnimationConfig.none,
+    this.controller,
     this.onRatingChanged,
     this.onStarTapped,
     this.onRatingStart,
@@ -39,7 +46,6 @@ class EasyStars extends StatefulWidget {
 }
 
 class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
-  late AnimationController _animationController;
   late List<AnimationController> _starControllers;
   late List<AnimationController> _hoverControllers;
   late List<Animation<double>> _starAnimations;
@@ -51,16 +57,27 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _currentRating = widget.config.rating;
+    _currentRating = widget.controller?.rating ?? widget.config.rating;
+    widget.controller?.addListener(_handleControllerChanged);
     _setupAnimations();
   }
 
-  void _setupAnimations() {
-    _animationController = AnimationController(
-      duration: widget.animationConfig.duration,
-      vsync: this,
-    );
+  void _handleControllerChanged() {
+    if (!mounted) return;
+    final newRating =
+        widget.controller!.rating.clamp(_currentMinRating, _currentMaxRating);
+    if (newRating != _currentRating) {
+      setState(() {
+        _currentRating = newRating;
+      });
+    }
+  }
 
+  double get _currentMinRating => widget.config.minRating;
+
+  double get _currentMaxRating => widget.config.maxRating;
+
+  void _setupAnimations() {
     _starControllers = List.generate(
       widget.config.starCount,
       (index) => AnimationController(
@@ -109,7 +126,9 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
         return Offset(x, y);
 
       case StarArrangement.arc:
-        double angle = (math.pi * index) / (widget.config.starCount - 1);
+        double angle = widget.config.starCount > 1
+            ? (math.pi * index) / (widget.config.starCount - 1)
+            : 0.0;
         double x = widget.config.arrangementRadius * math.cos(angle);
         double y = widget.config.arrangementRadius * math.sin(angle);
         return Offset(x, y);
@@ -142,12 +161,34 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   @override
   void didUpdateWidget(EasyStars oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.config.rating != widget.config.rating) {
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller?.removeListener(_handleControllerChanged);
+      widget.controller?.addListener(_handleControllerChanged);
+      if (widget.controller != null) {
+        _handleControllerChanged();
+      }
+    }
+    if (widget.controller == null &&
+        oldWidget.config.rating != widget.config.rating) {
       _currentRating = widget.config.rating;
       if (widget.animationConfig.animateOnRatingChange) {
         _animateRatingChange();
       }
     }
+    if (oldWidget.config.starCount != widget.config.starCount) {
+      _rebuildAnimations();
+    }
+  }
+
+  void _rebuildAnimations() {
+    for (final controller in _starControllers) {
+      controller.dispose();
+    }
+    for (final controller in _hoverControllers) {
+      controller.dispose();
+    }
+    _hoveredIndex = -1;
+    _setupAnimations();
   }
 
   void _animateRatingChange() {
@@ -256,10 +297,14 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
   void _updateRating(double newRating) {
     if (newRating != _currentRating) {
       setState(() {
-        _currentRating =
-            newRating.clamp(widget.config.minRating, widget.config.maxRating);
+        _currentRating = newRating.clamp(_currentMinRating, _currentMaxRating);
       });
+      widget.controller?.rating = _currentRating;
       widget.onRatingChanged?.call(_currentRating);
+
+      if (widget.config.enableHapticFeedback) {
+        HapticFeedback.selectionClick();
+      }
     }
   }
 
@@ -289,7 +334,7 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
     // Apply hover scale first
     if (widget.animationConfig.animateOnHover) {
       double hoverScale = 1.0 + (0.2 * hoverValue); // Scale up by 20% on hover
-      transform.scale(hoverScale);
+      transform.multiply(Matrix4.diagonal3Values(hoverScale, hoverScale, 1.0));
     }
 
     // Apply main animation
@@ -297,7 +342,7 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
       case StarAnimation.scale:
         double scale =
             1.0 + (widget.animationConfig.scaleFactor - 1.0) * animationValue;
-        transform.scale(scale);
+        transform.multiply(Matrix4.diagonal3Values(scale, scale, 1.0));
         break;
 
       case StarAnimation.rotate:
@@ -308,20 +353,20 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
       case StarAnimation.bounce:
         double bounce = -widget.animationConfig.bounceHeight *
             math.sin(animationValue * math.pi);
-        transform.translate(0.0, bounce);
+        transform.multiply(Matrix4.translationValues(0.0, bounce, 0.0));
         break;
 
       case StarAnimation.shake:
         double shake = widget.animationConfig.shakeIntensity *
             math.sin(animationValue * math.pi * 8);
-        transform.translate(shake, 0.0);
+        transform.multiply(Matrix4.translationValues(shake, 0.0, 0.0));
         break;
 
       case StarAnimation.pulse:
         double pulse = 1.0 +
             (widget.animationConfig.pulseScale - 1.0) *
                 (0.5 + 0.5 * math.sin(animationValue * math.pi * 2));
-        transform.scale(pulse);
+        transform.multiply(Matrix4.diagonal3Values(pulse, pulse, 1.0));
         break;
 
       default:
@@ -705,12 +750,18 @@ class _EasyStarsState extends State<EasyStars> with TickerProviderStateMixin {
       );
     }
 
-    return starsWidget;
+    return Semantics(
+      label: widget.config.semanticLabel ??
+          '${_currentRating.toStringAsFixed(widget.config.filling == StarFilling.half ? 1 : 0)} out of ${widget.config.starCount} stars',
+      button: !widget.config.readOnly &&
+          widget.config.interactionMode != StarInteractionMode.none,
+      child: starsWidget,
+    );
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    widget.controller?.removeListener(_handleControllerChanged);
     for (final controller in _starControllers) {
       controller.dispose();
     }

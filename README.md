@@ -11,8 +11,8 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  easy_stars: ^1.0.3
-````
+  easy_stars: ^1.1.0
+```
 
 Then:
 
@@ -469,7 +469,7 @@ EasyStarsEmoji(
 
 ## 8️⃣ Bottom Sheet
 
-![BottomSheet](assets\bottomsheet.png)
+![BottomSheet](assets/bottomsheet.png)
 
 ```dart
 EasyStarsReviewBottomSheet.show(
@@ -521,6 +521,82 @@ EasyStarsReviewBottomSheet.show(
                 );
                 
 ```
+
+---
+
+## 9️⃣ Review Summary
+
+### 📊 Rating Breakdown Widget
+
+```dart
+EasyReviewSummary(
+  overallRating: 4.2,
+  totalRatings: 156,
+  ratingBreakdown: {
+    5: 89,
+    4: 35,
+    3: 18,
+    2: 8,
+    1: 6,
+  },
+  progressBarColor: Colors.orange,
+  progressBarHeight: 12.0,
+  showRatingCounts: true,
+  showPercentages: true,
+  animateProgress: true,
+)
+```
+
+Customize it further with `starConfig` (star size, shape, colors), `containerDecoration`, `direction` (horizontal/vertical layout), custom text styles, and a `customBreakdownBuilder` for full control over each row.
+
+---
+
+## 🔟 New in 1.1.0
+
+### 🎮 Programmatic Control with `EasyStarsController`
+
+```dart
+final controller = EasyStarsController(initialRating: 3.0);
+
+EasyStarsRating(
+  controller: controller,
+  starCount: 5,
+  onRatingChanged: (value) => debugPrint('rated $value'),
+);
+
+// From anywhere: buttons, form logic, state management...
+controller.update(4.5);
+controller.clear();
+```
+
+### 🏷️ Rating Badge
+
+A compact `★ 4.2 (156)` pill for product pages and cards:
+
+```dart
+EasyRatingBadge(rating: 4.2, count: 156)
+
+EasyRatingBadge(
+  rating: 4.8,
+  count: 42,
+  starColor: Colors.green,
+  backgroundColor: Colors.green.shade50,
+)
+```
+
+### 📳 Haptic Feedback
+
+```dart
+EasyStarsRating(
+  initialRating: 3.0,
+  enableHapticFeedback: true, // light pulse on tap & drag
+  onRatingChanged: (value) {},
+)
+```
+
+### ♿ Accessibility
+
+Stars announce their current rating to screen readers (e.g. "3 out of 5 stars") — customize with `StarConfig(semanticLabel: 'Your own label')`.
 
 ---
 

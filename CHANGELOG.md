@@ -1,3 +1,30 @@
+## 1.1.0
+
+### 🚀 New features
+
+* **`EasyStarsController`** — programmatically read and change the rating from anywhere (`controller.update(4.5)`, `controller.clear()`); widget taps/drag sync back automatically. `EasyStarsRating` also gained a `controller` parameter and its `initialRating` is now optional
+* **`EasyRatingBadge`** — compact, theme-aware `★ 4.2 (156)` badge widget with customizable icon, colors, styles, padding and decoration
+* **Haptic feedback** — new `enableHapticFeedback` flag on `EasyStarsRating` / `StarConfig` fires a light haptic pulse when the rating changes via tap or drag
+* **Accessibility** — stars now expose a semantic label announcing the current rating ("3 out of 5 stars"), customizable via the new `StarConfig.semanticLabel`
+
+### 🐛 Fixes
+
+* **Fixed a critical regression** from 1.0.10: `EasyStarsReviewBottomSheet`, `ReviewData`, `ReviewType` and the `context.showReviewBottomSheet()` extension were no longer exported from the main library
+* **Fixed** star widgets crashing (RangeError) when `starCount` changed at runtime — animation controllers are now rebuilt
+* **Fixed** `EasyStarsRating` and `EasyStarsDisplay` ignoring property changes after the first build (configuration was frozen in `initState`)
+* **Fixed** potential NaN crash with single-star ratings in arc arrangement and gradient colors
+* **Fixed** review bottom sheet calling `setState` after dismissal
+
+### 🔧 Improvements
+
+* `StarConfig.copyWith` — now supports all configuration fields (previously only a subset)
+* Emoji widgets now accept any number of custom emojis (previously hardcoded to exactly 5)
+* Replaced deprecated `Matrix4.scale`/`translate` APIs (no behavior change)
+* Upgraded `flutter_lints` to `^6.0.0` — the whole package now analyzes with zero issues
+* Added a proper example package (`example/` with its own `pubspec.yaml`), fully fixed and analyzer-clean
+* Rebuilt the test suite (previous tests were failing) — 23 tests covering exports, controller, badge, rating, display, arrangements, emoji widgets, and review summary
+* Added pubspec metadata: `topics`, `screenshots`, `repository`, `issue_tracker`
+
 ## 1.0.0
 
 * Basic functionality

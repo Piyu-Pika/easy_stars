@@ -349,7 +349,7 @@ class _EasyStarsReviewBottomSheetState
     return null;
   }
 
-  void _submitReview() async {
+  void _submitReview() {
     if (_isSubmitting) return;
 
     if (!_formKey.currentState!.validate()) return;
@@ -370,17 +370,16 @@ class _EasyStarsReviewBottomSheetState
     );
 
     try {
-      if (widget.onReviewSubmitted != null) {
-        widget.onReviewSubmitted!(reviewData);
-      }
-
+      widget.onReviewSubmitted?.call(reviewData);
       Navigator.of(context).pop(reviewData);
     } catch (e) {
       _showSnackBar('Failed to submit review. Please try again.');
     } finally {
-      setState(() {
-        _isSubmitting = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
     }
   }
 

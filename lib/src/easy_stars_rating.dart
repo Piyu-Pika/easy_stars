@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'easy_stars_widget.dart';
+import 'easy_stars_controller.dart';
 import 'models/star_config.dart';
 import 'models/star_animation_config.dart';
 import 'enums/star_enums.dart';
@@ -100,9 +101,15 @@ class EasyStarsRating extends StatefulWidget {
   /// Custom colors for each star
   final List<Color>? customColors;
 
+  /// Optional controller for programmatic rating updates
+  final EasyStarsController? controller;
+
+  /// Whether to trigger a light haptic pulse when the rating changes
+  final bool enableHapticFeedback;
+
   EasyStarsRating({
     super.key,
-    required this.initialRating,
+    this.initialRating = 0.0,
     this.starCount = 5,
     this.starSize = 24.0,
     this.filledColor = Colors.amber,
@@ -133,6 +140,8 @@ class EasyStarsRating extends StatefulWidget {
     this.waveAmplitude = 10.0,
     this.customIcons,
     this.customColors,
+    this.controller,
+    this.enableHapticFeedback = false,
   }) : maxRating = maxRating ?? starCount.toDouble();
 
   @override
@@ -140,12 +149,9 @@ class EasyStarsRating extends StatefulWidget {
 }
 
 class _EasyStarsRatingState extends State<EasyStarsRating> {
-  late StarConfig _config;
-
   @override
-  void initState() {
-    super.initState();
-    _config = StarConfig(
+  Widget build(BuildContext context) {
+    final config = StarConfig(
       starCount: widget.starCount,
       rating: widget.initialRating,
       starSize: widget.starSize,
@@ -155,7 +161,9 @@ class _EasyStarsRatingState extends State<EasyStarsRating> {
       direction: widget.direction,
       filling: widget.allowHalfRating ? StarFilling.half : StarFilling.full,
       alignment: StarAlignment.start,
-      interactionMode: StarInteractionMode.tap,
+      interactionMode: widget.readOnly
+          ? StarInteractionMode.none
+          : StarInteractionMode.tap,
       filledIcon: Icons.star,
       emptyIcon: Icons.star_border,
       customStarBuilder: widget.customStarBuilder,
@@ -178,14 +186,13 @@ class _EasyStarsRatingState extends State<EasyStarsRating> {
       waveAmplitude: widget.waveAmplitude,
       customIcons: widget.customIcons,
       customColors: widget.customColors,
+      enableHapticFeedback: widget.enableHapticFeedback,
     );
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return EasyStars(
-      config: _config,
+      config: config,
       animationConfig: widget.animationConfig,
+      controller: widget.controller,
       onRatingChanged: widget.onRatingChanged,
     );
   }

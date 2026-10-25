@@ -91,7 +91,7 @@ class EasyReviewSummary extends StatelessWidget {
   final bool animateProgress;
 
   const EasyReviewSummary({
-    Key? key,
+    super.key,
     required this.overallRating,
     required this.totalRatings,
     required this.ratingBreakdown,
@@ -120,7 +120,7 @@ class EasyReviewSummary extends StatelessWidget {
     this.progressAnimationDuration = const Duration(milliseconds: 800),
     this.progressAnimationCurve = Curves.easeInOut,
     this.animateProgress = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -338,11 +338,7 @@ class _AnimatedProgressBarState extends State<_AnimatedProgressBar>
     _controller = AnimationController(duration: widget.duration, vsync: this);
     _animation = Tween<double>(begin: 0.0, end: widget.progress)
         .animate(CurvedAnimation(parent: _controller, curve: widget.curve));
-    
-    // Start animation after a small delay for stagger effect
-    Future.delayed(Duration(milliseconds: 50), () {
-      if (mounted) _controller.forward();
-    });
+    _controller.forward();
   }
   
   @override

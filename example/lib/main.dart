@@ -47,6 +47,8 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
   double _formRating = 3.0;
   StarConfig _currentTheme = StarThemes.heartTheme();
   double _themedRating = 4.0;
+  final EasyStarsController _badgeController =
+      EasyStarsController(initialRating: 3.0);
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +84,77 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
               _buildSection('Review Summary', _buildReviewSummaryExamples()),
               _buildSection('Review Bottom Sheet Tests',
               _buildReviewBottomSheetExamples()),
-              
+              _buildSection('New in 1.1.0', _buildNewFeaturesExamples()),
+
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildNewFeaturesExamples() {
+    return Column(
+      children: [
+        _buildExample(
+          'Controller (programmatic rating)',
+          Column(
+            children: [
+              EasyStarsRating(
+                controller: _badgeController,
+                starCount: 5,
+                onRatingChanged: (value) {},
+              ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => _badgeController.update(5.0),
+                    child: const Text('Set 5'),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () => _badgeController.clear(),
+                    child: const Text('Clear'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          'Update the rating from code',
+        ),
+        const SizedBox(height: 20),
+        _buildExample(
+          'Rating Badge',
+          const Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: [
+              EasyRatingBadge(rating: 4.2),
+              EasyRatingBadge(rating: 3.7, count: 156),
+              EasyRatingBadge(
+                rating: 4.8,
+                count: 42,
+                starColor: Colors.green,
+                backgroundColor: Color(0xFFE8F5E9),
+              ),
+            ],
+          ),
+          'Compact rating pill for cards and list tiles',
+        ),
+        const SizedBox(height: 20),
+        _buildExample(
+          'Haptic Feedback',
+          EasyStarsRating(
+            initialRating: 3.0,
+            enableHapticFeedback: true,
+            starCount: 5,
+            onRatingChanged: (value) {},
+          ),
+          'Light haptic pulse on tap and drag',
+        ),
+      ],
     );
   }
 
@@ -237,11 +305,11 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
     return Column(
       children: [
         _buildExample(
-          'Drag Interaction',
+          'Review Summary',
           EasyReviewSummary(
   overallRating: 4.2,
   totalRatings: 156,
-  ratingBreakdown: {
+  ratingBreakdown: const {
     5: 89,
     4: 35,
     3: 18,
@@ -258,7 +326,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
     borderRadius: BorderRadius.circular(12),
     boxShadow: [
       BoxShadow(
-        color: Colors.black.withOpacity(0.1),
+        color: Colors.black.withValues(alpha: 0.1),
         blurRadius: 8,
         offset: const Offset(0, 2),
       ),
@@ -272,7 +340,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
   ),
 )
 ,
-          'Tap same star to clear',
+          'Overall rating with breakdown',
         ),
         const SizedBox(height: 20),
         _buildExample(
@@ -311,6 +379,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
                     allowModeSwitch: false,
                   );
 
+                  if (!mounted) return;
                   if (reviewData != null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -320,8 +389,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
                         duration: const Duration(seconds: 3),
                       ),
                     );
-                  }
-                },
+                  }                },
                 icon: const Icon(Icons.star),
                 label: const Text('Basic Review'),
                 style: ElevatedButton.styleFrom(
@@ -391,6 +459,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
                     ],
                   );
 
+                  if (!mounted) return;
                   if (reviewData != null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -478,6 +547,7 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
                     ],
                   );
 
+                  if (!mounted) return;
                   if (reviewData != null) {
                     String emojiMap = '';
                     switch (reviewData.rating.toInt()) {
@@ -949,13 +1019,13 @@ class _EasyStarsDemoState extends State<EasyStarsDemo> {
             },
             allowHalfRating: true,
             starCount: 5,
-            filledColor: _currentTheme.filledColor ?? Colors.amber,
-            emptyColor: _currentTheme.emptyColor ?? Colors.grey,
-            starSize: _currentTheme.starSize ?? 30.0,
-            spacing: _currentTheme.spacing ?? 2.0,
+            filledColor: _currentTheme.filledColor,
+            emptyColor: _currentTheme.emptyColor,
+            starSize: _currentTheme.starSize,
+            spacing: _currentTheme.spacing,
             gradientColors: _currentTheme.gradientColors,
             starShadow: _currentTheme.starShadow,
-            starShape: _currentTheme.starShape ?? StarShape.star,
+            starShape: _currentTheme.starShape,
           ),
           'Current theme: ${_getThemeName()}',
         ),
@@ -1114,34 +1184,6 @@ class CustomAnimations {
     springStiffness: 80.0,
     springDamping: 6.0,
   );
-}
-
-class StarConfig {
-  final Color? filledColor;
-  final Color? emptyColor;
-  final double? starSize;
-  final double? spacing;
-  final List<Color>? gradientColors;
-  final BoxShadow? starShadow;
-  final Color? borderColor;
-  final double? borderWidth;
-  final StarShape? starShape;
-  final StarArrangement? arrangement;
-  final double? arrangementRadius;
-
-  StarConfig({
-    this.filledColor,
-    this.emptyColor,
-    this.starSize,
-    this.spacing,
-    this.gradientColors,
-    this.starShadow,
-    this.borderColor,
-    this.borderWidth,
-    this.starShape,
-    this.arrangement,
-    this.arrangementRadius,
-  });
 }
 
 // Helper class for creating themed star configurations

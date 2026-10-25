@@ -73,6 +73,14 @@ class StarConfig {
   /// Tooltip text for stars
   final String? tooltip;
 
+  /// Custom semantic label announced by screen readers.
+  /// When null, a default label describing the current rating is used.
+  final String? semanticLabel;
+
+  /// Whether to trigger a light haptic pulse when the rating changes
+  /// (tap or drag).
+  final bool enableHapticFeedback;
+
   /// Whether to use adaptive sizing
   final bool adaptive;
 
@@ -148,6 +156,8 @@ class StarConfig {
     this.ratingTextStyle,
     this.readOnly = false,
     this.tooltip,
+    this.semanticLabel,
+    this.enableHapticFeedback = false,
     this.adaptive = false,
     this.arrangement = StarArrangement.linear,
     this.starShape = StarShape.star,
@@ -192,7 +202,25 @@ class StarConfig {
     TextStyle? ratingTextStyle,
     bool? readOnly,
     String? tooltip,
+    String? semanticLabel,
+    bool? enableHapticFeedback,
     bool? adaptive,
+    StarArrangement? arrangement,
+    StarShape? starShape,
+    StarSizeVariant? sizeVariant,
+    DragSensitivity? dragSensitivity,
+    double? customDragThreshold,
+    List<Color>? gradientColors,
+    BoxShadow? starShadow,
+    double? arrangementRotation,
+    double? arrangementRadius,
+    int? gridColumns,
+    double? waveAmplitude,
+    double? waveFrequency,
+    double? spiralTurns,
+    List<IconData>? customIcons,
+    List<Color>? customColors,
+    List<double>? customSizes,
   }) {
     return StarConfig(
       starCount: starCount ?? this.starCount,
@@ -218,7 +246,25 @@ class StarConfig {
       ratingTextStyle: ratingTextStyle ?? this.ratingTextStyle,
       readOnly: readOnly ?? this.readOnly,
       tooltip: tooltip ?? this.tooltip,
+      semanticLabel: semanticLabel ?? this.semanticLabel,
+      enableHapticFeedback: enableHapticFeedback ?? this.enableHapticFeedback,
       adaptive: adaptive ?? this.adaptive,
+      arrangement: arrangement ?? this.arrangement,
+      starShape: starShape ?? this.starShape,
+      sizeVariant: sizeVariant ?? this.sizeVariant,
+      dragSensitivity: dragSensitivity ?? this.dragSensitivity,
+      customDragThreshold: customDragThreshold ?? this.customDragThreshold,
+      gradientColors: gradientColors ?? this.gradientColors,
+      starShadow: starShadow ?? this.starShadow,
+      arrangementRotation: arrangementRotation ?? this.arrangementRotation,
+      arrangementRadius: arrangementRadius ?? this.arrangementRadius,
+      gridColumns: gridColumns ?? this.gridColumns,
+      waveAmplitude: waveAmplitude ?? this.waveAmplitude,
+      waveFrequency: waveFrequency ?? this.waveFrequency,
+      spiralTurns: spiralTurns ?? this.spiralTurns,
+      customIcons: customIcons ?? this.customIcons,
+      customColors: customColors ?? this.customColors,
+      customSizes: customSizes ?? this.customSizes,
     );
   }
 
@@ -305,7 +351,8 @@ class StarConfig {
     }
 
     if (gradientColors != null && gradientColors!.length > 1) {
-      double ratio = index / (starCount - 1);
+      double ratio =
+          starCount > 1 ? index / (starCount - 1) : 0.0;
       return Color.lerp(gradientColors!.first, gradientColors!.last, ratio) ??
           filledColor;
     }

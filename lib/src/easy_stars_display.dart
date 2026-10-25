@@ -94,12 +94,9 @@ class EasyStarsDisplay extends StatefulWidget {
 }
 
 class _EasyStarsDisplayState extends State<EasyStarsDisplay> {
-  late StarConfig _config;
-
   @override
-  void initState() {
-    super.initState();
-    _config = StarConfig(
+  Widget build(BuildContext context) {
+    final config = StarConfig(
       starCount: widget.starCount,
       rating: widget.initialRating,
       starSize: widget.starSize,
@@ -120,14 +117,11 @@ class _EasyStarsDisplayState extends State<EasyStarsDisplay> {
       ratingTextStyle: widget.ratingTextStyle,
       readOnly: widget.readOnly,
       tooltip: widget.tooltip,
-      starShape: widget.starShape, // Add this line
+      starShape: widget.starShape,
     );
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return EasyStars(
-      config: _config,
+      config: config,
       animationConfig: widget.animationConfig,
       onRatingChanged: widget.onRatingChanged,
     );
